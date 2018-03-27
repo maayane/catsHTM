@@ -1,13 +1,14 @@
 # catsHTM
-catsHTM is a tool for fast accessing and cross-matching of large astronomical catalogs
+catsHTM is a tool for fast accessing and cross-matching of large astronomical catalogs. It is available in Matlab and Python. 
 
 ## Full Documenation
-Preliminary documentation is available here: https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html
+Preliminary documentation as well as the Matlab version are available here: https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html
+
 ## Installation
 not ready yet
 
 ### Python version
-* 2.7.10
+* $>$ 2.7.10 or 
 * a python 3 version will soon be available.
 
 ### Required python packages
@@ -19,8 +20,8 @@ not ready yet
 ## Before running catsHTM ...
 ### Specification of the default parameters 
 
-Before running, specify the path where the HDF5 catalogs are stored, in params.py 
-Other default parameters can be edited in params.py
+Before running, specify the path where the HDF5 catalogs are stored, in `params.py'. 
+Other default parameters can be edited in `params.py'
 
 ### Example 
 

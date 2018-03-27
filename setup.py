@@ -1,78 +1,44 @@
-#! /usr/bin/env python
+from setuptools import setup, find_packages
+from codecs import open
+from os import path
 
-NAME = 'catsHTM'
-VERSION= '0.1'
-packages=['catsHTM',],
-DESCRIPTION = "catsHTM: fast access to large astronomical catalogs"
-LONG_DESCRIPTION = open('README.md').read()
-AUTHOR = 'Maayane T. Soumagnac'
-MAINTAINER = 'Maayane T. Soumagnac' 
-MAINTAINER_EMAIL = 'maayane.soumagnact@weizmann.ac.il'
-URL = 'https://github.com/maayane/catsHTM'
-LICENSE = ''
-#DOWNLOAD_URL = 'https://github.com/MickaelRigault/pysedm/tarball/0.9'
-#VERSION = '0.9.3'
+here = path.abspath(path.dirname(__file__))
 
-try:
-    from setuptools import setup, find_packages
-    _has_setuptools = False
-except ImportError:
-    from distutils.core import setup
+# Get the long description from the README file
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
-def check_dependencies():
-    install_requires = []
+setup(
+    name='catsHTM',
+    version='0.1.0',
+    description='fast access to large astronomical catalogs',
+    long_description=long_description,  # Optional
+    url='https://github.com/maayane/catsHTM',  # Optional
+    author='Maayane T. Soumagnac',
+    author_email='maayane.soumagnac@weizmann.ac.il',  # Optional
+    classifiers=[ 
+        'Intended Audience :: Science/Research',
+        'Topic :: Scientific/Engineering :: Astronomy',
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python :: 2.7',
+        'Operating System :: Unix',
+        'Operating System :: MacOS'
+        #'Programming Language :: Python :: 3',
+    ],
 
-    # Just make sure dependencies exist, I haven't rigorously
-    # tested what the minimal versions that will work are
-    # (help on that would be awesome)
-    try:
-        import propobject
-    except ImportError:
-        install_requires.append('propobject')
-        
-    return install_requires
+    keywords='astronomy catalogs cone-search cross-matching',  # Optional
 
-if __name__ == "__main__":
+    packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
+    install_requires=['h5py'],  # Optional
+    python_requires='>=2.7, <3',
 
-    install_requires = check_dependencies()
+    project_urls={ 
+	'Preliminary documentation': 'https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html'
+		
+        'Bug Reports': 'https://github.com/maayane/catsHTM/issues',
+        'Matlab Version': 'https://webhome.weizmann.ac.il/home/eofek/matlab/doc/install.html',
+        'Credit Page': 'https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTMcredit.html',
+        'Source': 'https://github.com/maayane/catsHTM',
+    },
+)
 
-    if _has_setuptools:
-        packages = find_packages()
-        print(packages)
-    else:
-        # This should be updated if new submodules are added
-        packages = ['catsHTM',
-                    "catsHTM.script",
-                    "catsHTM.utils"]
-
-    setup(name=DISTNAME,
-          author=AUTHOR,
-          author_email=MAINTAINER_EMAIL,
-          maintainer=MAINTAINER,
-          maintainer_email=MAINTAINER_EMAIL,
-          description=DESCRIPTION,
-          long_description=LONG_DESCRIPTION,
-          license=LICENSE,
-          url=URL,
-          version=VERSION,
-          download_url=DOWNLOAD_URL,
-          install_requires=install_requires,
-          scripts=["bin/ccd_to_cube.py" ,
-                   "bin/display_cube.py",
-                   "bin/extract_star.py",
-                   "bin/cube_quality.py",
-                   "bin/derive_wavesolution.py",
-                   "bin/quality_check.py"],
-          packages=packages,
-          include_package_data=True,
-          package_data={'pysedm': ['data/*.*']},
-          classifiers=[
-              'Intended Audience :: Science/Research',
-              'Programming Language :: Python :: 2.7',
-              'Programming Language :: Python :: 3.5',              
-              'License :: OSI Approved :: BSD License',
-              'Topic :: Scientific/Engineering :: Astronomy',
-              'Operating System :: POSIX',
-              'Operating System :: Unix',
-              'Operating System :: MacOS'],
-      )

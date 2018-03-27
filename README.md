@@ -8,8 +8,8 @@ Preliminary documentation as well as the Matlab version are available here: http
 not ready yet
 
 ### Python version
-* !(https://latex.codecogs.com/gif.latex?%3E) 2.7.10 or 
-* a python 3 version will soon be available.
+* `python 2`: higher than 2.7.10
+* a `python 3` version will soon be available.
 
 ### Required python packages
 * math
@@ -20,8 +20,8 @@ not ready yet
 ## Before running catsHTM ...
 ### Specification of the default parameters 
 
-Before running, specify the path where the HDF5 catalogs are stored, in `params.py'. 
-Other default parameters can be edited in `params.py'
+Before running, specify the path where the HDF5 catalogs are stored, in `params.py`. 
+Other default parameters can be edited in `params.py`
 
 ### Example 
 

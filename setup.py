@@ -10,11 +10,12 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='catsHTM',
-    version='0.1.0',
+    version='0.1.1',
     description='fast access to large astronomical catalogs',
-    long_description=long_description,  # Optional
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/maayane/catsHTM',  # Optional
-    author='Maayane T. Soumagnac',
+    author='Maayane T. Soumagnac, according to a matlab code by Eran O. Ofek',
     author_email='maayane.soumagnac@weizmann.ac.il',  # Optional
     classifiers=[ 
         'Intended Audience :: Science/Research',
@@ -33,8 +34,7 @@ setup(
     python_requires='>=2.7, <3',
 
     project_urls={ 
-	'Preliminary documentation': 'https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html'
-		
+	'Preliminary documentation': 'https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html',	
         'Bug Reports': 'https://github.com/maayane/catsHTM/issues',
         'Matlab Version': 'https://webhome.weizmann.ac.il/home/eofek/matlab/doc/install.html',
         'Credit Page': 'https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTMcredit.html',

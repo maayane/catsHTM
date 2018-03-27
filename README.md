@@ -21,7 +21,7 @@ not ready yet
 ### Specification of the default parameters 
 
 Before running, specify the path where the HDF5 catalogs are stored, in `params.py`. 
-Other default parameters can be edited in `params.py`
+Other default parameters can be edited (but do not have to, for the code to run) in `params.py`
 
 ### Example 
 

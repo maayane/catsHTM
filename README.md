@@ -12,10 +12,10 @@ Preliminary documentation, as well as the Matlab version are available here: htt
 * a `python 3` version will soon be available.
 
 ### Required python packages
-* math
-* numpy
-* scipy
-* h5py
+* `math`
+* `numpy`
+* `scipy`
+* `h5py`
 
 ## Before running catsHTM ...
 ### Specification of the default parameters 
@@ -25,7 +25,7 @@ Other default parameters can be edited (but do not have to, for the code to run)
 
 ### Example 
 
-An example is given in the code example.py
+An example is given in the code `example.py`.
 To run it:
 ```python
 python example.py

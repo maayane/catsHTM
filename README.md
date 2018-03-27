@@ -1,4 +1,27 @@
 # catsHTM
 A tool for fast accessing and cross-matching of large astronomical catalogs
 
-this is a first try to create a branch
+## Installation
+not ready yet
+
+### Python version
+>2.7.10
+
+### Required python packages
+math
+numpy
+scipy
+h5py
+
+## Default parameters 
+
+Before running, specify the path where the HDF5 catalogs are stored, in params.py 
+Other default parameters can be edited in params.py
+
+## Example 
+
+An example is given in the code example.py
+To run it, type 'python example.py' in your command line.
+```python
+python example.py
+```

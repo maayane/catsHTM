@@ -5,15 +5,15 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
+#with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+#    long_description = f.read()
 
 setup(
     name='catsHTM',
-    version='0.1.1',
+    version='0.1.7',
     description='fast access to large astronomical catalogs',
-    long_description=long_description,
-    long_description_content_type='text/markdown',
+    #long_description=long_description,
+    #long_description_content_type='text/markdown',
     url='https://github.com/maayane/catsHTM',  # Optional
     author='Maayane T. Soumagnac, according to a matlab code by Eran O. Ofek',
     author_email='maayane.soumagnac@weizmann.ac.il',  # Optional
@@ -30,6 +30,7 @@ setup(
     keywords='astronomy catalogs cone-search cross-matching',  # Optional
 
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
+    py_modules=["catsHTM","params"],
     install_requires=['h5py'],  # Optional
     python_requires='>=2.7, <3',
 

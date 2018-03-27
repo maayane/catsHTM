@@ -11,9 +11,17 @@ import class_HDF5
 import scipy.io as sio
 import params
 
-root_to_data=params.path_catalogs
+#class params(object):
+#    def __init__(self,path_catalogs,IndexFileTemplate,CatFileTemplate,htmTemplate,NcatinFile,ColCelFile):
+#	self.path_catalogs='/Users/maayanesoumagnac/PostDoc/projects/catsHTM/data/'
+#	self.IndexFileTemplate='%s_htm.hdf5'
+#	self.CatFileTemplate='%s_htm_%06d.hdf5'
+#	self.htmTemplate='htm_%06d'
+#	self.NcatinFile=100.
+#	self.ColCelFile = '%s_htmColCell.mat'
+#root_to_data=params.path_catalogs
 
-def cone_search(CatName,RA,Dec,Radius,RadiusUnits='arcsec',IndexFileTemplate=params.IndexFileTemplate,CatFileTemplate=params.CatFileTemplate
+def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec',IndexFileTemplate=params.IndexFileTemplate,CatFileTemplate=params.CatFileTemplate
                 ,htmTemplate=params.htmTemplate,NcatinFile=params.NcatinFile,IndexVarname=None,ColRa = 0,ColDec=1,OnlyCone=True,
                 ColCelFile = params.ColCelFile,OutType= 'np_array'):
     """Description: Perform a cone search around RA/Dec on a local catalog in HDF5 format sorted into HTM.
@@ -38,6 +46,7 @@ def cone_search(CatName,RA,Dec,Radius,RadiusUnits='arcsec',IndexFileTemplate=par
     print 'Catalog: {0}; cone radius: {1} arcsec; cone center: (RA,DEC)=({2},{3})'.format(CatName,Radius,RA,Dec)
     print '*************'
 
+    root_to_data=catalogs_dir+'/'
     #catdir definition
     if CatName=='TMASS':
 	CatDir='2MASS'
@@ -79,7 +88,7 @@ def cone_search(CatName,RA,Dec,Radius,RadiusUnits='arcsec',IndexFileTemplate=par
     Ncol=np.shape(test['ColCell'])[1]
 
 
-    ID=search_htm_ind(IndexFilename,RA,Dec,Radius,VarName=IndexVarname) #list of IDs of winners leaf
+    ID=search_htm_ind(IndexFilename,RA,Dec,Radius,catalogs_dir,VarName=IndexVarname) #list of IDs of winners leaf
     ID_matlab=ID+1
     FileID=np.floor(ID_matlab/NcatinFile)*NcatinFile
     Nid=np.shape(ID_matlab)[0] #number of leaf intercepting the circle
@@ -123,9 +132,7 @@ def cone_search(CatName,RA,Dec,Radius,RadiusUnits='arcsec',IndexFileTemplate=par
     return cat_onlycone,ColCell, ColUnits
 
 
-
-
-def search_htm_ind(Filename,Long,Lat,Radius,VarName=None):
+def search_htm_ind(Filename,Long,Lat,Radius,path,VarName=None):
     """Description: wrapper of htm_search_cone, which select from the vector outputed by htm_search_cone only the
     triangles where there are actually sources.
             Input  : - Filename: the name of the index_file, e.g. FIRST_htm.hdf5
@@ -164,7 +171,7 @@ def search_htm_ind(Filename,Long,Lat,Radius,VarName=None):
     else:
         CatDir=cat_name
 
-    DataHTM_indexfile= class_HDF5.HDF5(root_to_data+CatDir+'/'+Filename).load(VarName,numpy_array=True) #load the indexfile content
+    DataHTM_indexfile= class_HDF5.HDF5(path+'/'+CatDir+'/'+Filename).load(VarName,numpy_array=True) #load the indexfile content
     ID=htm_search_cone(DataHTM_indexfile,Long,Lat,Radius) # ID of the winners mesh, i.e. the meshes that intercept the circle
     ID_array=np.array(ID)
     ID_w_sources=ID_array[DataHTM_indexfile[12,ID]>0] #ou l inverse?

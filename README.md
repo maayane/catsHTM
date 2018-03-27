@@ -5,7 +5,7 @@ catsHTM is a tool for fast accessing and cross-matching of large astronomical ca
 Preliminary documentation as well as the Matlab version are available here: https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html
 
 ## Installation
-not ready yet
+pip install catsHTM
 
 ### Python version
 * `python 2`: higher than 2.7.10

@@ -8,7 +8,7 @@ Preliminary documentation as well as the Matlab version are available here: http
 not ready yet
 
 ### Python version
-* $>$ 2.7.10 or 
+* !(https://latex.codecogs.com/gif.latex?%3E) 2.7.10 or 
 * a python 3 version will soon be available.
 
 ### Required python packages

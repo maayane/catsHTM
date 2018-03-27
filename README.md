@@ -1,5 +1,5 @@
 # catsHTM
-catsHTM is a tool for fast accessing and cross-matching of large astronomical catalogs. It is available in Matlab and Python. 
+catsHTM is a tool for fast accessing and cross-matching of large astronomical catalogs, originally written in Matlab by Eran O. Ofek. Here we present the Python version. 
 
 ## Full Documenation
 Preliminary documentation as well as the Matlab version are available here: https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html

@@ -1,24 +1,22 @@
 #! /usr/bin/env python
-#
 
 DESCRIPTION = "catsHTM: fast access to large astronomical catalogs"
-LONG_DESCRIPTION = """ """
+#LONG_DESCRIPTION = """ """
 
 DISTNAME = 'pysedm'
 AUTHOR = 'Maayane T. Soumagnac'
 MAINTAINER = 'Maayane T. Soumagnac' 
 MAINTAINER_EMAIL = 'maayane.soumagnact@weizmann.ac.il'
-URL = ''
-LICENSE = 'BSD (3-clause)'
-DOWNLOAD_URL = 'https://github.com/MickaelRigault/pysedm/tarball/0.9'
-VERSION = '0.9.3'
+URL = 'https://github.com/maayane/catsHTM'
+#LICENSE = 'BSD (3-clause)'
+#DOWNLOAD_URL = 'https://github.com/MickaelRigault/pysedm/tarball/0.9'
+#VERSION = '0.9.3'
 
 try:
     from setuptools import setup, find_packages
     _has_setuptools = False
 except ImportError:
     from distutils.core import setup
-
 
 def check_dependencies():
     install_requires = []
@@ -42,9 +40,9 @@ if __name__ == "__main__":
         print(packages)
     else:
         # This should be updated if new submodules are added
-        packages = ['pysedm',
-                    "pysedm.script",
-                    "pysedm.utils"]
+        packages = ['catsHTM',
+                    "catsHTM.script",
+                    "catsHTM.utils"]
 
     setup(name=DISTNAME,
           author=AUTHOR,

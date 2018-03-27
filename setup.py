@@ -1,14 +1,14 @@
 #! /usr/bin/env python
 #
 
-DESCRIPTION = "pysedm: the SEDmachine pipleine"
-LONG_DESCRIPTION = """ Pipeline for generic Transient Typer IFU - option on SEDM built in. """
+DESCRIPTION = "catsHTM: fast access to large astronomical catalogs"
+LONG_DESCRIPTION = """ """
 
 DISTNAME = 'pysedm'
-AUTHOR = 'Mickael Rigault'
-MAINTAINER = 'Mickael Rigault' 
-MAINTAINER_EMAIL = 'mickael.rigault@clermont.in2p3.fr'
-URL = 'https://github.com/MickaelRigault/pysedm/'
+AUTHOR = 'Maayane T. Soumagnac'
+MAINTAINER = 'Maayane T. Soumagnac' 
+MAINTAINER_EMAIL = 'maayane.soumagnact@weizmann.ac.il'
+URL = ''
 LICENSE = 'BSD (3-clause)'
 DOWNLOAD_URL = 'https://github.com/MickaelRigault/pysedm/tarball/0.9'
 VERSION = '0.9.3'

@@ -1,5 +1,5 @@
 # catsHTM
-The `catsHTM` package is a tool for fast accessing and cross-matching large astronomical catalogs, originally written in Matlab by Eran O. Ofek. Here we present the Python version. 
+The `catsHTM` package is a tool for fast accessing and cross-matching large astronomical catalogs, originally written in `Matlab` by Eran O. Ofek. Here we present the Python version. 
 
 ```python
 >>> import catsHTM

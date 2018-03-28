@@ -5,10 +5,14 @@ catsHTM is a tool for fast accessing and cross-matching of large astronomical ca
 >>> import catsHTM
 >>> catsHTM.cone_search('FIRST',0,0,500)
 ```
-## Full Documenation
-Preliminary documentation, as well as the Matlab version are available here: https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html
+## Documenation
+Preliminary documentation, as well as the Matlab version and credit page are available here: https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html
 
-## Installation
+
+## How to install `catsHTM`?
+
+### pip
+
 `pip install catsHTM`
 
 ### Python version

@@ -6,12 +6,13 @@ catsHTM is a tool for fast accessing and cross-matching large astronomical catal
 >>> catsHTM.cone_search('FIRST',0,0,500)
 ```
 ## Documenation
-Preliminary documentation, as well as the Matlab version and credit page are available here: https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html
 
-`catsHTM` is also described in a paper in Soumagnac & Ofek (2018, in preparation)
+The HDF5/HTM format, designed to store and provide fast access for large astronomical catalogs (with >10^6 rows) is described in the [preliminary documentation](https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html), together with the `Matlab` version.
+
+The `catsHTM` package is also described in a paper by Soumagnac & Ofek (2018, in preparation).
 
 ## Credit
-If you are using one of the large catalogs, or this tool, please give the specific reference and acknowledgments to the catalogs you used (see list - https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTMcredit.html ) and add the following acknowledgment:
+If you are using one of the large catalogs, or this tool, please give the specific reference and acknowledgments to the catalogs you used (see [list](https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTMcredit.html)) and add the following acknowledgment:
 
 *The XXX catalog we use was formatted into the HDF5/HTM large catalog format as described in Soumagnac & Ofek (2018) and was developed as part of the Matlab Astronomy & Astrophysics Toolbox (Ofek 2014; ascl.soft 07005).*
 

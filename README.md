@@ -9,7 +9,8 @@ catsHTM is a tool for fast accessing and cross-matching of large astronomical ca
 Preliminary documentation, as well as the Matlab version and credit page are available here: https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html
 
 ## Credit
-If you are using one of the large catalogs, or this tool, please give the specific reference and acknowledgments to the catalogs you used (see list - link tohttps://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTMcredit.html ) and add the following acknowledgment:
+If you are using one of the large catalogs, or this tool, please give the specific reference and acknowledgments to the catalogs you used (see list - https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTMcredit.html ) and add the following acknowledgment:
+
 *The XXX catalog we use was formatted into the HDF5/HTM large catalog format as described in Soumagnac & Ofek (2018) and was developed as part of the Matlab Astronomy & Astrophysics Toolbox (Ofek 2014; ascl.soft 07005).*
 
 ## How to install `catsHTM`?
@@ -70,3 +71,5 @@ The units of the catalog columns are stored in the `numpy` array `colunits`
 
 Other default parameters, such as the files and datasets naming format, can be edited in the python file `params.py` (type `pip show catsHTM` in the comand line to see where `params.py` is stored).
 
+
+## How to download the `catsHTM` catalogs?

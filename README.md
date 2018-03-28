@@ -75,3 +75,10 @@ Other default parameters, such as the files and datasets naming format, can be e
 
 
 ## How to download the `catsHTM` catalogs?
+
+The catsHTM directory is very large and therefore available on request. The HDF5/HTM catalogs requires about 1.6TB of disk space.
+
+Data is available from:
+
+* Web download (link will be provided soon)
+* Shared (and updated automatically) via Dropbox on request from eran dot ofek at weizmann dot ac dot il.

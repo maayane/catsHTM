@@ -8,6 +8,8 @@ catsHTM is a tool for fast accessing and cross-matching of large astronomical ca
 ## Documenation
 Preliminary documentation, as well as the Matlab version and credit page are available here: https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html
 
+`catsHTM` is also described in a paper in Soumagnac & Ofek (2018, in preparation)
+
 ## Credit
 If you are using one of the large catalogs, or this tool, please give the specific reference and acknowledgments to the catalogs you used (see list - https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTMcredit.html ) and add the following acknowledgment:
 

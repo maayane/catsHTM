@@ -21,8 +21,8 @@ Preliminary documentation, as well as the Matlab version are available here: htt
 * `scipy`
 * `h5py`
 
-## Usage ...
-### How to make a cone search with ``catsHTM``?
+
+## How to make a cone search with ``catsHTM``?
 
 First, you need to specify the path to the directory where the HDF5 formatted catalogs where downloaded (default is `./data`):
 ```python
@@ -63,10 +63,3 @@ The units of the catalog columns are stored in the `numpy` array `colunits`
 
 Other default parameters, such as the files and datasets naming format, can be edited in the python file `params.py` (type `pip show catsHTM` in the comand line to see where `params.py` is stored).
 
-### Example 
-
-An example is given in the code `example.py`.
-To run it:
-```python
-python example.py
-```

@@ -10,7 +10,7 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='catsHTM',
-    version='0.1.7',
+    version='0.1.8',
     description='fast access to large astronomical catalogs',
     #long_description=long_description,
     #long_description_content_type='text/markdown',
@@ -22,9 +22,9 @@ setup(
         'Topic :: Scientific/Engineering :: Astronomy',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 2.7',
+	'Programming Language :: Python :: 3.5',
         'Operating System :: Unix',
-        'Operating System :: MacOS'
-        #'Programming Language :: Python :: 3',
+        'Operating System :: MacOS',
     ],
 
     keywords='astronomy catalogs cone-search cross-matching',  # Optional
@@ -32,7 +32,7 @@ setup(
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
     py_modules=["catsHTM","params"],
     install_requires=['h5py'],  # Optional
-    python_requires='>=2.7, <3',
+    python_requires='>=2.7.10',
 
     project_urls={ 
 	'Preliminary documentation': 'https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html',	

@@ -24,7 +24,7 @@ If you are using one of the large catalogs, or this tool, please give the specif
 
 ### Python version
 * `python 2`: higher than `2.7.10`
-* a `python 3` version will soon be available.
+* `python 3`
 
 ### Required python packages
 * `math`

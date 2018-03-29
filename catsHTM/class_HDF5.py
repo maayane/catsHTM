@@ -28,13 +28,13 @@ class HDF5(object):
             Output : """
         filename = self.FileName
         f = h5py.File(filename, 'r')
-        print 'Filename:'.format(self.FileName)
-        print 'Number of datasets in the HDF5 file {0}: {1}'.format(self.FileName,np.shape(f.keys()))
-        print '{0} pairs of [data file, indexfile]'.format(np.shape(f.keys())[0]/2.)
-        print '****'
-        print "The keys are:"
-        print f.keys()
-        print '****'
+        print('Filename:'.format(self.FileName))
+        print('Number of datasets in the HDF5 file {0}: {1}'.format(self.FileName,np.shape(f.keys())))
+        print('{0} pairs of [data file, indexfile]'.format(np.shape(f.keys())[0]/2.))
+        print('****')
+        print("The keys are:")
+        print(f.keys())
+        print('****')
     def load(self,dataset_name,numpy_array=False,Offset=None,Block=None):
         """Description: load an array from a HDF5
         Input:

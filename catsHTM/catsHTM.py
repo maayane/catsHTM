@@ -10,6 +10,8 @@ import celestial
 import class_HDF5
 import scipy.io as sio
 import params
+import os.path
+import sys
 
 #class params(object):
 #    def __init__(self,path_catalogs,IndexFileTemplate,CatFileTemplate,htmTemplate,NcatinFile,ColCelFile):
@@ -42,14 +44,14 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
     By : Maayane Soumagnac (original Matlab function by Eran Ofek)            Feb 2018
     Output  : a numpy array where each line is the catalog line for the sources inside the cone """
 
-    print '*************'
-    print 'Catalog: {0}; cone radius: {1} arcsec; cone center: (RA,DEC)=({2},{3})'.format(CatName,Radius,RA,Dec)
-    print '*************'
+    print('*************')
+    print('Catalog: {0}; cone radius: {1} arcsec; cone center: (RA,DEC)=({2},{3})'.format(CatName,Radius,RA,Dec))
+    print('*************')
 
     root_to_data=catalogs_dir+'/'
     #catdir definition
     if CatName=='TMASS':
-	CatDir='2MASS'
+        CatDir='2MASS'
     elif CatName=='TMASSxsc':
         CatDir='2MASSxsc'
     elif CatName=='DECaLS':
@@ -73,7 +75,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
     elif CatName=='VSTkids':
         CatDir='VST/KiDS/DR3'
     else:
-	CatDir=CatName	
+        CatDir=CatName
 
     Rad = 180. / math.pi
 
@@ -83,10 +85,13 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
 
     ColCelFile=ColCelFile % CatName
     IndexFilename=IndexFileTemplate % CatName
-
-    test = sio.loadmat(root_to_data+CatDir+'/'+ColCelFile) #CHANGE THIS
-    Ncol=np.shape(test['ColCell'])[1]
-
+    if os.path.isfile(root_to_data+CatDir+'/'+ColCelFile)==True:
+        print('the file exist yay')
+        test = sio.loadmat(root_to_data+CatDir+'/'+ColCelFile)
+        Ncol=np.shape(test['ColCell'])[1]
+    else:
+        print('ERROR: you need to specify a valid path for the HDF5 catalogs location')
+        sys.exit()
 
     ID=search_htm_ind(IndexFilename,RA,Dec,Radius,catalogs_dir,VarName=IndexVarname) #list of IDs of winners leaf
     ID_matlab=ID+1
@@ -94,30 +99,27 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
     Nid=np.shape(ID_matlab)[0] #number of leaf intercepting the circle
     cat=[]
     if Nid==0:
-	print 'INFO: the cone does not intercept the catalog'
-	cat_onlycone=np.array(cat)
+        print('INFO: the cone does not intercept the catalog')
+        cat_onlycone=np.array(cat)
     else:
-	    for Iid in range(Nid):
-		FileName=CatFileTemplate % (CatName, FileID[Iid])
+        for Iid in range(Nid):
+            FileName=CatFileTemplate % (CatName, FileID[Iid])
+            DataName=htmTemplate % ID_matlab[Iid]
+            if Iid==0:
+                cat=class_HDF5.HDF5(root_to_data+CatDir+'/'+FileName).load(DataName,numpy_array=True).T
+            else:
+                cat = np.vstack((cat, class_HDF5.HDF5(root_to_data + CatDir + '/' + FileName).load(DataName, numpy_array=True).T))
 
-		DataName=htmTemplate % ID_matlab[Iid]
-
-		if Iid==0:
-		    cat=class_HDF5.HDF5(root_to_data+CatDir+'/'+FileName).load(DataName,numpy_array=True).T
-		else:
-		    cat = np.vstack(
-			(cat, class_HDF5.HDF5(root_to_data + CatDir + '/' + FileName).load(DataName, numpy_array=True).T))
-
-	    if OnlyCone==True:
-		D=celestial.sphere_distance_fast(RA,Dec,cat[:,ColRa],cat[:,ColDec])
-		cat_onlycone=cat[D<Radius,:]
+        if OnlyCone==True:
+            D=celestial.sphere_distance_fast(RA,Dec,cat[:,ColRa],cat[:,ColDec])
+            cat_onlycone=cat[D<Radius,:]
 
     ### a colomne with the cell names:
     if cat_onlycone.ndim>1:
-    	ColCell=np.empty((np.shape(cat_onlycone)[1]),dtype=object)
-    	ColUnits=np.empty((np.shape(cat_onlycone)[1]),dtype=object)
+        ColCell=np.empty((np.shape(cat_onlycone)[1]),dtype=object)
+        ColUnits=np.empty((np.shape(cat_onlycone)[1]),dtype=object)
     else:
-	ColCell=np.empty((Ncol),dtype=object)
+        ColCell=np.empty((Ncol),dtype=object)
         ColUnits=np.empty((Ncol),dtype=object)
 
     for i,j in enumerate(test['ColCell'][0,:]):

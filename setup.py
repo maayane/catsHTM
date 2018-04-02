@@ -10,7 +10,7 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='catsHTM',
-    version='0.1.8',
+    version='0.1.12',
     description='fast access to large astronomical catalogs',
     #long_description=long_description,
     #long_description_content_type='text/markdown',
@@ -30,7 +30,7 @@ setup(
     keywords='astronomy catalogs cone-search cross-matching',  # Optional
 
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
-    py_modules=["catsHTM","params"],
+    py_modules=["catsHTM","celestial","class_HDF5","params"],
     install_requires=['h5py'],  # Optional
     python_requires='>=2.7.10',
 

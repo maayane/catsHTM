@@ -86,7 +86,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
     ColCelFile=ColCelFile % CatName
     IndexFilename=IndexFileTemplate % CatName
     if os.path.isfile(root_to_data+CatDir+'/'+ColCelFile)==True:
-        print('the file exist yay')
+        #print('the file exist yay')
         test = sio.loadmat(root_to_data+CatDir+'/'+ColCelFile)
         Ncol=np.shape(test['ColCell'])[1]
     else:

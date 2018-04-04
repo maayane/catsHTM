@@ -3,7 +3,6 @@
 A python implementation of the celestial functions
 ******************************************************"""
 #print __doc__
-
 import math
 import numpy as np
 
@@ -38,15 +37,14 @@ def cone_in_polysphere(PolesLong,PolesLat,Long,Lat,Radius):
      Reliable:
     """
 
-    Longitudes_circle=Long # N longitudes de cercles
-    Latitudes_circle=Lat # N latitudes de cercles
-    Radius_circles=Radius # N radius de cercles
+    #Longitudes_circle=Long # N longitudes de cercles
+    #Latitudes_circle=Lat # N latitudes de cercles
+    #Radius_circles=Radius # N radius de cercles
 
     Dist=np.arccos(np.multiply(np.sin(PolesLat),np.sin(Lat))+np.multiply(np.cos(PolesLat),np.cos(Lat))*np.cos(PolesLong-Long))
     Flag=np.zeros(np.shape(Dist)[1])
-    for i in range(np.shape(Dist)[1]):
-        Flag[i]=all(Dist[:,i]<=0.5*math.pi+Radius)
-
+    for i in range(np.shape(Dist)[1]):#optimize
+        Flag[i]=all(Dist[:,i]<=0.5*math.pi+Radius) #1 if all distances are smaller than..
     return Flag
 
 def sphere_distance_fast(RA_1,Dec_1,RA_2,Dec_2):

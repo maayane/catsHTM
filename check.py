@@ -13,9 +13,10 @@ import pdb
 path='/Users/maayanesoumagnac/PostDoc/projects/catsHTM/data'
 #cProfile.run(catsHTM.cone_search('FIRST',0,0,500,catalogs_dir=path))
 
-'''
+
 start_time = time.time()
-cat,cocell,colu=catsHTM.cone_search('FIRST',0,0,500,catalogs_dir=path)
+cat,cocell,colu=catsHTM_work_in_progress.cone_search('FIRST',0,0,100,catalogs_dir=path,verbose=True)
+cat,cocell,colu=catsHTM_work_in_progress.cone_search('FIRST',0,0,100,catalogs_dir=path,verbose=True)
 end_time=time.time()
 print("time elapsed on check: {:.5f}s".format(end_time - start_time))
 
@@ -47,3 +48,4 @@ print("average time per cone search: {:.5f}s".format((end_time - start_time)/100
 #print(globals().keys())
 #print(globals()['index_file_name'])
 #print globals().values()
+'''

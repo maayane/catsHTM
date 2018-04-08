@@ -26,6 +26,8 @@ import pdb
 #	self.ColCelFile = '%s_htmColCell.mat'
 #root_to_data=params.path_catalogs
 
+d=dict() #this dictionnary containes the names of the index files loaded in search_htm_ind, and allowes us to avoid loading twice the same index file, which can be time consuming e.g. in a loop
+
 def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec',IndexFileTemplate=params.IndexFileTemplate,CatFileTemplate=params.CatFileTemplate
                 ,htmTemplate=params.htmTemplate,NcatinFile=params.NcatinFile,IndexVarname=None,ColRa = 0,ColDec=1,OnlyCone=True,
                 ColCelFile = params.ColCelFile,OutType= 'np_array',verbose=False):
@@ -95,15 +97,11 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
         sys.exit()
     ### computes the list of index of the trixels which intercept the cone
     ID=search_htm_ind(IndexFilename,RA,Dec,Radius,catalogs_dir,VarName=IndexVarname,CatDir=CatDir,verbose=verbose) #list of IDs of winners leaf
-    #print(ID)
-    #pdb.set_trace()
     ### computes the catalog with the sources located in those trixels
     ID_matlab=ID+1
     FileID=np.floor(ID_matlab/NcatinFile)*NcatinFile
     Nid=len(ID_matlab) #number of leaf intercepting the circle
-    #print(Nid)
-    #pdb.set_trace()
-    #cat=[]
+
     if Nid==0:#if none of the catalog's trixel intercept the cone
         if verbose==True:
             print('INFO: the cone does not intercept the catalog')
@@ -113,12 +111,10 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
         DataName_0 = htmTemplate % ID_matlab[0]
         #filename_0 = root_to_data + CatDir + '/' + FileName_0
         cat = class_HDF5.HDF5(root_to_data + CatDir + '/' + FileName_0).load(DataName_0, numpy_array=True).T
-        #f = h5py.File(filename_0, 'r')
-        #cat = np.array(f[DataName_0]).T
         for Iid in range(Nid)[1:]:
             FileName=CatFileTemplate % (CatName, FileID[Iid])
             DataName=htmTemplate % ID_matlab[Iid]
-            filename = root_to_data + CatDir + '/' + FileName
+            #filename = root_to_data + CatDir + '/' + FileName
             #f = h5py.File(filename, 'r')
             #if Iid==0:#optimize
             #    cat=np.array(f[DataName]).T
@@ -145,17 +141,29 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
             ColUnits[i]=(test['ColUnits'][0,i][0])
         else:
             ColUnits[i]=' '
-    #ColCell[:] = str(test['ColCell'][0, :][0])
-    #ColUnits[np.shape(test['ColUnits'][0,:])[0]>0] = (test['ColUnits'][0, np.shape(test['ColUnits'][0,:])[0]>0][0])
-    #ColUnits[np.shape(test['ColUnits'][0, :])[0] <= 0] = ' '
-    #print('the global indexfile name is',globals()['index_file_name'])
-    #print('the global indexfile VarName is',globals()['index_file_name'])
+
     return cat_onlycone,ColCell, ColUnits
 
+''' A failed alternative to the dictionnary d
+class Lazy_indexFile():
+    def __init__(self, Varname, path, catdir, filename):
+        self.Varname = Varname
+        self.path = path
+        self.catdir = catdir
+        self.filename = filename
+        self._data = None
 
-class Foo(object):
-    pass
-
+    @property  # so you can use .data instead of .data()
+    def data(self):
+        print(self._data)
+        if self._data is None:  # if not loaded
+            print('I have not loaded the index file yet')
+            self._data = class_HDF5.HDF5(self.path + '/' + self.catdir + '/' + self.filename).load(self.Varname,
+                                                                                                   numpy_array=True)  # load the indexfile content(self.file)  # load it
+        else:
+            print('I have seen and loaded this file already')
+        return self._data
+'''
 
 def search_htm_ind(Filename,Long,Lat,Radius,path,VarName=None,CatDir=None,verbose=False):
     """Description: wrapper of htm_search_cone, which select from the vector outputed by htm_search_cone only the
@@ -169,31 +177,36 @@ def search_htm_ind(Filename,Long,Lat,Radius,path,VarName=None,CatDir=None,verbos
         cat_name=Filename.split('_')[0]
         VarName=cat_name+'_HTM'
 
-    #filenamex = path+'/'+CatDir+'/'+Filename
-    #f = h5py.File(filenamex, 'r')#open file for reading #OPTIMIZE
-    #DataHTM_indexfile = np.array(f[VarName])
-    #print(globals().values())
-    if VarName not in list(globals().values()):
-    #print(Foo.__dict__)
-    #if VarName not in list(Foo.__dict__.values()):
+    if VarName not in list(d.values()):
         if verbose==True:
-            print('I have not see the index file corresponding to {0} yet'.format(VarName))
+            print('I have not seen the index file corresponding to {0} yet'.format(VarName))
         DataHTM_indexfile = class_HDF5.HDF5(path + '/' + CatDir + '/' + Filename).load(VarName,
-                                                                                   numpy_array=True)  # load the indexfile content
-
-        #Foo.index_file_name=VarName
-        #Foo.index_file_array=DataHTM_indexfile
-        globals()[str(VarName)+'_name'] = VarName
-        globals()[str(VarName)+'_array']= DataHTM_indexfile
-        #globals()['index_file_name'] = VarName
-        #globals()['index_file_array']= DataHTM_indexfile
-        #pdb.set_trace()
+                                                                                       numpy_array=True)  # load the indexfile content
+        d[str(VarName)+'_name']=VarName
+        d[str(VarName)+'_array']= DataHTM_indexfile
     else:
         if verbose==True:
             print('I have already loaded the index file corresponding to {0}'.format(VarName))
-        #DataHTM_indexfile = Foo.index_file_array
-        #DataHTM_indexfile=globals()['index_file_array']
+        DataHTM_indexfile = d[str(VarName) + '_array']
+
+    '''
+    #A working alternative to the dictionnay d, with globals()
+    if VarName not in list(globals().values()):
+        if verbose==True:
+            print('I have not see the index file corresponding to {0} yet'.format(VarName))
+        print(path + '/' + CatDir + '/' + Filename)
+        print(VarName)
+        DataHTM_indexfile = class_HDF5.HDF5(path + '/' + CatDir + '/' + Filename).load(VarName,
+                                                                                   numpy_array=True)  # load the indexfile content
+
+        globals()[str(VarName)+'_name'] = VarName
+        globals()[str(VarName)+'_array']= DataHTM_indexfile
+
+    else:
+        if verbose==True:
+            print('I have already loaded the index file corresponding to {0}'.format(VarName))
         DataHTM_indexfile = globals()[str(VarName)+'_array']
+    '''
     ID=htm_search_cone(DataHTM_indexfile,Long,Lat,Radius)#,Son_index=Son_index,PolesLong_index=PolesLong_index,PolesLat_index=PolesLat_index) # returns a list of the ID of the winners mesh, i.e. the meshes that intercept the circle
 
     ID_array=np.array(ID)
@@ -212,32 +225,22 @@ def htm_search_cone(IndexFile_data,Long,Lat,Radius,Ind=None,Son_index=np.arange(
 
                 """
     if Ind is None:
-        Sons=np.arange(8)#np.linspace(0,7,8).astype(int) #we start with 8 trixels
+        Sons=np.arange(8)
     else:
         Sons=Ind.astype(int)
-        #print(len(Sons))
-        #pdb.set_trace()
-    ID=[]#np.empty(1)
+    ID=[]
     Nsons=len(Sons)
     PolesLong=np.zeros((3,Nsons)) #3 lines, Nsons colomns, on veut mettre a chaque colomne les longitudes des poles du mesh
     PolesLat=np.zeros((3, Nsons)) #3 lignes, Nsons colomnes
 
-    #print(Nsons)
-    #print(np.shape(Sons))
-    #print(np.shape(PolesLong))
-    #print(PolesLong_index)
-    #print(np.shape(DataHTM))
-    #pdb.set_trace()
     for i in range(Nsons):#OPTIMIZE
         PolesLong[:,i]=IndexFile_data[PolesLong_index[:],Sons[i]] # array where each colomn is the 3 poles longitudes of a son mesh HERE: THIS? OR INVERSE?
         PolesLat[:,i]=IndexFile_data[PolesLat_index[:],Sons[i]] # array where each colomn is the 3 poles latitude of a son mesh HERE: THIS? OR INVERSE?
 
-    #pdb.set_trace()
     Flag=celestial.cone_in_polysphere(PolesLong,PolesLat,Long,Lat,Radius) #check if the cone intercept any of the sons meshes
 
-
-    for i in range(Nsons): #OPTIMIZE
-        if Flag[i]==1: #the cone overlap the son with index i
+    for i in range(Nsons): #OPTIMIZABLE?
+        if Flag[i]==1: #i.e. if the cone overlap the son with index i
             if np.isnan(IndexFile_data[Son_index[:],Sons[i]]).all()==True:# there are nans in the index_file at the son's index, which means the data is where you are and you cannot go further in the tree
                 ID.append(Sons[i])
             else:
@@ -246,8 +249,3 @@ def htm_search_cone(IndexFile_data,Long,Lat,Radius,Ind=None,Son_index=np.arange(
                 ID.extend(htm_search_cone(IndexFile_data,Long,Lat,Radius,Ind=Ind))
 
     return ID
-
-
-#pool = mp.Pool(processes=4)
-#results = pool.map(cube, range(1,7))
-#print(results)

@@ -94,7 +94,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
         print('ERROR: you need to specify a valid path for the HDF5 catalogs location')
         sys.exit()
     ### computes the list of index of the trixels which intercept the cone
-    ID=search_htm_ind(IndexFilename,RA,Dec,Radius,catalogs_dir,VarName=IndexVarname,CatDir=CatDir) #list of IDs of winners leaf
+    ID=search_htm_ind(IndexFilename,RA,Dec,Radius,catalogs_dir,VarName=IndexVarname,CatDir=CatDir,verbose=verbose) #list of IDs of winners leaf
     #print(ID)
     #pdb.set_trace()
     ### computes the catalog with the sources located in those trixels
@@ -111,7 +111,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
     else:
         FileName_0 = CatFileTemplate % (CatName, FileID[0])
         DataName_0 = htmTemplate % ID_matlab[0]
-        filename_0 = root_to_data + CatDir + '/' + FileName_0
+        #filename_0 = root_to_data + CatDir + '/' + FileName_0
         cat = class_HDF5.HDF5(root_to_data + CatDir + '/' + FileName_0).load(DataName_0, numpy_array=True).T
         #f = h5py.File(filename_0, 'r')
         #cat = np.array(f[DataName_0]).T
@@ -148,9 +148,16 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
     #ColCell[:] = str(test['ColCell'][0, :][0])
     #ColUnits[np.shape(test['ColUnits'][0,:])[0]>0] = (test['ColUnits'][0, np.shape(test['ColUnits'][0,:])[0]>0][0])
     #ColUnits[np.shape(test['ColUnits'][0, :])[0] <= 0] = ' '
+    #print('the global indexfile name is',globals()['index_file_name'])
+    #print('the global indexfile VarName is',globals()['index_file_name'])
     return cat_onlycone,ColCell, ColUnits
 
-def search_htm_ind(Filename,Long,Lat,Radius,path,VarName=None,CatDir=None):
+
+class Foo(object):
+    pass
+
+
+def search_htm_ind(Filename,Long,Lat,Radius,path,VarName=None,CatDir=None,verbose=False):
     """Description: wrapper of htm_search_cone, which select from the vector outputed by htm_search_cone only the
     triangles where there are actually sources.
             Input  : - Filename: the name of the index_file, e.g. FIRST_htm.hdf5
@@ -165,12 +172,28 @@ def search_htm_ind(Filename,Long,Lat,Radius,path,VarName=None,CatDir=None):
     #filenamex = path+'/'+CatDir+'/'+Filename
     #f = h5py.File(filenamex, 'r')#open file for reading #OPTIMIZE
     #DataHTM_indexfile = np.array(f[VarName])
-    DataHTM_indexfile = class_HDF5.HDF5(path + '/' + CatDir + '/' + Filename).load(VarName,
+    #print(globals().values())
+    if VarName not in list(globals().values()):
+    #print(Foo.__dict__)
+    #if VarName not in list(Foo.__dict__.values()):
+        if verbose==True:
+            print('I have not see the index file corresponding to {0} yet'.format(VarName))
+        DataHTM_indexfile = class_HDF5.HDF5(path + '/' + CatDir + '/' + Filename).load(VarName,
                                                                                    numpy_array=True)  # load the indexfile content
 
-    #Son_index=np.arange(2, 6)
-    #PolesLong_index=np.arange(6,11,2)
-    #PolesLat_index=np.arange(7,12,2)
+        #Foo.index_file_name=VarName
+        #Foo.index_file_array=DataHTM_indexfile
+        globals()[str(VarName)+'_name'] = VarName
+        globals()[str(VarName)+'_array']= DataHTM_indexfile
+        #globals()['index_file_name'] = VarName
+        #globals()['index_file_array']= DataHTM_indexfile
+        #pdb.set_trace()
+    else:
+        if verbose==True:
+            print('I have already loaded the index file corresponding to {0}'.format(VarName))
+        #DataHTM_indexfile = Foo.index_file_array
+        #DataHTM_indexfile=globals()['index_file_array']
+        DataHTM_indexfile = globals()[str(VarName)+'_array']
     ID=htm_search_cone(DataHTM_indexfile,Long,Lat,Radius)#,Son_index=Son_index,PolesLong_index=PolesLong_index,PolesLat_index=PolesLat_index) # returns a list of the ID of the winners mesh, i.e. the meshes that intercept the circle
 
     ID_array=np.array(ID)

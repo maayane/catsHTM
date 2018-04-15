@@ -56,8 +56,10 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
         CatDir='GAIA/DR1'
     elif CatName=='GALEX':
         CatDir='GALEX/DR6Plus7'
-    elif CatName=='PS1':
-        CatDir='/PS1'
+    elif CatName=='IPHASS':
+        CatDir='IPHAS/DR2'
+    elif CatName=='NEDz':
+        CatDir='NED/20170328'
     elif CatName=='SDSSDR10':
         CatDir='SDSS/DR10'
     elif CatName=='SDSSoffset':
@@ -70,6 +72,9 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
         CatDir='VST/ATLAS/DR3'
     elif CatName=='VSTkids':
         CatDir='VST/KiDS/DR3'
+    elif CatName not in ['AKARI','APASS','Cosmos','FIRST','NVSS','PS1','PTFpc','ROSATfsc','UCAC4','WISE','XMM']:
+        print('ERROR: you need to specify a valid name for the catalog (see README file for list of names)')
+        sys.exit()
     else:
         CatDir=CatName
 

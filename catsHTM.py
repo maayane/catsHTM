@@ -100,18 +100,12 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
     else:
         FileName_0 = CatFileTemplate % (CatName, FileID[0])
         DataName_0 = htmTemplate % ID_matlab[0]
-        #filename_0 = root_to_data + CatDir + '/' + FileName_0
         cat = class_HDF5.HDF5(root_to_data + CatDir + '/' + FileName_0).load(DataName_0, numpy_array=True).T
         for Iid in range(Nid)[1:]:
             FileName=CatFileTemplate % (CatName, FileID[Iid])
             DataName=htmTemplate % ID_matlab[Iid]
-            #filename = root_to_data + CatDir + '/' + FileName
-            #f = h5py.File(filename, 'r')
-            #if Iid==0:#optimize
-            #    cat=np.array(f[DataName]).T
-            #cat = np.vstack((cat, np.array(f[DataName]).T))
-            cat=np.vstack((cat, class_HDF5.HDF5(root_to_data + CatDir + '/' + FileName).load(DataName, numpy_array=True).T))
 
+            cat=np.vstack((cat, class_HDF5.HDF5(root_to_data + CatDir + '/' + FileName).load(DataName, numpy_array=True).T))
         #if OnlyCone==True:
         D=celestial.sphere_distance_fast(RA,Dec,cat[:,ColRa],cat[:,ColDec])
         cat_onlycone=cat[D<Radius,:]

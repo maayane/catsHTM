@@ -56,7 +56,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
         CatDir='GAIA/DR1'
     elif CatName=='GALEX':
         CatDir='GALEX/DR6Plus7'
-    elif CatName=='IPHASS':
+    elif CatName=='IPHAS':
         CatDir='IPHAS/DR2'
     elif CatName=='NEDz':
         CatDir='NED/20170328'
@@ -64,6 +64,8 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
         CatDir='SDSS/DR10'
     elif CatName=='SDSSoffset':
         CatDir='SDSS/DR14offset'
+    elif CatName=='SpecSDSS':
+        CatDir='SpecSDSS/DR14'
     elif CatName=='UKIDSS':
         CatDir='UKIDSS/DR10'
     elif CatName=='VISTAviking':

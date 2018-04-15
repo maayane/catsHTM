@@ -77,31 +77,31 @@ Other default parameters, such as the files and datasets naming format, can be e
 ## What are the available catalogs?
 Currently, the following catalogs are available in this format (alphabetical order):
 
-* 2MASS (input name: 'TMASS')
-* 2MASSxsc  (input name: 'TMASSxsc') - 2MASS extended source catalog
-* AKARI  (input name: 'AKARI')
-* APASS  (input name: 'APASS') - AAVSO All Sky Photometric Sky Survey (~5.5x10^7 sources)
-* Cosmos (input name: 'Cosmos') - Sources in the Cosmos field
-* DECaLS (input name: 'DECaLS') - DECaLS DR5 release
-* FIRST (input name: 'FIRST') - (~9.5x10^5 sources)
-* GAIA/DR1 (input name: 'GAIADR1') -  (~1.1x10^9 sources).
-* GALEX (input name: 'GALEX') -  GALAEX/GR6Plus7 (~1.7x10^8 sources).
+* 2MASS (input name: `TMASS`)
+* 2MASSxsc  (input name: `TMASSxsc`) - 2MASS extended source catalog
+* AKARI  (input name: `AKARI`)
+* APASS  (input name: `APASS`) - AAVSO All Sky Photometric Sky Survey (~5.5x10^7 sources)
+* Cosmos (input name: `Cosmos`) - Sources in the Cosmos field
+* DECaLS (input name: `DECaLS`) - DECaLS DR5 release
+* FIRST (input name: `FIRST`) - (~9.5x10^5 sources)
+* GAIA/DR1 (input name: `GAIADR1`) -  (~1.1x10^9 sources).
+* GALEX (input name: `GALEX`) -  GALAEX/GR6Plus7 (~1.7x10^8 sources).
 * HSC (not yet available)
-* IPHAS/DR2 (input name: 'IPHAS')
-* NVSS (input name: 'NVSS') - (~1.8x10^6 sources)
-* PS1 (input name: 'PS1') - Pan-STARRS (~2.6x10^9 sources; A cleaned version of the PS1 stack catalog; some missing tiles below declination of zero [being corrected])
-* ROSATfsc (input name: 'ROSATfsc') - ROSAT faint source catalog
-* SDSS/DR10 (input name: 'SDSSDR10')- Primary sources from SDSS/DR10 (last photometric release)
-* SDSS/DR14offset (input name: 'SDSSoffset') - RA/Dec offsets for SDSS primary sources with z<20 mag.
-* SpecSDSS/DR14 (input name: 'SpecSDSS') - SDSS spectroscopic catalog
-* UCAC4 (input name: 'UCAC4') - (~1.1x10^8 sources)
-* UKIDSS/DR10 (input name: 'UKIDSS')
+* IPHAS/DR2 (input name: `IPHAS`)
+* NVSS (input name: `NVSS`) - (~1.8x10^6 sources)
+* PS1 (input name: `PS1`) - Pan-STARRS (~2.6x10^9 sources; A cleaned version of the PS1 stack catalog; some missing tiles below declination of zero [being corrected])
+* ROSATfsc (input name: `ROSATfsc`) - ROSAT faint source catalog
+* SDSS/DR10 (input name: `SDSSDR10`)- Primary sources from SDSS/DR10 (last photometric release)
+* SDSS/DR14offset (input name: `SDSSoffset`) - RA/Dec offsets for SDSS primary sources with z<20 mag.
+* SpecSDSS/DR14 (input name: `SpecSDSS`) - SDSS spectroscopic catalog
+* UCAC4 (input name: `UCAC4`) - (~1.1x10^8 sources)
+* UKIDSS/DR10 (input name: `UKIDSS`)
 * USNOB1 (not yet available)
 * VISTA/Viking/DR3 (not yet available)
-* VST/ATLAS/DR3 (input name: 'VSTatlas')
-* VST/KiDS/DR3 (input name: 'VSTkids')
-* WISE (input name: 'WISE') - ~5.6x10^8 sources
-* XMM (input name: 'XMM')- 7.3x10^5 sources 3XMM-DR7 (Rosen et al. 2016; A&A 26, 590)
+* VST/ATLAS/DR3 (input name: `VSTatlas`)
+* VST/KiDS/DR3 (input name: `VSTkids`)
+* WISE (input name: `WISE`) - ~5.6x10^8 sources
+* XMM (input name: `XMM`)- 7.3x10^5 sources 3XMM-DR7 (Rosen et al. 2016; A&A 26, 590)
 
 ## How to download the `catsHTM` catalogs?
 

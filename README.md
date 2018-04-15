@@ -74,6 +74,34 @@ The units of the catalog columns are stored in the `numpy` array `colunits`
 
 Other default parameters, such as the files and datasets naming format, can be edited in the python file `params.py` (type `pip show catsHTM` in the comand line to see where `params.py` is stored).
 
+## What are the available catalogs?
+Currently, the following catalogs are available in this format (alphabetical order):
+
+* 2MASS (input name: `TMASS`)
+* 2MASSxsc  (input name: `TMASSxsc`) - 2MASS extended source catalog
+* AKARI  (input name: `AKARI`)
+* APASS  (input name: `APASS`) - AAVSO All Sky Photometric Sky Survey (~5.5x10^7 sources)
+* Cosmos (input name: `Cosmos`) - Sources in the Cosmos field
+* DECaLS (input name: `DECaLS`) - DECaLS DR5 release
+* FIRST (input name: `FIRST`) - (~9.5x10^5 sources)
+* GAIA/DR1 (input name: `GAIADR1`) -  (~1.1x10^9 sources).
+* GALEX (input name: `GALEX`) -  GALAEX/GR6Plus7 (~1.7x10^8 sources).
+* HSC (not yet available)
+* IPHAS/DR2 (input name: `IPHAS`)
+* NVSS (input name: `NVSS`) - (~1.8x10^6 sources)
+* PS1 (input name: `PS1`) - Pan-STARRS (~2.6x10^9 sources; A cleaned version of the PS1 stack catalog; some missing tiles below declination of zero [being corrected])
+* ROSATfsc (input name: `ROSATfsc`) - ROSAT faint source catalog
+* SDSS/DR10 (input name: `SDSSDR10`)- Primary sources from SDSS/DR10 (last photometric release)
+* SDSS/DR14offset (input name: `SDSSoffset`) - RA/Dec offsets for SDSS primary sources with z<20 mag.
+* SpecSDSS/DR14 (input name: `SpecSDSS`) - SDSS spectroscopic catalog
+* UCAC4 (input name: `UCAC4`) - (~1.1x10^8 sources)
+* UKIDSS/DR10 (input name: `UKIDSS`)
+* USNOB1 (not yet available)
+* VISTA/Viking/DR3 (not yet available)
+* VST/ATLAS/DR3 (input name: `VSTatlas`)
+* VST/KiDS/DR3 (input name: `VSTkids`)
+* WISE (input name: `WISE`) - ~5.6x10^8 sources
+* XMM (input name: `XMM`)- 7.3x10^5 sources 3XMM-DR7 (Rosen et al. 2016; A&A 26, 590)
 
 ## How to download the `catsHTM` catalogs?
 
@@ -85,31 +113,6 @@ Data is available from:
 * Shared (and updated automatically) via Dropbox on request from eran dot ofek at weizmann dot ac dot il.
 
 
-The catalog format is based on the HDF5 file format and HDF5 file access utilities, which are available on many platforms. The catalog format is designed to allow fast access for cone searches in the range of 1 arcsec to about 1 deg. For fast access, the sources are sorted into hierarchical triangular mesh (HTM). Currently, the following catalogs are available in this format (alphabetical order):
+The catalog format is based on the HDF5 file format and HDF5 file access utilities, which are available on many platforms. The catalog format is designed to allow fast access for cone searches in the range of 1 arcsec to about 1 deg. For fast access, the sources are sorted into hierarchical triangular mesh (HTM). 
 
-* 2MASS
-* 2MASSxsc - 2MASS extended source catalog
-* AKARI - 
-* APASS - AAVSO All Sky Photometric Sky Survey (~5.5x10^7 sources)
-* Cosmos - Sources in the Cosmos field
-* DECaLS - DECaLS/DR5
-* FIRST - (~9.5x10^5 sources)
-* GAIA/DR1 -  (~1.1x10^9 sources).
-* GALEX -  GALAEX/GR6Plus7 (~1.7x10^8 sources).
-* HSC (not yet available)
-* IPHAS/DR2 
-* NVSS - (~1.8x10^6 sources)
-* PS1 - Pan-STARRS (~2.6x10^9 sources; A cleaned version of the PS1 stack catalog; some missing tiles below declination of zero [being corrected])
-* ROSATfsc - ROSAT faint source catalog
-* SDSSDR10 - SDSS/DR10 - Primary sources from SDSS/DR10 (last photometric release)
-* SDSS/DR14offset - RA/Dec offsets for SDSS primary sources with z<20 mag.
-* SpecSDSS/DR14 - SDSS spectroscopic catalog
-* UCAC4  (~1.1x10^8 sources)
-* UKIDSS/DR10
-* USNOB1 (not yet available)
-* VISTA/Viking/DR3
-* VST/ATLAS/DR3
-* VST/KiDS/DR3
-* WISE (~5.6x10^8 sources)
-* XMM - 7.3x10^5 sources) 3XMM-DR7 (Rosen et al. 2016; A&A 26, 590)
 

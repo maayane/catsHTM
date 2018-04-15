@@ -74,19 +74,6 @@ The units of the catalog columns are stored in the `numpy` array `colunits`
 
 Other default parameters, such as the files and datasets naming format, can be edited in the python file `params.py` (type `pip show catsHTM` in the comand line to see where `params.py` is stored).
 
-
-## How to download the `catsHTM` catalogs?
-
-The catsHTM directory is very large and therefore available on request. The HDF5/HTM catalogs requires about 1.6TB of disk space.
-
-Data is available from:
-
-* Web download (link will be provided soon)
-* Shared (and updated automatically) via Dropbox on request from eran dot ofek at weizmann dot ac dot il.
-
-
-The catalog format is based on the HDF5 file format and HDF5 file access utilities, which are available on many platforms. The catalog format is designed to allow fast access for cone searches in the range of 1 arcsec to about 1 deg. For fast access, the sources are sorted into hierarchical triangular mesh (HTM). 
-
 ## What are the available catalogs?
 Currently, the following catalogs are available in this format (alphabetical order):
 
@@ -104,15 +91,28 @@ Currently, the following catalogs are available in this format (alphabetical ord
 * NVSS (input name: 'NVSS') - (~1.8x10^6 sources)
 * PS1 (input name: 'PS1') - Pan-STARRS (~2.6x10^9 sources; A cleaned version of the PS1 stack catalog; some missing tiles below declination of zero [being corrected])
 * ROSATfsc (input name: 'ROSATfsc') - ROSAT faint source catalog
-* SDSSDR10 - SDSS/DR10 - Primary sources from SDSS/DR10 (last photometric release)
-* SDSS/DR14offset - RA/Dec offsets for SDSS primary sources with z<20 mag.
-* SpecSDSS/DR14 - SDSS spectroscopic catalog
-* UCAC4  (~1.1x10^8 sources)
-* UKIDSS/DR10
+* SDSS/DR10 (input name: 'SDSSDR10')- Primary sources from SDSS/DR10 (last photometric release)
+* SDSS/DR14offset (input name: 'SDSSoffset') - RA/Dec offsets for SDSS primary sources with z<20 mag.
+* SpecSDSS/DR14 (input name: 'SpecSDSS') - SDSS spectroscopic catalog
+* UCAC4 (input name: 'UCAC4') - (~1.1x10^8 sources)
+* UKIDSS/DR10 (input name: 'UKIDSS')
 * USNOB1 (not yet available)
-* VISTA/Viking/DR3
-* VST/ATLAS/DR3
-* VST/KiDS/DR3
-* WISE (~5.6x10^8 sources)
-* XMM - 7.3x10^5 sources) 3XMM-DR7 (Rosen et al. 2016; A&A 26, 590)
+* VISTA/Viking/DR3 (not yet available)
+* VST/ATLAS/DR3 (input name: 'VSTatlas')
+* VST/KiDS/DR3 (input name: 'VSTkids')
+* WISE (input name: 'WISE') - ~5.6x10^8 sources
+* XMM (input name: 'XMM')- 7.3x10^5 sources 3XMM-DR7 (Rosen et al. 2016; A&A 26, 590)
+
+## How to download the `catsHTM` catalogs?
+
+The catsHTM directory is very large and therefore available on request. The HDF5/HTM catalogs requires about 1.6TB of disk space.
+
+Data is available from:
+
+* Web download (link will be provided soon)
+* Shared (and updated automatically) via Dropbox on request from eran dot ofek at weizmann dot ac dot il.
+
+
+The catalog format is based on the HDF5 file format and HDF5 file access utilities, which are available on many platforms. The catalog format is designed to allow fast access for cone searches in the range of 1 arcsec to about 1 deg. For fast access, the sources are sorted into hierarchical triangular mesh (HTM). 
+
 

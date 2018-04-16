@@ -65,7 +65,7 @@ The names of the catalog columns are stored in the `numpy` array `colcell`
 The units of the catalog columns are stored in the `numpy` array `colunits`
 
 ```python
->>> print colcell
+>>> print colunits
 [u'rad' u'rad' ' ' u'mJy' u'mJy' u'mJy' u'arcsec' u'arcsec' u'deg'
  u'arcsec' u'arcsec' u'deg' u'MJD' u'MJD']
 ```

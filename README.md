@@ -85,8 +85,9 @@ Currently, the following catalogs are available in this format (alphabetical ord
 * DECaLS (input name: `DECaLS`) - DECaLS DR5 release
 * FIRST (input name: `FIRST`) - (~9.5x10^5 sources)
 * GAIA/DR1 (input name: `GAIADR1`) -  (~1.1x10^9 sources).
+* GAIA/DR2 (input name: `GAIADR2`) - new!
 * GALEX (input name: `GALEX`) -  GALAEX/GR6Plus7 (~1.7x10^8 sources).
-* HSC (not yet available)
+* HSC/v2
 * IPHAS/DR2 (input name: `IPHAS`)
 * NVSS (input name: `NVSS`) - (~1.8x10^6 sources)
 * PS1 (input name: `PS1`) - Pan-STARRS (~2.6x10^9 sources; A cleaned version of the PS1 stack catalog; some missing tiles below declination of zero [being corrected])

@@ -85,7 +85,7 @@ Currently, the following catalogs are available in this format (alphabetical ord
 * DECaLS (input name: `DECaLS`) - DECaLS DR5 release
 * FIRST (input name: `FIRST`) - (~9.5x10^5 sources)
 * GAIA/DR1 (input name: `GAIADR1`) -  (~1.1x10^9 sources).
-* GAIA/DR2 (input name: `GAIADR2`) - new!
+* GAIA/DR2 (input name: `GAIADR2`) - NEW!
 * GALEX (input name: `GALEX`) -  GALAEX/GR6Plus7 (~1.7x10^8 sources).
 * HSC/v2
 * IPHAS/DR2 (input name: `IPHAS`)

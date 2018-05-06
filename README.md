@@ -85,16 +85,20 @@ Currently, the following catalogs are available in this format (alphabetical ord
 * DECaLS (input name: `DECaLS`) - DECaLS DR5 release
 * FIRST (input name: `FIRST`) - (~9.5x10^5 sources)
 * GAIA/DR1 (input name: `GAIADR1`) -  (~1.1x10^9 sources).
-* GAIA/DR2 (input name: `GAIADR2`) - NEW!
+* GAIA/DR2 (input name: `GAIADR2`) - NEW! (~1.6x10^9 sources)
 * GALEX (input name: `GALEX`) -  GALAEX/GR6Plus7 (~1.7x10^8 sources).
-* HSC/v2
+* HSC/v2 (input name: `HSCv2`)- Hubble source catalog
 * IPHAS/DR2 (input name: `IPHAS`)
+* NED redshifts (input name: `NEDz`)
 * NVSS (input name: `NVSS`) - (~1.8x10^6 sources)
 * PS1 (input name: `PS1`) - Pan-STARRS (~2.6x10^9 sources; A cleaned version of the PS1 stack catalog; some missing tiles below declination of zero [being corrected])
 * ROSATfsc (input name: `ROSATfsc`) - ROSAT faint source catalog
 * SDSS/DR10 (input name: `SDSSDR10`)- Primary sources from SDSS/DR10 (last photometric release)
 * SDSS/DR14offset (input name: `SDSSoffset`) - RA/Dec offsets for SDSS primary sources with z<20 mag.
+* Skymapper - will be added soon.
 * SpecSDSS/DR14 (input name: `SpecSDSS`) - SDSS spectroscopic catalog
+* Spitzer/SAGE (input name `SAGE`)
+* Spitzer/IRAC (input name `IRACgc`) - Spitzer IRAC galactic center survey
 * UCAC4 (input name: `UCAC4`) - (~1.1x10^8 sources)
 * UKIDSS/DR10 (input name: `UKIDSS`)
 * USNOB1 (not yet available)

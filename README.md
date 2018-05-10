@@ -18,7 +18,15 @@ If you are using one of the large catalogs, or this tool, please give the specif
 
 [Bibtex entry for Soumagnac & Ofek 2018](http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2018arXiv180502666S&data_type=BIBTEX&db_key=PRE&nocookieset=1)
 
-## How to install `catsHTM`?
+## How to obtain the formatted catalogs?
+
+The catalogs are available from:
+* Web download (link will be provided soon)
+* Shared (and updated automatically) via Dropbox on request from eran dot ofek at weizmann dot ac dot il.
+
+## How to install the `catsHTM` code?
+
+These instruction are for installing the catsHTM **code**, i.e. do not include the installation of the catalogs in HDF5 format. In order to download the catalogs, see section on 'How to obtain the formatted catalogs'.
 
 ### pip
 
@@ -37,7 +45,8 @@ If you are using one of the large catalogs, or this tool, please give the specif
 
 ## How to make a cone search with ``catsHTM``?
 
-First, you need to specify the path to the directory where the HDF5 formatted catalogs where downloaded (default is `./data`):
+First, you need to specify the path to the directory where the HDF5 formatted catalogs where downloaded (default is `./data`). This will only work if you have previously downloaded the catalogs in HDF5 format (in order to download them, see section on 'How to obtain the formatted catalogs'):
+
 ```python
 >>> import catsHTM
 >>> path='path/to/directory'

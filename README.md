@@ -102,10 +102,10 @@ Currently, the following catalogs are available in this format (alphabetical ord
 * IPHAS/DR2 (input name: `IPHAS`)
 * NED redshifts (input name: `NEDz`)
 * NVSS (input name: `NVSS`) - (~1.8x10^6 sources)
+* PTFpc (input name: `PTFpc`) - PTF photometric catalog 
 * PS1 (input name: `PS1`) - Pan-STARRS (~2.6x10^9 sources; A cleaned version of the PS1 stack catalog; some missing tiles below declination of zero [being corrected])
 * ROSATfsc (input name: `ROSATfsc`) - ROSAT faint source catalog
 * SDSS/DR10 (input name: `SDSSDR10`)- Primary sources from SDSS/DR10 (last photometric release)
-* SDSS/DR14offset (input name: `SDSSoffset`) - RA/Dec offsets for SDSS primary sources with z<20 mag.
 * Skymapper - will be added soon.
 * SpecSDSS/DR14 (input name: `SpecSDSS`) - SDSS spectroscopic catalog
 * Spitzer/SAGE (input name `SAGE`)

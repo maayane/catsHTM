@@ -1,0 +1,18 @@
+Metadata-Version: 1.1
+Name: catsHTM
+Version: 0.1.13
+Summary: fast access to large astronomical catalogs
+Home-page: https://github.com/maayane/catsHTM
+Author: Maayane T. Soumagnac, according to a matlab code by Eran O. Ofek
+Author-email: maayane.soumagnac@weizmann.ac.il
+License: UNKNOWN
+Description: UNKNOWN
+Keywords: astronomy catalogs cone-search cross-matching
+Platform: UNKNOWN
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Astronomy
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS

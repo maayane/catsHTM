@@ -54,18 +54,26 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
         CatDir='DECaLS/DR5'
     elif CatName=='GAIADR1':
         CatDir='GAIA/DR1'
+    elif CatName=='GAIADR2':
+        CatDir='GAIA/DR2'
     elif CatName=='GALEX':
         CatDir='GALEX/DR6Plus7'
+    elif CatName=='HSCv2':
+        CatDir = 'HST/HSCv2'
     elif CatName=='IPHAS':
         CatDir='IPHAS/DR2'
     elif CatName=='NEDz':
-        CatDir='NED/20170328'
+        CatDir='NED/20180502'
     elif CatName=='SDSSDR10':
         CatDir='SDSS/DR10'
     elif CatName=='SDSSoffset':
         CatDir='SDSS/DR14offset'
     elif CatName=='SpecSDSS':
         CatDir='SpecSDSS/DR14'
+    elif CatName=='SAGE':
+        CatDir = 'Spitzer/SAGE'
+    elif CatName=='IRACgc':
+        CatDir = 'Spitzer/IRACgc'
     elif CatName=='UKIDSS':
         CatDir='UKIDSS/DR10'
     elif CatName=='VISTAviking':
@@ -74,7 +82,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
         CatDir='VST/ATLAS/DR3'
     elif CatName=='VSTkids':
         CatDir='VST/KiDS/DR3'
-    elif CatName not in ['AKARI','APASS','Cosmos','FIRST','NVSS','PS1','PTFpc','ROSATfsc','UCAC4','WISE','XMM']:
+    elif CatName not in ['AKARI','APASS','Cosmos','FIRST','NVSS','PS1','PTFpc','ROSATfsc','SkyMapper','UCAC4','WISE','XMM']:
         print('ERROR: you need to specify a valid name for the catalog (see README file for list of names)')
         sys.exit()
     else:

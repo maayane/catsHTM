@@ -97,7 +97,12 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
     IndexFilename=IndexFileTemplate % CatName
     if os.path.isfile(root_to_data+CatDir+'/'+ColCelFile)==True:
         test = sio.loadmat(root_to_data+CatDir+'/'+ColCelFile)
-        Ncol=np.shape(test['ColCell'])[1]
+        #print(test)
+        if np.shape(test['ColCell'])[1]<np.shape(test['ColCell'])[0]:
+            #test=test.transpose()
+            Ncol=np.shape(test['ColCell'])[0]
+        else:
+            Ncol=np.shape(test['ColCell'])[1]
     else:
         print('ERROR: you need to specify a valid path for the HDF5 catalogs location')
         sys.exit()
@@ -116,6 +121,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
         FileName_0 = CatFileTemplate % (CatName, FileID[0])
         DataName_0 = htmTemplate % ID_matlab[0]
         cat = class_HDF5.HDF5(root_to_data + CatDir + '/' + FileName_0).load(DataName_0, numpy_array=True).T
+        #print('shape of cat is',np.shape(cat))
         for Iid in range(Nid)[1:]:
             FileName=CatFileTemplate % (CatName, FileID[Iid])
             DataName=htmTemplate % ID_matlab[Iid]
@@ -133,16 +139,32 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
         ColCell=np.empty((Ncol),dtype=object)
         ColUnits=np.empty((Ncol),dtype=object)
 
-    for i,j in enumerate(test['ColCell'][0,:]):
-        ColCell[i]=str(test['ColCell'][0,i][0])
+    #print(np.shape(test['ColCell']))
+    #print(np.shape(ColCell))
+    #print(np.shape(cat_onlycone))
 
-    for i,j in enumerate(test['ColUnits'][0,:]):
-        if len(test['ColUnits'][0,i])>0:
-            ColUnits[i]=(test['ColUnits'][0,i][0])
-        else:
-            ColUnits[i]=' '
+    if np.shape(test['ColCell'])[1]>np.shape(test['ColCell'])[0]:
+        for i,j in enumerate(test['ColCell'][0,:]):
+            #print(test['ColCell'][0,i][0])
+            ColCell[i]=str(test['ColCell'][0,i][0])
+        for i,j in enumerate(test['ColUnits'][0,:]):
+            if len(test['ColUnits'][0,i])>0:
+                ColUnits[i]=str(test['ColUnits'][0,i][0])
+            else:
+                ColUnits[i]=' '
+
+    else: #rare cases: Cosmos and TMASSxsc
+        for i,j in enumerate(test['ColCell'][:,0]):
+            #print(str(test['ColCell'][i][0][0]))
+            ColCell[i]=str(test['ColCell'][i][0][0])
+        for i,j in enumerate(test['ColUnits'][0,:]):
+            if len(test['ColUnits'][0,i])>0:
+                ColUnits[i]=str(test['ColUnits'][0,i][0])
+            else:
+                ColUnits[i]=' '
 
     return cat_onlycone,ColCell, ColUnits
+
 
 def search_htm_ind(Filename,Long,Lat,Radius,path,VarName=None,CatDir=None,verbose=False):
     """Description: wrapper of htm_search_cone, which select from the vector outputed by htm_search_cone only the

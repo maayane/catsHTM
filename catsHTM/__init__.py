@@ -6,14 +6,13 @@ A python implementation of catsHTM.m
 
 import math
 import numpy as np
-import celestial
-#import class_HDF5
+from . import celestial
 import scipy.io as sio
-import params
+from . import params
 import os.path
 import sys
 import h5py
-import class_HDF5
+from . import class_HDF5
 import pdb
 #import time
 

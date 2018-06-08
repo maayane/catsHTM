@@ -30,7 +30,7 @@ setup(
     keywords='astronomy catalogs cone-search cross-matching',  # Optional
 
     packages=["catsHTM"],
-    install_requires=['h5py'],  # Optional
+    install_requires=['h5py','scipy'],  # Optional
     python_requires='>=2.7.10',
 
     project_urls={ 

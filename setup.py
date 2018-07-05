@@ -29,9 +29,8 @@ setup(
 
     keywords='astronomy catalogs cone-search cross-matching',  # Optional
 
-    packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
-    py_modules=["catsHTM","celestial","class_HDF5","params"],
-    install_requires=['h5py'],  # Optional
+    packages=["catsHTM"],
+    install_requires=['h5py','scipy'],  # Optional
     python_requires='>=2.7.10',
 
     project_urls={ 

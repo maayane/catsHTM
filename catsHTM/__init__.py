@@ -6,18 +6,22 @@ A python implementation of catsHTM.m
 
 import math
 import numpy as np
-import celestial
-#import class_HDF5
+from . import celestial
 import scipy.io as sio
-import params
+from . import params
 import os.path
-import sys
 import h5py
-import class_HDF5
+from . import class_HDF5
 import pdb
 #import time
 
 d=dict() #this dictionnary containes the names of the index files loaded in search_htm_ind, and allowes us to avoid loading twice the same index file, which can be time consuming e.g. in a loop
+
+# define FileNotFoundError for Python 2.7
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = IOError
 
 def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec',IndexFileTemplate=params.IndexFileTemplate,CatFileTemplate=params.CatFileTemplate
                 ,htmTemplate=params.htmTemplate,NcatinFile=params.NcatinFile,IndexVarname=None,ColRa = 0,ColDec=1,OnlyCone=True,
@@ -83,8 +87,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
     elif CatName=='VSTkids':
         CatDir='VST/KiDS/DR3'
     elif CatName not in ['AKARI','APASS','Cosmos','FIRST','NVSS','PS1','PTFpc','ROSATfsc','SkyMapper','UCAC4','WISE','XMM']:
-        print('ERROR: you need to specify a valid name for the catalog (see README file for list of names)')
-        sys.exit()
+        raise ValueError('you need to specify a valid name for the catalog (see README file for list of names)')
     else:
         CatDir=CatName
 
@@ -104,8 +107,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
         else:
             Ncol=np.shape(test['ColCell'])[1]
     else:
-        print('ERROR: you need to specify a valid path for the HDF5 catalogs location')
-        sys.exit()
+        raise FileNotFoundError("you need to specify a valid path for the HDF5 catalogs location")
     ### computes the list of index of the trixels which intercept the cone
     ID=search_htm_ind(IndexFilename,RA,Dec,Radius,catalogs_dir,VarName=IndexVarname,CatDir=CatDir,verbose=verbose) #list of IDs of winners leaf
     ### computes the catalog with the sources located in those trixels

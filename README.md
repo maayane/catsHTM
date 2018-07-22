@@ -21,8 +21,8 @@ If you are using one of the large catalogs, or this tool, please give the specif
 ## How to obtain the formatted catalogs?
 
 The catalogs are available from:
-* Web download (this will eentually be the permanent solution. We are working on it these days. The link will be provided soon)
-* Shared (and updated automatically) via Dropbox on request. To make a request, email **eran dot ofek at weizmann dot ac dot il** or **maayane dot soumagnac at weizmann dot ac dot il** .
+* Web download is now available. See instructions [here](http://euler1.weizmann.ac.il/catsHTM/)
+* If you have any question or encounter any prblem while trying to download, email **eran dot ofek at weizmann dot ac dot il** or **maayane dot soumagnac at weizmann dot ac dot il** .
 
 ## How to install the `catsHTM` code?
 

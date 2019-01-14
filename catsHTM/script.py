@@ -662,8 +662,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
         (nearest within some specified distance) is saved.
                 Input  :- Catalog 1 basename
                         - Catalog 2 basename
-                        -Search_radius: default is 2
-                        -Search_radius_units: default is arcsec
+                        -Search_radius: default is 2 (in arcsec)
                         -QueryFun: function to be applied to the catalog
                         -QUeryFunPar: parameters for QueryFun
                         -Verbose: set to True if yu want the code to tell you what it is doing at each step and output intermediate outputs
@@ -724,7 +723,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
         ####### Create the list of trixel's indexes associated with each level #########
         print('************** I am building all the trixels relevant to our search **************')
 
-        built_array = celestial.htm_build(Lmax)
+        built_array = celestial.htm_build(Lmax,Verbose=Verbose)
         HTM=built_array[0]
         Level=built_array[1] #une liste de Lmax dictionnaires, tels que dic['level']=un nombre designant le level (0 pour le level1) et dic['ptr']=un np array des indices des rixels a ce level
         #print(HTM[0].coo())
@@ -746,10 +745,10 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
             print('Level2:',Level2)
 
         Nh1=len(Level1['ptr'])#the number of trixels in the highest level
-        print('Nh1 is',Nh1)#ok
+        print('The number of trixels in the highest level, for {0} is {1}'.format(Catname1,Nh1))#ok
         #pdb.set_trace()
         Nh2=len(Level2['ptr'])
-        print('Nh2 is', Nh2)  #ok
+        print('The number of trixels in the highest level, for {0} is {1}'.format(Catname2, Nh2)) #ok
         #pdb.set_trace()
 
         ColCell2=load_colcell(catalogs_dir+'/'+CatDir2,Catname2)[0]

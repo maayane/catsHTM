@@ -44,10 +44,9 @@ These instruction are for installing the catsHTM **code**, i.e. do not include t
 * `scipy`
 * `h5py`
 
-
 ## How to make a cone search with ``catsHTM``?
 
-First, you need to specify the path to the directory where the HDF5 formatted catalogs where downloaded (default is `./data`). This will only work if you have previously downloaded the catalogs in HDF5 format (in order to download them, see section on 'How to obtain the formatted catalogs'):
+First, you need to specify the path to the directory where the HDF5 formatted catalogs where downloaded (default is `./data`). This will only work if you have previously downloaded the catalogs in HDF5 format (in order to download them, see section on ['How to obtain the formatted catalogs'](https://github.com/maayane/catsHTM#how-to-make-a-cone-search-with-catshtm)):
 
 ```python
 >>> import catsHTM
@@ -91,6 +90,39 @@ The units of the catalog columns are stored in the `numpy` array `colunits`
 >>> print colunits
 [u'rad' u'rad' ' ' u'mJy' u'mJy' u'mJy' u'arcsec' u'arcsec' u'deg'
  u'arcsec' u'arcsec' u'deg' u'MJD' u'MJD']
+```
+## How to cross-match two catalogs with ``catsHTM``?
+
+First, you need to specify the path to the directory where the HDF5 formatted catalogs where downloaded (default is `./data`). This will only work if you have previously downloaded the catalogs in HDF5 format (in order to download them, see section on ['How to obtain the formatted catalogs'](https://github.com/maayane/catsHTM#how-to-make-a-cone-search-with-catshtm)):
+
+```python
+>>> import catsHTM
+>>> path='path/to/directory'
+
+```
+You then need to call the `xmatch_2cats` function. For example, to look for overlaps between the `FIRST` and `NVSS` catalogs:
+
+```python
+>>> catsHTM.xmatch_2cats('FIRST','NVSS',catalogs_dir=path)
+```
+By default, this will create a directory `./cross-matching_results`, where it will save three files:
+1. `cross-matching_result_[name of catalog 1].txt`: the catalog entries of catalog 1 (e.g. FIRST) for which one or mors counterparts were found in catalog 2 (e.g. NVSS), within the search radius.
+2. `cross-matching_result_[name of catalog 2].txt`: the catalog entries corresponding to the closest counterpart found in catalog 2 (e.g. NVSS)
+3. `cross-matching_result_full.txt`: a file where the two above files were merged.
+
+You can modify the location of the output files with the `output` keyword:
+```python
+>>> catsHTM.xmatch_2cats('FIRST','NVSS',catalogs_dir=path)
+```
+You can also choose to only save the two separate files (1. and 2. in the list above), by setting the `save_in_one_file` keyword to `False`, or save only the large file (3. in the list above) by setting the `save_in_separate_files` keyword to `False`. E.g.:
+
+```python
+>>> catsHTM.xmatch_2cats('FIRST','NVSS',catalogs_dir=path,save_in_one_file=False)
+```
+You can modify the search radius (default is 2 arcsec) with the `Search_radius` keyword. E.g.
+
+```python
+>>> catsHTM.xmatch_2cats('FIRST','NVSS',Search_radius=5)
 ```
 
 ### Specification of other default parameters 

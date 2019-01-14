@@ -613,7 +613,11 @@ def match_cats(Cat,Refcat,Radius=2,RadiusUnits='arcsec'):
             #print('Cat[Icat-1,1] is',Cat[Icat-1,1])#ok
             #print('Refcat[Iref,0]',Refcat[Iref,0])#ok
             #print( 'Refcat[Iref,1]) is',Refcat[Iref,1])#ok
+<<<<<<< HEAD
             Dist=celestial.sphere_distance_fast(Cat[Icat-1,0],Cat[Icat-1,1],Refcat[Iref,0],Refcat[Iref,1])[0]
+=======
+            Dist=celestial.sphere_dist_fast(Cat[Icat-1,0],Cat[Icat-1,1],Refcat[Iref,0],Refcat[Iref,1])[0]
+>>>>>>> 0522df1ffa00743de56aa85135eebd801076504b
             #print('Dist is',Dist)
             #print('Radius[Iref] is',Radius[Iref])
             IndRelative=np.where(Dist<=Radius[Iref])[0]
@@ -772,8 +776,13 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 print('the output directory, ' + output + ' exists already')
             else:
                 os.mkdir(output)
+<<<<<<< HEAD
         header1 = ",".join([Catname1+':'+ColCell1[i] + ' (' + ColUnits1[i] + ')' for i in range(np.shape(ColCell1)[0])])
         header2 = ",".join([Catname2+':'+ColCell2[i] + ' (' + ColUnits2[i] + ')' for i in range(np.shape(ColCell2)[0])])
+=======
+        header1 = Catname1 + ':' + ",".join([ColCell1[i] + ' (' + ColUnits1[i] + ')' for i in range(np.shape(ColCell1)[0])])
+        header2 = Catname2 + ':' + ",".join([ColCell2[i] + ' (' + ColUnits2[i] + ')' for i in range(np.shape(ColCell2)[0])])
+>>>>>>> 0522df1ffa00743de56aa85135eebd801076504b
         cross_matching_result = np.empty((1, np.shape(ColCell1)[0] + np.shape(ColCell2)[0]))
         #print(np.shape(cross_matching_result))
         #print('header1 is',header1)
@@ -826,7 +835,11 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 #print('MeanRa is', MeanRa) #ok
                 #print('MeanDec is',MeanDec)#ok
 
+<<<<<<< HEAD
                 D=celestial.sphere_distance_fast(MeanRa,MeanDec,HTM[index_cat1-1]['coo'][:,0],HTM[index_cat1-1]['coo'][:,1])[0]
+=======
+                D=celestial.sphere_dist_fast(MeanRa,MeanDec,HTM[index_cat1-1]['coo'][:,0],HTM[index_cat1-1]['coo'][:,1])[0]
+>>>>>>> 0522df1ffa00743de56aa85135eebd801076504b
                 #print('D is',D)
                 CircRadius=np.max(D)+Search_radius
                 #print('CircRadius is',CircRadius)

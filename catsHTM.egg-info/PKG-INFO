@@ -1,28 +1,16 @@
 Metadata-Version: 1.2
 Name: catsHTM
-<<<<<<< HEAD
 Version: 0.1.18
-=======
-Version: 0.1.17
->>>>>>> 0522df1ffa00743de56aa85135eebd801076504b
 Summary: fast access and cross-matching of large astronomical catalogs
 Home-page: https://github.com/maayane/catsHTM
 Author: Maayane T. Soumagnac, Eran O. Ofek
 Author-email: maayane.soumagnac@weizmann.ac.il
 License: UNKNOWN
-<<<<<<< HEAD
-Project-URL: Bug Reports, https://github.com/maayane/catsHTM/issues
-Project-URL: Matlab Version, https://webhome.weizmann.ac.il/home/eofek/matlab/doc/install.html
-Project-URL: Source, https://github.com/maayane/catsHTM
-Project-URL: Preliminary documentation, https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html
-Project-URL: Credit Page, https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTMcredit.html
-=======
 Project-URL: Source, https://github.com/maayane/catsHTM
 Project-URL: Bug Reports, https://github.com/maayane/catsHTM/issues
 Project-URL: Credit Page, https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTMcredit.html
 Project-URL: Matlab Version, https://webhome.weizmann.ac.il/home/eofek/matlab/doc/install.html
 Project-URL: Preliminary documentation, https://webhome.weizmann.ac.il/home/eofek/matlab/doc/catsHTM.html
->>>>>>> 0522df1ffa00743de56aa85135eebd801076504b
 Description: UNKNOWN
 Keywords: astronomy catalogs cone-search cross-matching
 Platform: UNKNOWN

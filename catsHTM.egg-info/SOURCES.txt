@@ -9,7 +9,6 @@ catsHTM/simplify.py
 catsHTM/test.py
 catsHTM/test_xmatch.py
 catsHTM.egg-info/PKG-INFO
-catsHTM.egg-info/PKG-INFO.orig
 catsHTM.egg-info/SOURCES.txt
 catsHTM.egg-info/dependency_links.txt
 catsHTM.egg-info/requires.txt

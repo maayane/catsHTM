@@ -49,7 +49,7 @@ def cone_in_polysphere(PolesLong,PolesLat,Long,Lat,Radius):
         Flag[i]=all(Dist[:,i]<=0.5*math.pi+Radius) #1 if all distances are smaller than..
     return Flag
 
-def sphere_dist_fast(RA_1,Dec_1,RA_2,Dec_2):
+def sphere_distance_fast(RA_1,Dec_1,RA_2,Dec_2):
     """Description: Names after the function with the same name by Eran.
     Calculate the angular distance between two points on the celestial sphere. Works only with radians and calculate only the distance.
             Input: - np.array of longitudes for the first point [radians]

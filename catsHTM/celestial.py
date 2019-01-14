@@ -160,7 +160,7 @@ def polysphere_poles(VertLong,VertLat):
                        - Vector of the poles lattitudes """
     [CD1, CD2, CD3] = coo2cosined(VertLong, VertLat)
     [CenLong, CenLat] = cosined2coo(np.mean(CD1), np.mean(CD2), np.mean(CD3))
-    PA=sphere_dist_fast(CenLong,CenLat,VertLong,VertLat)[1]
+    PA=sphere_distance_fast(CenLong,CenLat,VertLong,VertLat)[1]
     SI=np.argsort(PA)
     VertLong_sortPA=VertLong[SI]
     VertLat_sortPA=VertLat[SI]

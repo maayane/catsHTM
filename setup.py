@@ -10,12 +10,12 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='catsHTM',
-    version='0.1.16',
-    description='fast access to large astronomical catalogs',
+    version='0.1.17',
+    description='fast access and cross-matching of large astronomical catalogs',
     #long_description=long_description,
     #long_description_content_type='text/markdown',
     url='https://github.com/maayane/catsHTM',  # Optional
-    author='Maayane T. Soumagnac, according to a matlab code by Eran O. Ofek',
+    author='Maayane T. Soumagnac, Eran O. Ofek',
     author_email='maayane.soumagnac@weizmann.ac.il',  # Optional
     classifiers=[ 
         'Intended Audience :: Science/Research',

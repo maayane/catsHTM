@@ -125,7 +125,7 @@ By default, this will create a directory `./cross-matching_results`, where it wi
 2. `cross-matching_result_[name of catalog 2].txt`: the catalog entries corresponding to the closest counterpart found in catalog 2 (e.g. NVSS)
 3. `cross-matching_result_full.txt`: a file where the two above files were merged.
 
-Examples of such files, obtained when running the code for `FIRST` and `NVSS` as in the commands above can be found in the directory `cross-matching_results_test/`.
+The header of all these files specify the catalog columns. Examples of such files, obtained when running the code for `FIRST` and `NVSS` as in the commands above can be found in the directory `cross-matching_results_test/`.
 
 You can modify the location of the output files with the `output` keyword:
 ```python

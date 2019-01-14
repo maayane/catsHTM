@@ -662,14 +662,19 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
         (nearest within some specified distance) is saved.
                 Input  :- Catalog 1 basename
                         - Catalog 2 basename
-                        -Search_radius: default is 2
-                        -Search_radius_units: default is arcsec
+                        -Search_radius: default is 2 (in arcsec)
                         -QueryFun: function to be applied to the catalog
                         -QUeryFunPar: parameters for QueryFun
                         -Verbose: set to True if yu want the code to tell you what it is doing at each step and output intermediate outputs
+                        -save_results: if True the the cross-matching pieces of catalog_1 and catalog_2 will be saved. Beware: only on object of catalog 2 (the closest)
+                        is saved per object of catalog 1 having a counterpart.
+                        -save_in_one_file: if True the results will be saved in one file, of which the first columns are of catalog1 (only those for which
+                        cross matching entries in catalog_2 were found), and then come the columns of catalog2
+                        -save_in_two_files: if True the results will be saved in two separate files. One has the entries of catalog_1 having at least one counterpart in catalog2
+                        and the second is the entries of catalog 2 for the closest counterparts of catalog_2
                         -catalogs_dir: the directory where the HDF5 catalogs are stored
-                Output :
-                example:
+                Output : if save_results=True, the cross-matching pieces of catalog_1 and catalog_2 are stored in the output directory given as the "output" key.
+                example: catsHTM.xmatch_2cats('FIRST','NVSS',Verbose=False,save_in_one_file=True,save_results=True,save_in_separate_files=True)
                 By : Maayane Soumagnac (original Matlab function by Eran Ofek)            August 2018
                                 """
 
@@ -718,7 +723,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
         ####### Create the list of trixel's indexes associated with each level #########
         print('************** I am building all the trixels relevant to our search **************')
 
-        built_array = celestial.htm_build(Lmax)
+        built_array = celestial.htm_build(Lmax,Verbose=Verbose)
         HTM=built_array[0]
         Level=built_array[1] #une liste de Lmax dictionnaires, tels que dic['level']=un nombre designant le level (0 pour le level1) et dic['ptr']=un np array des indices des rixels a ce level
         #print(HTM[0].coo())
@@ -740,10 +745,10 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
             print('Level2:',Level2)
 
         Nh1=len(Level1['ptr'])#the number of trixels in the highest level
-        print('Nh1 is',Nh1)#ok
+        print('The number of trixels in the highest level, for {0} is {1}'.format(Catname1,Nh1))#ok
         #pdb.set_trace()
         Nh2=len(Level2['ptr'])
-        print('Nh2 is', Nh2)  #ok
+        print('The number of trixels in the highest level, for {0} is {1}'.format(Catname2, Nh2)) #ok
         #pdb.set_trace()
 
         ColCell2=load_colcell(catalogs_dir+'/'+CatDir2,Catname2)[0]

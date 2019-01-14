@@ -826,7 +826,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 #print('MeanRa is', MeanRa) #ok
                 #print('MeanDec is',MeanDec)#ok
 
-                D=celestial.sphere_dist_fast(MeanRa,MeanDec,HTM[index_cat1-1]['coo'][:,0],HTM[index_cat1-1]['coo'][:,1])[0]
+                D=celestial.sphere_distance_fast(MeanRa,MeanDec,HTM[index_cat1-1]['coo'][:,0],HTM[index_cat1-1]['coo'][:,1])[0]
                 #print('D is',D)
                 CircRadius=np.max(D)+Search_radius
                 #print('CircRadius is',CircRadius)

@@ -134,6 +134,7 @@ def cosined2coo(CD1,CD2,CD3):#TESTED compared with Eran's, ok
     return Long,Lat
 
 
+
 def cross_fast(A,B):#TESTED compared with Eran's, ok
     """Description: named after Eran's function with same name in his Util/math library.
      Performs cross product of two 3-columns matrices.

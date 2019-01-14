@@ -49,7 +49,7 @@ def cone_in_polysphere(PolesLong,PolesLat,Long,Lat,Radius):
         Flag[i]=all(Dist[:,i]<=0.5*math.pi+Radius) #1 if all distances are smaller than..
     return Flag
 
-def sphere_dist_fast(RA_1,Dec_1,RA_2,Dec_2):
+def sphere_distance_fast(RA_1,Dec_1,RA_2,Dec_2):
     """Description: Names after the function with the same name by Eran.
     Calculate the angular distance between two points on the celestial sphere. Works only with radians and calculate only the distance.
             Input: - np.array of longitudes for the first point [radians]
@@ -133,7 +133,6 @@ def cosined2coo(CD1,CD2,CD3):#TESTED compared with Eran's, ok
             Long=2*math.pi+Long
     return Long,Lat
 
-
 def cross_fast(A,B):#TESTED compared with Eran's, ok
     """Description: named after Eran's function with same name in his Util/math library.
      Performs cross product of two 3-columns matrices.
@@ -160,7 +159,7 @@ def polysphere_poles(VertLong,VertLat):
                        - Vector of the poles lattitudes """
     [CD1, CD2, CD3] = coo2cosined(VertLong, VertLat)
     [CenLong, CenLat] = cosined2coo(np.mean(CD1), np.mean(CD2), np.mean(CD3))
-    PA=sphere_dist_fast(CenLong,CenLat,VertLong,VertLat)[1]
+    PA=sphere_distance_fast(CenLong,CenLat,VertLong,VertLat)[1]
     SI=np.argsort(PA)
     VertLong_sortPA=VertLong[SI]
     VertLat_sortPA=VertLat[SI]

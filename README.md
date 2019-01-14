@@ -112,11 +112,6 @@ The number of trixels in the highest level, for FIRST is 32768
 The number of trixels in the highest level, for NVSS is 32768
 ************** I am looking for overlapping trixels **************
 I am looking for Catalog_2 (NVSS) trixels overlapping with the non-empty trixel #10921 of Catalog_1 (FIRST)
-I am looking for Catalog_2 (NVSS) trixels overlapping with the non-empty trixel #10922 of Catalog_1 (FIRST)
-I am looking for Catalog_2 (NVSS) trixels overlapping with the non-empty trixel #10923 of Catalog_1 (FIRST)
-I am looking for Catalog_2 (NVSS) trixels overlapping with the non-empty trixel #10924 of Catalog_1 (FIRST)
-I am looking for Catalog_2 (NVSS) trixels overlapping with the non-empty trixel #10925 of Catalog_1 (FIRST)
-I am looking for Catalog_2 (NVSS) trixels overlapping with the non-empty trixel #10926 of Catalog_1 (FIRST)
 ...
 ```
 

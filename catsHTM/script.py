@@ -137,7 +137,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
 
             cat=np.vstack((cat, class_HDF5.HDF5(root_to_data + CatDir + '/' + FileName).load(DataName, numpy_array=True).T))
         #if OnlyCone==True:
-        D=celestial.sphere_distance_fast(RA,Dec,cat[:,ColRa],cat[:,ColDec])[0]
+        D=celestial.sphere_distance_fast(RA,Dec,cat[:,ColRa],cat[:,ColDec])#[0]
         cat_onlycone=cat[D<Radius,:]
 
     ### a colomne with the cell names:
@@ -613,7 +613,7 @@ def match_cats(Cat,Refcat,Radius=2,RadiusUnits='arcsec'):
             #print('Cat[Icat-1,1] is',Cat[Icat-1,1])#ok
             #print('Refcat[Iref,0]',Refcat[Iref,0])#ok
             #print( 'Refcat[Iref,1]) is',Refcat[Iref,1])#ok
-            Dist=celestial.sphere_distance_fast(Cat[Icat-1,0],Cat[Icat-1,1],Refcat[Iref,0],Refcat[Iref,1])[0]
+            Dist=celestial.sphere_dist_fast(Cat[Icat-1,0],Cat[Icat-1,1],Refcat[Iref,0],Refcat[Iref,1])[0]
             #print('Dist is',Dist)
             #print('Radius[Iref] is',Radius[Iref])
             IndRelative=np.where(Dist<=Radius[Iref])[0]
@@ -826,7 +826,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 #print('MeanRa is', MeanRa) #ok
                 #print('MeanDec is',MeanDec)#ok
 
-                D=celestial.sphere_distance_fast(MeanRa,MeanDec,HTM[index_cat1-1]['coo'][:,0],HTM[index_cat1-1]['coo'][:,1])[0]
+                D=celestial.sphere_dist_fast(MeanRa,MeanDec,HTM[index_cat1-1]['coo'][:,0],HTM[index_cat1-1]['coo'][:,1])[0]
                 #print('D is',D)
                 CircRadius=np.max(D)+Search_radius
                 #print('CircRadius is',CircRadius)

@@ -49,12 +49,11 @@ def cone_in_polysphere(PolesLong,PolesLat,Long,Lat,Radius):
         Flag[i]=all(Dist[:,i]<=0.5*math.pi+Radius) #1 if all distances are smaller than..
     return Flag
 
-def sphere_distance_fast(RA_1,Dec_1,RA_2,Dec_2):#used by cone_search only
+def sphere_distance_fast(RA_1,Dec_1,RA_2,Dec_2):#used by cone_search only. I have not changed it to sphere_dist_fast, for backwards compatibility
 
     Dist = np.arccos(np.sin(Dec_1)*np.sin(Dec_2) + np.cos(Dec_1)* np.cos(Dec_2)* np.cos(RA_1 - RA_2))
 
     return Dist
-
 
 def sphere_dist_fast(RA_1,Dec_1,RA_2,Dec_2):#used by xmatch_2cats and match_cats
     """Description: Names after the function with the same name by Eran.
@@ -286,7 +285,6 @@ def htm_build(Level,Verbose=True):
 
     return total_HTM_list,total_Levlist
 
-
 def htm_build_son(HTM_list, Levlist, Level, Ind,Verbose=False):
     """Description: function used by htm_build, to generate an HTM tree of trixels
              Input: - the HTM_list list of dictionnaries: A list of dictionnaries (one per trixel), with the following keys:
@@ -485,7 +483,6 @@ def htm_search_cone(HTM,Long,Lat,Radius,Ind):#NOT TESTED
         #pdb.set_trace()
     return ID
 
-
 def gc_mid_section(Pos1,Pos2):
     """Description: Named after Eran's function of same name. Given two points on a sphere, find the central point lying
     on the the shortest great circle section connecting the two points.
@@ -533,10 +530,3 @@ def gc_mid_section(Pos1,Pos2):
 
     #print(np.sqrt(np.sum(np.power(C,2)),axis=1))
     return Cx
-
-
-
-
-
-
-

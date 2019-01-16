@@ -12,6 +12,7 @@ from . import params
 import os.path
 import h5py
 from . import class_HDF5
+import time
 import pdb
 #import time
 
@@ -811,7 +812,9 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 #print('not empty')
                 #print('I am looking for Catalog_2 ({0}) trixels overlapping with the trixel #{2} of Catalog_1 ({1})'.format(Catname2,Catname1,index_cat1))
                 #print('the file with index {0} has {1} sources'.format(index_cat1,HTM1[index_cat1]['Nsrc']))
+                start = time.time()
                 Cat1=load_trix_by_ind(Catname1,index_cat1,num=100,catalogs_dir=catalogs_dir,Verbose=Verbose)[0]#load the content of that trixel (in the form of a numpy array)
+                ongoing1=time.time()
                 #print(Cat1)#ok
                 #Cat 1 is a numpy array with the content of a trixel that contains sources, at the highest level of Catalog1
                 #PolesCoo ok
@@ -833,6 +836,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 ID2=celestial.htm_search_cone(HTM2,MeanRa,MeanDec,CircRadius,Ind=[])
                 #if Verbose==True:
                 ID2w=simplify3(ID2)
+                ongoing2 = time.time()
                 if Verbose==True:
                     print('there are {0} trixel overlapping with it'.format(len(ID2w)))#ok
                     #pdb.set_trace()
@@ -855,9 +859,11 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                             print('**********')
                             print("(catalog_2) {0}'s trixel (overlapping with (catalog_1) {1}'s trixel) of index {2}:".format(Catname2,Catname1,index_cat1))
                         [Cat2tmp,Ind2]=load_trix_by_ind(Catname2,ID2w[i],[MinDec,MaxDec],catalogs_dir=catalogs_dir,Ncol=Ncol2,Verbose=Verbose)
+                        #ongoing3 = time.time()
                         Cat2=np.vstack((Cat2,Cat2tmp))
                         N2 = np.shape(Cat2)[0]
                         Cat2ID=np.vstack((Cat2ID,np.array(list(zip(ID2w[i]*np.ones(N2),Ind2+np.array(range(N2)))))))#MAYBE Ind2-1?
+                        #ongoing4 = time.time()
                 # C'est quoi Cat2? Cat2 is a catalog with the content of *all the Catalogue 2 trixels overlapping with the given trixel of cat1
                 # C'est quoi Cat2ID?*
 
@@ -868,8 +874,10 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 SI=Cat2[:, 1].argsort() #SI est les indexes de Dec croissants de Cat2
                 #print('SI is',SI)# ok, verifie avec matlab
                 #probleme: cat 2 c est toutes les sources des overlapping trixels. Nous on veut que les sources reelelemt overlapping. donc on run match_cat
-
+                #ongoing5 = time.time()
                 [Match,Ind,IndCatMinDist]=match_cats(cat2,Cat1,Radius=Search_radius,RadiusUnits='rad')
+                #ongoing6 = time.time()
+
                 #Match:a dictionnary with the following keys
                 #Match['Nfound']= a vector, the length of cat1, with the number of sources found in the cat2 that are within the search radius from the source in the reference catalog Cat1.
                 #Match['MinDist']=a vector, the size of cat1, wiht the Minimum distance (radians) of sources in cat2 to the source in cat1. NaN if not found
@@ -1025,6 +1033,16 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                             with open(output + '/cross-matching_result_{0}.txt'.format(Catname2), 'ab') as f:
                                 np.savetxt(f, cross_matching_result_intermediate_cat2,
                                            delimiter=",")
+                #time checker:
+                #ongoing7 = time.time()
+                #print(ongoing7 - ongoing6)
+                #print(ongoing6 - ongoing5)#bcp
+                #print(ongoing5 - ongoing4)
+                #print(ongoing4-ongoing3)
+                #print(ongoing3-ongoing2)#bcp
+                #print(ongoing2-ongoing1)
+                #print(ongoing1-start)
+                #pdb.set_trace()
             else:
                 print('trixel #{0} of Catalog_1 ({1}) is empty'.format(index_cat1,Catname1))
 

@@ -49,11 +49,13 @@ def cone_in_polysphere(PolesLong,PolesLat,Long,Lat,Radius):
         Flag[i]=all(Dist[:,i]<=0.5*math.pi+Radius) #1 if all distances are smaller than..
     return Flag
 
-<<<<<<< HEAD
-def sphere_distance_fast(RA_1,Dec_1,RA_2,Dec_2):
-=======
-def sphere_dist_fast(RA_1,Dec_1,RA_2,Dec_2):
->>>>>>> 0522df1ffa00743de56aa85135eebd801076504b
+def sphere_distance_fast(RA_1,Dec_1,RA_2,Dec_2):#used by cone_search only. I have not changed it to sphere_dist_fast, for backwards compatibility
+
+    Dist = np.arccos(np.sin(Dec_1)*np.sin(Dec_2) + np.cos(Dec_1)* np.cos(Dec_2)* np.cos(RA_1 - RA_2))
+
+    return Dist
+
+def sphere_dist_fast(RA_1,Dec_1,RA_2,Dec_2):#used by xmatch_2cats and match_cats
     """Description: Names after the function with the same name by Eran.
     Calculate the angular distance between two points on the celestial sphere. Works only with radians and calculate only the distance.
             Input: - np.array of longitudes for the first point [radians]
@@ -137,10 +139,6 @@ def cosined2coo(CD1,CD2,CD3):#TESTED compared with Eran's, ok
             Long=2*math.pi+Long
     return Long,Lat
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 0522df1ffa00743de56aa85135eebd801076504b
 def cross_fast(A,B):#TESTED compared with Eran's, ok
     """Description: named after Eran's function with same name in his Util/math library.
      Performs cross product of two 3-columns matrices.
@@ -167,11 +165,7 @@ def polysphere_poles(VertLong,VertLat):
                        - Vector of the poles lattitudes """
     [CD1, CD2, CD3] = coo2cosined(VertLong, VertLat)
     [CenLong, CenLat] = cosined2coo(np.mean(CD1), np.mean(CD2), np.mean(CD3))
-<<<<<<< HEAD
     PA=sphere_distance_fast(CenLong,CenLat,VertLong,VertLat)[1]
-=======
-    PA=sphere_dist_fast(CenLong,CenLat,VertLong,VertLat)[1]
->>>>>>> 0522df1ffa00743de56aa85135eebd801076504b
     SI=np.argsort(PA)
     VertLong_sortPA=VertLong[SI]
     VertLat_sortPA=VertLat[SI]
@@ -290,7 +284,6 @@ def htm_build(Level,Verbose=True):
         #print("the total Levlist is",total_Levlist)
 
     return total_HTM_list,total_Levlist
-
 
 def htm_build_son(HTM_list, Levlist, Level, Ind,Verbose=False):
     """Description: function used by htm_build, to generate an HTM tree of trixels
@@ -490,7 +483,6 @@ def htm_search_cone(HTM,Long,Lat,Radius,Ind):#NOT TESTED
         #pdb.set_trace()
     return ID
 
-
 def gc_mid_section(Pos1,Pos2):
     """Description: Named after Eran's function of same name. Given two points on a sphere, find the central point lying
     on the the shortest great circle section connecting the two points.
@@ -538,10 +530,3 @@ def gc_mid_section(Pos1,Pos2):
 
     #print(np.sqrt(np.sum(np.power(C,2)),axis=1))
     return Cx
-
-
-
-
-
-
-

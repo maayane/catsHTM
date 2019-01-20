@@ -882,10 +882,10 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 #Match['Nfound']= a vector, the length of cat1, with the number of sources found in the cat2 that are within the search radius from the source in the reference catalog Cat1.
                 #Match['MinDist']=a vector, the size of cat1, wiht the Minimum distance (radians) of sources in cat2 to the source in cat1. NaN if not found
                 #Ind: a list of dictionnaries (as many as sources in Cat1 THAT HAVE CROSS-MTACHED SOURCES in cat2)
-                # Ind['IndRef']=Indice of source in cat1
-                # Ind['IndCat']=List of indices in cat2 that are matched to the 'IndRef' source of Cat1.
-                # Ind['Dist']= Vecor of angular distances (radians) for each one of the sources indicated in 'IndCat'.
-                # Ind['Num']=Number of sources within search radius
+                # Ind[i]['IndRef']=Indice of source in cat1
+                # Ind[i]['IndCat']=List of indices in cat2 that are matched to the 'IndRef' source of Cat1.
+                # Ind[i]['Dist']= Vecor of angular distances (radians) for each one of the sources indicated in 'IndCat'.
+                # Ind[i]['Num']=Number of sources within search radius
                 # IndCatMinDist:  a vector of indices of cat2 objects which are the closest to the source in cat1. NaN if not found ??
 
                 #print("Match['Nfound'] is",Match['Nfound']) #ok, verifie avec matlab

@@ -51,31 +51,36 @@ class HDF5(object):
         filename = self.FileName
         f = h5py.File(filename, 'r')
 
-        if numpy_array==True:
-            datax=np.array(f[dataset_name])
-            if Block is not None:
-                datay=datax.T
-                #print('Offset is',Offset)
-                #print('Block is',Block)
-                if (Offset[0]-int(Offset[0])>0):
-                    print('*********** Warning!!! Offset[0] is not an integer! ***********')
-                if (Offset[1]-int(Offset[1])>0):
-                    print('*********** Warning!!! Offset[1] is not an integer! ***********')
-                if (Block[0]-int(Block[0])>0):
-                    print('*********** Warning!!! Block[0] is not an integer! ***********')
-                if (Block[1]-int(Block[1])>0):
-                    print('*********** Warning!!! Block[1] is not an integer! ***********')
-                dataz=datay[int(Offset[0]):int(Offset[0])+int(Block[0]),int(Offset[1]):int(Offset[1])+int(Block[1])]
-                data=dataz.T
-            else:
-                data=datax
+        if dataset_name not in f.keys():
+            print("Cannot read Dataset <%s> from hdf5 file <%s>" % (dataset_name, f))
+            f.close()
+            #sys.exit()
         else:
-            if Block is not None:
-                print('stop, Block not none unsupported')
-                #pdb.set_trace()
-                data=f[dataset_name]
-            #MemSpaceId=h5py.h5s.create_simple(TUPLE dims_tpl, TUPLE max_dims_tpl)
-        return data
+            if numpy_array==True:
+                datax=np.array(f[dataset_name])
+                if Block is not None:
+                    datay=datax.T
+                    #print('Offset is',Offset)
+                    #print('Block is',Block)
+                    if (Offset[0]-int(Offset[0])>0):
+                        print('*********** Warning!!! Offset[0] is not an integer! ***********')
+                    if (Offset[1]-int(Offset[1])>0):
+                        print('*********** Warning!!! Offset[1] is not an integer! ***********')
+                    if (Block[0]-int(Block[0])>0):
+                        print('*********** Warning!!! Block[0] is not an integer! ***********')
+                    if (Block[1]-int(Block[1])>0):
+                        print('*********** Warning!!! Block[1] is not an integer! ***********')
+                    dataz=datay[int(Offset[0]):int(Offset[0])+int(Block[0]),int(Offset[1]):int(Offset[1])+int(Block[1])]
+                    data=dataz.T
+                else:
+                    data=datax
+            else:
+                if Block is not None:
+                    print('stop, Block not none unsupported')
+                    #pdb.set_trace()
+                    data=f[dataset_name]
+                #MemSpaceId=h5py.h5s.create_simple(TUPLE dims_tpl, TUPLE max_dims_tpl)
+            return data
 
     def load_colnames(self,Filename,):
         f = h5py.File(Filename, 'r')

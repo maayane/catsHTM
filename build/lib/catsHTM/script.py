@@ -360,7 +360,6 @@ def load_trix_by_ind(CatName,index,SearchParValue=None,num=100,catalogs_dir='./d
         Data_set_name=names[1]
     CatDir=get_CatDir(CatName)
 
-
     if SearchParValue is None:
         trixel_data=class_HDF5.HDF5(catalogs_dir + '/'+ CatDir + '/' + Filename).load(Data_set_name, numpy_array=True).T
         Ind=1
@@ -370,20 +369,23 @@ def load_trix_by_ind(CatName,index,SearchParValue=None,num=100,catalogs_dir='./d
         if Verbose==True:
             print('Filename is',Filename)
         DataInd=class_HDF5.HDF5(catalogs_dir+'/'+CatDir+'/'+Filename).load(VarIndStr,numpy_array=True).T#the content f the index file
-        Ndi=np.shape(DataInd)[0]
-        I1=bin_sear(DataInd[:,1],SearchParValue[0])
-        I2=bin_sear(DataInd[:,1],SearchParValue[1])
-        #print('before the if, I1 is {0} and I2 is {1}'.format(I1,I2))
-        Ind=DataInd[I1,0] #the
-        Offset=np.append(DataInd[I1,0]-1,0)
-        if I1==I2:
-            I2=I2+1
-        I2=min(I2,Ndi-1)
-        Block=[1+DataInd[I2,0]-DataInd[I1,0],Ncol]
-        #print('Block is',Block)
-        trixel_data=class_HDF5.HDF5(catalogs_dir+'/'+CatDir+'/'+Filename).load(Data_set_name,Offset=Offset,Block=Block,numpy_array=True).T
-        #seach the indexes of the
-
+        if len(DataInd)>0:
+            Ndi=np.shape(DataInd)[0]
+            I1=bin_sear(DataInd[:,1],SearchParValue[0])
+            I2=bin_sear(DataInd[:,1],SearchParValue[1])
+            #print('before the if, I1 is {0} and I2 is {1}'.format(I1,I2))
+            Ind=DataInd[I1,0] #the
+            Offset=np.append(DataInd[I1,0]-1,0)
+            if I1==I2:
+                I2=I2+1
+            I2=min(I2,Ndi-1)
+            Block=[1+DataInd[I2,0]-DataInd[I1,0],Ncol]
+            #print('Block is',Block)
+            trixel_data=class_HDF5.HDF5(catalogs_dir+'/'+CatDir+'/'+Filename).load(Data_set_name,Offset=Offset,Block=Block,numpy_array=True).T
+            #seach the indexes of the
+        else:
+            trixel_data=np.array([])
+            Ind=None
     return trixel_data,Ind
 
 def bin_sear(X,Val): #Util.find.of eran
@@ -805,8 +807,8 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
             if HTM1[index_cat1-1]['Nsrc']>0:#if the trixel contains sources:
                 #if index_cat1==27305:
 
-                print('I am looking for Catalog_2 ({0}) trixels overlapping with the non-empty trixel #{2} of Catalog_1 ({1})'.format(
-                    Catname2, Catname1, index_cat1))
+                print('I am looking for Catalog_2 ({0}) trixels overlapping with the non-empty trixel #{2} ({3}/{4}) of Catalog_1 ({1})'.format(
+                    Catname2, Catname1, index_cat1,i,Nh1))
                 if Verbose==True:
                     print('there are {0} sources in this trixel'.format(HTM1[index_cat1-1]['Nsrc']))
                 #print('not empty')
@@ -814,7 +816,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 #print('the file with index {0} has {1} sources'.format(index_cat1,HTM1[index_cat1]['Nsrc']))
                 start = time.time()
                 Cat1=load_trix_by_ind(Catname1,index_cat1,num=100,catalogs_dir=catalogs_dir,Verbose=Verbose)[0]#load the content of that trixel (in the form of a numpy array)
-                ongoing1=time.time()
+                #ongoing1=time.time()
                 #print(Cat1)#ok
                 #Cat 1 is a numpy array with the content of a trixel that contains sources, at the highest level of Catalog1
                 #PolesCoo ok
@@ -840,10 +842,8 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 if Verbose==True:
                     print('there are {0} trixel overlapping with it'.format(len(ID2w)))#ok
                     #pdb.set_trace()
-                    print(
-                'the list of trixels indexes of Catalog_2({0}) overlapping with the trixel #{2} of Catalog_1({1}) is {3}'.format(
+                    print('the list of trixels indexes of Catalog_2({0}) overlapping with the trixel #{2} of Catalog_1({1}) is {3}'.format(
                     Catname2, Catname1, index_cat1,ID2w))
-
                 #print('the list without brakets is',ID2w)# a list of indexes of cat2 trixels, which overlap with the cat1 trixel
 
                 #load all the data corresponding to ID2w
@@ -860,9 +860,10 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                             print("(catalog_2) {0}'s trixel (overlapping with (catalog_1) {1}'s trixel) of index {2}:".format(Catname2,Catname1,index_cat1))
                         [Cat2tmp,Ind2]=load_trix_by_ind(Catname2,ID2w[i],[MinDec,MaxDec],catalogs_dir=catalogs_dir,Ncol=Ncol2,Verbose=Verbose)
                         #ongoing3 = time.time()
-                        Cat2=np.vstack((Cat2,Cat2tmp))
-                        N2 = np.shape(Cat2)[0]
-                        Cat2ID=np.vstack((Cat2ID,np.array(list(zip(ID2w[i]*np.ones(N2),Ind2+np.array(range(N2)))))))#MAYBE Ind2-1?
+                        if len(Cat2tmp)>0:
+                            Cat2=np.vstack((Cat2,Cat2tmp))
+                            N2 = np.shape(Cat2)[0]
+                            Cat2ID=np.vstack((Cat2ID,np.array(list(zip(ID2w[i]*np.ones(N2),Ind2+np.array(range(N2)))))))#MAYBE Ind2-1?
                         #ongoing4 = time.time()
                 # C'est quoi Cat2? Cat2 is a catalog with the content of *all the Catalogue 2 trixels overlapping with the given trixel of cat1
                 # C'est quoi Cat2ID?*
@@ -899,7 +900,6 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 #pdb.set_trace()
                 #print('IndCatMinDist is',IndCatMinDist)#ok, moi=matlab-1, normal
                 #print('the shape of IndCatMinDist is',np.shape(IndCatMinDist)[0]) #ok
-
                 """ if (~isempty(InPar.QueryAllFun))
                             % execute InPar.QueryAllFun
                             %  QueryAllFun(Cat1,Ind,Cat2,varargin)
@@ -909,14 +909,12 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
 
                             Data = InPar.QueryAllFun(Cat1,Ind,Cat2,IndCatMinDist,InPar.QueryAllFunPar{:},'Data',Data,'Ih1',Ih1,'Nh1',Nh1,'SearchRadius',InPar.SearchRadius);
                         end"""
-
                 IsN=np.isnan(IndCatMinDist)# un tableau de booleans qui est True la ou il y a zero sources cross-matched, et False la ou il y en a
                 #print('IsN is',IsN) ok, mais moi c est des True et False et matlab c est des 0 et 1
                 #print('the shape of IsN is',np.shape(IsN)) ok
                 IndCatMinDist[IsN]=True #
                 #if V
                 #print('IndCatMinDist is now',IndCatMinDist) # un tableau de la taille de cat1 avec : la ou il y a pas de cross-matched dans cat2: 1, et la ou il y en a: l'indice de l'objet de cat2 le plus proche
-
                 """
                 ceci: pas clair a quoi ca sert dans le code de matlab. Je laisse tomber.
                 print("Cat2ID is",Cat2ID) #ok mais pas sur qu'il dooivent etre identiques
@@ -926,7 +924,6 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 DataInd[IsN,:]=np.nan
                 print('DataInd is', DataInd)  # pareil que matlab mais pas sur que c est bien
                 """
-
                 #print("IndCatMinDist.astype(int) is",IndCatMinDist.astype(int))
                 #print("np.shape(cat2)",np.shape(cat2))
                 #print("np.shape(IndCatMinDist)",np.shape(IndCatMinDist))
@@ -964,75 +961,146 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 #    else:
                 #        os.mkdir(output+'/trixel_'+str(index_cat1)+'_'+Catname1)
                 if save_in_one_file==True:
+                    #print('the len of Cat1 is',np.shape(Cat1)[0])
+                    #print('the len of Cat2matched is',np.shape(Cat2matched)[0])
+                    #if np.shape(Cat1)[0] != np.shape(Cat2matched)[0]:
+                        #print(np.shape(Cat1)[0])
+                        #print(np.shape(Cat2matched)[0])
+                        #print(Cat1)
+                        #print(Cat2matched)
+                        #print('pb!')
+                        #pdb.set_trace()
                     cross_matching_result_w_nans=np.hstack((Cat1,Cat2matched))
-                    cross_matching_result_intermediate = np.empty((1,np.shape(Cat1)[1]+np.shape(cat2)[1]))
-                    #if Verbose==True:
-                        #print('IndCatMinDist is',IndCatMinDist)
+                    #cross_matching_result_intermediate = np.empty((1,np.shape(Cat1)[1]+np.shape(cat2)[1]))
+                    cross_matching_result_intermediate = np.zeros((1, np.shape(Cat1)[1] + np.shape(cat2)[1]))
                     for i,j in enumerate(cross_matching_result_w_nans[:,0]): #for all lines,remove the lines where no cross-matched object
                         if np.all(np.isnan(cross_matching_result_w_nans[i, np.shape(Cat1)[1]:])) == False:
                             if Verbose==True:
                                 print('At line {0} of Cat1, there is a cross-matched object in cat2'.format(i))
                             if np.shape(cross_matching_result_intermediate)[0]<2:
+                                #print('np.shape(cross_matching_result_intermediate)[0] is',np.shape(cross_matching_result_intermediate)[0])
                                 cross_matching_result_intermediate=cross_matching_result_w_nans[i,:]
                                 cross_matching_result_intermediate_cat1 = cross_matching_result_w_nans[i, :np.shape(Cat1)[1]]
                                 cross_matching_result_intermediate_cat2 = cross_matching_result_w_nans[i,np.shape(Cat1)[1]:np.shape(Cat1)[1]+np.shape(Cat2matched)[1]]
                             else:
+                                #print('else')
                                 cross_matching_result_intermediate=np.vstack((cross_matching_result_intermediate,cross_matching_result_w_nans[i,:]))
                                 cross_matching_result_intermediate_cat1 = cross_matching_result_intermediate[:, :np.shape(Cat1)[1]]
                                 cross_matching_result_intermediate_cat2 = cross_matching_result_intermediate[:,np.shape(Cat1)[1]:np.shape(Cat1)[1]+np.shape(Cat2matched)[1]]
 
-                    if Verbose is True:
-                        print('The entries from catalog_1 ({0}) :{1}, cross-matched in catalog_2 ({2}) are {3}'.format(Catname1,cross_matching_result_intermediate_cat1,Catname2,cross_matching_result_intermediate_cat2))
-                    #print('cross_matching_result is',cross_matching_result)
-                    #print('Is the cross_matching_result the size of Ind?')#yes
-                    #print(np.shape(cross_matching_result))
-                    #print(len(Ind))
-                    #print('Is the number of columns of cross_matching_result the sum of the number of columns of cat1 and cat2?')#yes
-                    #print(np.shape(cross_matching_result))
-                    #print(np.shape(Cat1))
-                    #print(np.shape(cat2))
-                    """
-                        if (~isempty(InPar.QueryFun))
-                            % execute InPar.QueryFun
-                            % QueryFun can select specific sources (by some
-                            % attributes) from the matched Cat1 and Cat2
+                        #else:
+                            #print('there are no counterparts in cat2')
 
-                            FlagSelected       = InPar.QueryFun(Cat1,Cat2matched,InPar.QueryFunPar{:});
-                            % what to do with FlagSelected?
-                            Cat1        = Cat1(FlagSelected,:);
-                            Cat2matched = Cat2matched(FlagSelected,:);
+                    all_zeros = not np.any(cross_matching_result_intermediate)
+                    if all_zeros==True:
+                        print('There are no counterpart at all in cat 2 for this trixel')
+                    else:
+                    #print('the shape of cross_matching_result_intermediate_cat1 is',np.shape(cross_matching_result_intermediate_cat1))
+                    #print('the shape of cross_matching_result_intermediate_cat2 is',
+                    #      np.shape(cross_matching_result_intermediate_cat2))
+                    #print('the shape of cross_matching_result_intermediate is',
+                    #      np.shape(cross_matching_result_intermediate))
+                    #print('ndim of cross_matching_result_intermediate_cat1) is 1?',
+                    #      cross_matching_result_intermediate_cat1.ndim)
+                    #print('the len of cross_matching_result_intermediate_cat1 is',np.shape(cross_matching_result_intermediate_cat1)[0])
+                    #print('the len of cross_matching_result_intermediate_cat2 is',np.shape(cross_matching_result_intermediate_cat2)[0])
+                    #print('the len of cross_matching_result_intermediate is',np.shape(cross_matching_result_intermediate)[0])
+                    #if np.shape(cross_matching_result_intermediate_cat1)[0]!=np.shape(cross_matching_result_intermediate_cat2)[0]:
+                    #    print('ndim of cross_matching_result_intermediate_cat1) is 1?',cross_matching_result_intermediate_cat1.ndim)
+                    #    print('the shapes are not the same, probleme!')
+                    #    print(cross_matching_result_intermediate_cat1)
+                    #    print(cross_matching_result_intermediate_cat2)
+                    #    print('np.shape(cross_matching_result_intermediate)[0] is',np.shape(cross_matching_result_intermediate)[0])
+                    #    print('cross_matching_result_intermediate is',cross_matching_result_intermediate)
+                    #    print('np.shape(cross_matching_result_w_nans[i,:]))',np.shape(cross_matching_result_w_nans[i,:]))
+                    #    pdb.set_trace()
+                        if Verbose is True:
+                            print('The entries from catalog_1 ({0}) :{1}, cross-matched in catalog_2 ({2}) are {3}'.format(Catname1,cross_matching_result_intermediate_cat1,Catname2,cross_matching_result_intermediate_cat2))
+                        #print('cross_matching_result is',cross_matching_result)
+                        #print('Is the cross_matching_result the size of Ind?')#yes
+                        #print(np.shape(cross_matching_result))
+                        #print(len(Ind))
+                        #print('Is the number of columns of cross_matching_result the sum of the number of columns of cat1 and cat2?')#yes
+                        #print(np.shape(cross_matching_result))
+                        #print(np.shape(Cat1))
+                        #print(np.shape(cat2))
+                        """
+                            if (~isempty(InPar.QueryFun))
+                                % execute InPar.QueryFun
+                                % QueryFun can select specific sources (by some
+                                % attributes) from the matched Cat1 and Cat2
 
-                        end
+                                FlagSelected       = InPar.QueryFun(Cat1,Cat2matched,InPar.QueryFunPar{:});
+                                % what to do with FlagSelected?
+                                Cat1        = Cat1(FlagSelected,:);
+                                Cat2matched = Cat2matched(FlagSelected,:);
 
-                        if (~isempty(InPar.SaveFun))
-                            % execute InPar.SaveFun
-                            % Fun(Cat1,Cat2matched)
-                            InPar.SaveFun(Cat1,Cat2matched,InPar.SaveFunPar{:});
-                        end
-                    """
-                    if save_in_one_file==True:
-                        if os.path.exists(output +'/cross-matching_result_full.txt')==False:
-                            with open(output +'/cross-matching_result_full.txt', 'ab') as f:
-                                np.savetxt(f, cross_matching_result_intermediate, delimiter=",",header=header1+','+header2)
-                        else:
-                            with open(output +'/cross-matching_result_full.txt', 'ab') as f:
-                                np.savetxt(f, cross_matching_result_intermediate, delimiter=",")
-                    if save_in_separate_files==True:
-                        if os.path.exists(output +'/cross-matching_result_{0}.txt'.format(Catname1))==False:
-                            with open(output +'/cross-matching_result_{0}.txt'.format(Catname1), 'ab') as f:
-                                np.savetxt(f, cross_matching_result_intermediate_cat1, delimiter=",",header=header1)
-                        else:
-                            with open(output + '/cross-matching_result_{0}.txt'.format(Catname1), 'ab') as f:
-                                    np.savetxt(f, cross_matching_result_intermediate_cat1,
+                            end
+
+                            if (~isempty(InPar.SaveFun))
+                                % execute InPar.SaveFun
+                                % Fun(Cat1,Cat2matched)
+                                InPar.SaveFun(Cat1,Cat2matched,InPar.SaveFunPar{:});
+                            end
+                        """
+
+                        #print('np.shape(cross_matching_result_intermediate) is ',np.shape(cross_matching_result_intermediate))
+                        #print(
+                        #'np.shape(cross_matching_result_intermediate_cat1) is ', np.shape(cross_matching_result_intermediate_cat1))
+                        #print(
+                        #'np.shape(cross_matching_result_intermediate_cat2) is ', np.shape(cross_matching_result_intermediate_cat2))
+                        #if np.shape(cross_matching_result_intermediate_cat1)[0]!=np.shape(cross_matching_result_intermediate)[0]:
+                        #    print('pb!')
+                        #    print('cross_matching_result_intermediate is',cross_matching_result_intermediate)
+                        #    print('cross_matching_result_intermediate_cat1 is',cross_matching_result_intermediate_cat1)
+                        #    print('cross_matching_result_intermediate_cat2 is', cross_matching_result_intermediate_cat2)
+                        #    pdb.set_trace()
+
+                        if save_in_one_file==True:
+                            if os.path.exists(output +'/cross-matching_result_full.txt')==False:
+                                with open(output +'/cross-matching_result_full.txt', 'ab') as f:
+                                    if cross_matching_result_intermediate.ndim>1:
+                                        np.savetxt(f, cross_matching_result_intermediate, delimiter=",",header=header1+','+header2)
+                                    else:
+                                        np.savetxt(f, cross_matching_result_intermediate[None], delimiter=',',header=header1+','+header2)
+                            else:
+                                with open(output +'/cross-matching_result_full.txt', 'ab') as f:
+                                    if cross_matching_result_intermediate.ndim > 1:
+                                        np.savetxt(f, cross_matching_result_intermediate, delimiter=",")
+                                    else:
+                                        np.savetxt(f, cross_matching_result_intermediate[None], delimiter=",")
+                        if save_in_separate_files==True:
+                            if os.path.exists(output +'/cross-matching_result_{0}.txt'.format(Catname1))==False:
+                                with open(output +'/cross-matching_result_{0}.txt'.format(Catname1), 'ab') as f:
+                                    if cross_matching_result_intermediate_cat1.ndim>1:
+                                        np.savetxt(f, cross_matching_result_intermediate_cat1, delimiter=",",header=header1)
+                                    else:
+                                        np.savetxt(f, cross_matching_result_intermediate_cat1[None], delimiter=",",
+                                                   header=header1)
+                            else:
+                                with open(output + '/cross-matching_result_{0}.txt'.format(Catname1), 'ab') as f:
+                                    if cross_matching_result_intermediate_cat1.ndim>1:
+                                        np.savetxt(f, cross_matching_result_intermediate_cat1,
+                                                   delimiter=",")
+                                    else:
+                                        np.savetxt(f, cross_matching_result_intermediate_cat1[None],
+                                                   delimiter=",")
+                            if os.path.exists(output + '/cross-matching_result_{0}.txt'.format(Catname2)) == False:
+                                with open(output + '/cross-matching_result_{0}.txt'.format(Catname2), 'ab') as f:
+                                    if cross_matching_result_intermediate_cat2.ndim>1:
+                                        np.savetxt(f, cross_matching_result_intermediate_cat2,
+                                               delimiter=",",header=header2)
+                                    else:
+                                        np.savetxt(f, cross_matching_result_intermediate_cat2[None],
+                                                   delimiter=",", header=header2)
+                            else:
+                                with open(output + '/cross-matching_result_{0}.txt'.format(Catname2), 'ab') as f:
+                                    if cross_matching_result_intermediate_cat2.ndim>1:
+                                        np.savetxt(f, cross_matching_result_intermediate_cat2,
                                                delimiter=",")
-                        if os.path.exists(output + '/cross-matching_result_{0}.txt'.format(Catname2)) == False:
-                            with open(output + '/cross-matching_result_{0}.txt'.format(Catname2), 'ab') as f:
-                                np.savetxt(f, cross_matching_result_intermediate_cat2,
-                                           delimiter=",",header=header2)
-                        else:
-                            with open(output + '/cross-matching_result_{0}.txt'.format(Catname2), 'ab') as f:
-                                np.savetxt(f, cross_matching_result_intermediate_cat2,
-                                           delimiter=",")
+                                    else:
+                                        np.savetxt(f, cross_matching_result_intermediate_cat2[None],
+                                                   delimiter=",")
                 #time checker:
                 #ongoing7 = time.time()
                 #print(ongoing7 - ongoing6)

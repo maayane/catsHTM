@@ -50,11 +50,10 @@ class HDF5(object):
         gives the transpose of Cat = HDF5.load('FIRST_htm_010900.hdf5','htm_010921',[1,1],[2,4]) in matlab"""
         filename = self.FileName
         f = h5py.File(filename, 'r')
-
         if dataset_name not in f.keys():
             print("Cannot read Dataset <%s> from hdf5 file <%s>" % (dataset_name, f))
             f.close()
-            #sys.exit()
+            data=np.array([])
         else:
             if numpy_array==True:
                 datax=np.array(f[dataset_name])
@@ -80,7 +79,7 @@ class HDF5(object):
                     #pdb.set_trace()
                     data=f[dataset_name]
                 #MemSpaceId=h5py.h5s.create_simple(TUPLE dims_tpl, TUPLE max_dims_tpl)
-            return data
+        return data
 
     def load_colnames(self,Filename,):
         f = h5py.File(Filename, 'r')

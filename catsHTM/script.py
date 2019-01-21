@@ -660,7 +660,7 @@ def Save_cross_matched_catalogs(Cat1,Cat2Matched,output_dir=None):
             By : Maayane Soumagnac (original Matlab function by Eran Ofek)            August 2018
                             """
 
-def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=None,catalogs_dir='./data',Verbose=False,save_results=True,save_in_one_file=True,save_in_separate_files=True,output='./cross-matching_results'):
+def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=None,catalogs_dir='./data',Verbose=False,save_results=True,save_in_one_file=True,save_in_separate_files=True,output='./cross-matching_results',time_it=True):
         """Description: cross match two HDF5/HTM catalogs: for each source in the first catalog, the index of the nearest source in the second catalog
         (nearest within some specified distance) is saved.
                 Input  :- Catalog 1 basename
@@ -798,6 +798,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
         #print("Level1['ptr'] is", Level1['ptr'])
         #np.savetxt('indexes.txt',Level1['ptr'])
         print('************** I am looking for overlapping trixels **************')
+        start = time.time()
         for i in range(Nh1): #for each trixels in the highest level of Cat1
             #print("Level1['ptr'][Nh1-1] is",Level1['ptr'][Nh1-1])
             #print("Level1['ptr'][i] is",Level1['ptr'][i])
@@ -814,7 +815,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 #print('not empty')
                 #print('I am looking for Catalog_2 ({0}) trixels overlapping with the trixel #{2} of Catalog_1 ({1})'.format(Catname2,Catname1,index_cat1))
                 #print('the file with index {0} has {1} sources'.format(index_cat1,HTM1[index_cat1]['Nsrc']))
-                start = time.time()
+                #start = time.time()
                 Cat1=load_trix_by_ind(Catname1,index_cat1,num=100,catalogs_dir=catalogs_dir,Verbose=Verbose)[0]#load the content of that trixel (in the form of a numpy array)
                 #ongoing1=time.time()
                 #print(Cat1)#ok
@@ -960,7 +961,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 #        print('the output directory, ' + output+'/trixel_'+str(index_cat1)+'_'+Catname1 + ' exists already')
                 #    else:
                 #        os.mkdir(output+'/trixel_'+str(index_cat1)+'_'+Catname1)
-                if save_in_one_file==True:
+                if save_results==True:
                     #print('the len of Cat1 is',np.shape(Cat1)[0])
                     #print('the len of Cat2matched is',np.shape(Cat2matched)[0])
                     #if np.shape(Cat1)[0] != np.shape(Cat2matched)[0]:
@@ -1110,9 +1111,14 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 #print(ongoing3-ongoing2)#bcp
                 #print(ongoing2-ongoing1)
                 #print(ongoing1-start)
+                #print(ongoing7-start)
                 #pdb.set_trace()
             else:
                 print('trixel #{0} of Catalog_1 ({1}) is empty'.format(index_cat1,Catname1))
+        if time_it==True:
+            ongoing7 = time.time()
+            print('it took {0} seconds for the process to run'.format(ongoing7 - start))
+
 
 
 

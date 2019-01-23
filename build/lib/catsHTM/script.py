@@ -24,7 +24,7 @@ try:
 except NameError:
     FileNotFoundError = IOError
 
-__all__=['cone_search','search_htm_ind','htm_search_cone','xmatch_2cats','load_trix_by_ind','simplify_list','load_colcell','mfind_bin','match_cats','simplify2','simplify3'] #redefinition of '*' for import *
+__all__=['cone_search','search_htm_ind','htm_search_cone','xmatch_2cats','load_trix_by_ind','simplify_list','load_colcell','mfind_bin','match_cats','simplify2','simplify3','Example_QueryAllFun'] #redefinition of '*' for import *
 
 def get_CatDir(CatName):
     if CatName == 'TMASS':
@@ -660,7 +660,38 @@ def Save_cross_matched_catalogs(Cat1,Cat2Matched,output_dir=None):
             By : Maayane Soumagnac (original Matlab function by Eran Ofek)            August 2018
                             """
 
-def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=None,catalogs_dir='./data',Verbose=False,save_results=True,save_in_one_file=True,save_in_separate_files=True,output='./cross-matching_results',time_it=True,Debug=False):
+'''
+def Example_QueryAllFun(Cat1,Ind,Cat2,IndCatMinDist,i):
+    print('I am running Example_QueryAllFun')
+    print('Cat1 is',Cat1)
+    print('Ind is',Ind)
+    print('Cat2 is',Cat2)
+    print('IndCatMinDist is',IndCatMinDist)
+    np.save("./Cat1_"+str(i)+'.txt',Cat1)
+    return Cat1
+'''
+
+def Example_QueryAllFun(Cat1,Ind,Cat2,IndCatMinDist,i,additionnal_args=None):
+    print('****** I am running Example_QueryAllFun *******')
+    print("Cat1, the content of the catalog_1's trixel is",Cat1)
+    print("Cat2, the content of a catalog_2' trixel overlapping with Cat1 is", Cat2)
+    print("Ind is a list of dictionnaries, with one dictionnary per Cat1's object having one or more counterparts in Cat2; ")
+    print("""Ind[i]["IndRef"]=Index of the Cat1's source having one or more counterpart in Cat2""")
+    print("""Ind[i]["IndCat"]=List of indixes of the Cat2's counterparts.""")
+    print("""Ind[i]["Dist"]= Vecor of angular distances (radians) between the Cat1's source and its counterparts in Cat2""")
+    print('Ind:',Ind)
+    print("IndCatMinDist is a vector, with as many elements as lines in Cat1, with 'nan' at lines where there is no counterpart in Cat2, and at line where there is, the catalog_2's index of the closest counterpart")
+    print('IndCatMinDist:',IndCatMinDist)
+    if additionnal_args is not None:
+        np.savetxt(additionnal_args[0]+"/Cat1_"+str(i)+'.txt',Cat1)
+    else:
+        np.savetxt("./Cat1_" + str(i) + '.txt', Cat1)
+    print('***********************************************')
+    print('press "c" to continue, "q" to quit')
+    pdb.set_trace()
+    return Cat1
+
+def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunPar=None,catalogs_dir='./data',Verbose=False,save_results=True,save_in_one_file=True,save_in_separate_files=True,output='./cross-matching_results',time_it=True,Debug=False):
         """Description: cross match two HDF5/HTM catalogs: for each source in the first catalog, the index of the nearest source in the second catalog
         (nearest within some specified distance) is saved.
                 Input  :- Catalog 1 basename
@@ -854,7 +885,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                 #load all the data corresponding to ID2w
                 Nid2=len(ID2w) #the number of trixels of cat 2 overlapping with the given trixel of cat1 which we are examining.
 
-                for s in range(Nid2):
+                for s in range(Nid2):#for all trixels of catalog 2 overlapping with the given trixel of catalog1
                     if s==0:
                         [Cat2,Ind2]=load_trix_by_ind(Catname2,ID2w[s],[MinDec,MaxDec],catalogs_dir=catalogs_dir,Ncol=Ncol2,Verbose=Verbose)
                         N2=np.shape(Cat2)[0]
@@ -911,6 +942,12 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                     #probleme: cat 2 c est toutes les sources des overlapping trixels. Nous on veut que les sources reelelemt overlapping. donc on run match_cat
                     #ongoing5 = time.time()
                     [Match,Ind,IndCatMinDist]=match_cats(cat2,Cat1,Radius=Search_radius,RadiusUnits='rad')
+
+                    if QueryAllFun is not None:
+                        #if i==0:
+                        #    Data=np.array([])
+                        #else:
+                        Data=QueryAllFun(Cat1,Ind,Cat2,IndCatMinDist,i,additionnal_args=QueryAllFunPar)
                     #ongoing6 = time.time()
 
                     #Match:a dictionnary with the following keys
@@ -989,7 +1026,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryFun=None,QueryFunPar=Non
                         if i in [Nh1//1000,Nh1//200,Nh1 // 100, Nh1 //10, Nh1 //4, Nh1 //3, Nh1 // 2, Nh1 // 1.5]:
                             print('******** i={0} ********'.format(i))
                             print('I am saving Cat2matched')
-                            np.savetxt('Cat2matched_{0}.txt'.format(i),Cat2matched) #pas ok
+                            np.savetxt(output+'Cat2matched_{0}_4debug.txt'.format(i),Cat2matched) #pas ok
                             pdb.set_trace()
                     #print('Cat2matched at the index of IndCatMinDist is',Cat2matched[IndCatMinDist!=1])
                     #print('IndCatMinDist', IndCatMinDist)

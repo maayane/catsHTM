@@ -143,10 +143,10 @@ The `QueryAllFun` and `QueryAllFunPar` keywords allow you to define a function t
 1. `Cat1`: the content of a trixel of catalog 1.
 2. `Cat2`: the content of a trixel of catalog 2 overlapping with `Cat1`.
 3. `Ind`: a list of dictionnaries, with one dictionnary per `Cat1`'s object having one or more counterparts in `Cat2`:
-* `Ind[i]["IndRef"]` is the index of the `Cat1`'s source having one or more counterpart in `Cat2`
-* `Ind[i]["IndCat"]` is the list of indixes of the `Cat2`'s counterparts.
-* `Ind[i]["Dist"]` is a vecor of angular distances (radians) between the `Cat1`'s source and its counterparts in `Cat2`
-4. `IndCatMinDist`: a vector, with as many elements as lines in `Cat1`, with 'nan' at lines where there is no counterpart in `Cat2`, and at line where there is, the index of the closest counterpart in catalog 2.
+* `Ind[i]["IndRef"]`: the index of the i-th `Cat1`'s source having one or more counterpart in `Cat2`
+* `Ind[i]["IndCat"]`: the list of indexes of the `Cat2`'s counterparts of the i-th `Cat1`'s source.
+* `Ind[i]["Dist"]`: a vector of angular distances (radians) between the i-th `Cat1`'s source and its counterparts in `Cat2`.
+4. `IndCatMinDist`: a vector, with as many elements as lines in `Cat1`, with 'nan' at lines where there is no counterpart in `Cat2`, and at line where there is, the index - in `Cat2` - of the closest counterpart.
 
 You can write a `QueryAllFun` function e.g. to save or use one or all of the above informations.
 

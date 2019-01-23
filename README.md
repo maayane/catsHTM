@@ -125,7 +125,7 @@ You can modify the location of the output files with the `output` keyword:
 ```python
 >>> catsHTM.xmatch_2cats('FIRST','NVSS',catalogs_dir=path)
 ```
-You can speed-up the run by setting `save_results` to `False`, e.g., if you do not need to save the results and would rather use the output of the cross-matching algorythm in your own function.
+You can speed-up the run by setting `save_results` to `False`, e.g., if you do not need to save the results and would rather [use the output of the cross-matching algorythm in your own function](https://github.com/maayane/catsHTM/blob/master/README.md#information-on-the-counterparts-and-running-a-function-on-the-cross-matching-result).
 
 You can also choose to only save the two separate files (1. and 2. in the list above), by setting the `save_in_one_file` keyword to `False`, or save only the large file (3. in the list above) by setting the `save_in_separate_files` keyword to `False`. E.g.:
 
@@ -138,7 +138,7 @@ You can modify the search radius (default is 2 arcsec) with the `Search_radius` 
 >>> catsHTM.xmatch_2cats('FIRST','NVSS',Search_radius=5)
 ```
 
-### Information on the counterparts and running a function on the cross-matching result ###
+### Getting information on the cross-matched sources and counterparts and running your own function on the outputs of the cross-matcher ###
 
 The `QueryAllFun` and `QueryAllFunPar` keywords allow you to define a function to be ran on the outputs of the cross-matching algorythm. `QueryAllFun` takes the following input arguments:
 1. `Cat1`: the content of a trixel of catalog 1.

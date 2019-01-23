@@ -36,7 +36,7 @@ These instruction are for installing the catsHTM **code**, i.e. do not include t
 
 ### Python version
 * `python 2`: higher than `2.7.10`
-* `python 3`
+* `python 3` (required for the cross-matcher)
 
 ### Required python packages
 * `math`
@@ -88,8 +88,8 @@ The units of the catalog columns are stored in the `numpy` array `colunits`
 
 ```python
 >>> print colunits
-[u'rad' u'rad' ' ' u'mJy' u'mJy' u'mJy' u'arcsec' u'arcsec' u'deg'
- u'arcsec' u'arcsec' u'deg' u'MJD' u'MJD']
+['rad' 'rad' ' ' 'mJy' 'mJy' 'mJy' 'arcsec' 'arcsec' 'deg'
+ 'arcsec' 'arcsec' 'deg' 'MJD' 'MJD']
 ```
 ## How to cross-match two catalogs with ``catsHTM``?
 
@@ -98,7 +98,6 @@ First, you need to specify the path to the directory where the HDF5 formatted ca
 ```python
 >>> import catsHTM
 >>> path='path/to/directory'
-
 ```
 You then need to call the `xmatch_2cats` function. For example, to look for overlaps between the `FIRST` and `NVSS` catalogs:
 
@@ -126,6 +125,8 @@ You can modify the location of the output files with the `output` keyword:
 ```python
 >>> catsHTM.xmatch_2cats('FIRST','NVSS',catalogs_dir=path)
 ```
+You can speed-up the run by setting `save_results` to `False`, e.g., if you do not need to save the results and would rather use the output of the cross-matching algorythm in your own function.
+
 You can also choose to only save the two separate files (1. and 2. in the list above), by setting the `save_in_one_file` keyword to `False`, or save only the large file (3. in the list above) by setting the `save_in_separate_files` keyword to `False`. E.g.:
 
 ```python

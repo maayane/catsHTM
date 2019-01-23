@@ -114,7 +114,7 @@ I am looking for Catalog_2 (NVSS) trixels overlapping with the non-empty trixel 
 ...
 ```
 
-To save the results, you need to specify `save_results==True`!
+**To save the results, you need to specify `save_results==True`!**
 
 By default, this will create a directory `./cross-matching_results`, where it will save three files:
 1. `cross-matching_result_[name of catalog 1].txt`: the catalog entries of catalog 1 (e.g. FIRST) for which one or mors counterparts were found in catalog 2 (e.g. NVSS), within the search radius.

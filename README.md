@@ -148,7 +148,7 @@ The `QueryAllFun` and `QueryAllFunPar` keywords allow you to define a function t
 * `Ind[i]["Dist"]` is a vecor of angular distances (radians) between the `Cat1`'s source and its counterparts in `Cat2`
 4. `IndCatMinDist`: a vector, with as many elements as lines in `Cat1`, with 'nan' at lines where there is no counterpart in `Cat2`, and at line where there is, the index of the closest counterpart in catalog 2.
 
-You can write a `QueryAllFun` function e.g. to save or use one of the above information.
+You can write a `QueryAllFun` function e.g. to save or use one or all of the above informations.
 
 An example of such a function, `Example_QueryAllFun`, is built in the code. Simply structure yours in the same way:
 ```python
@@ -157,7 +157,7 @@ def Your_QueryAllFun(Cat1,Ind,Cat2,IndCatMinDist,i,additionnal_args=[1,2,'hi']):
 ```
 The `QueryAllFunPar` keyword, if not `None`, must be a tuple which will be passed to the `additional_args` keyword of `Your_QueryAllFun`.
 
-For example, runing the code with `QueryAllFun=Example_QueryAllFun` and `QueryAllFunPar=['test']` allows you to save the content of the trixels of Catalog 1 in a directory called `test`:
+For example, runing the code with `QueryAllFun=Example_QueryAllFun` and `QueryAllFunPar=['test']` allows you to print `Cat1`, `Cat2`, `Ind` and `IndCatMinDist` and save the content of `Cat1` in a directory called `test`:
 
 ```python
 >>> import catsHTM

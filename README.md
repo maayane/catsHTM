@@ -137,6 +137,34 @@ You can modify the search radius (default is 2 arcsec) with the `Search_radius` 
 >>> catsHTM.xmatch_2cats('FIRST','NVSS',Search_radius=5)
 ```
 
+### Information on the counterparts and running a function on the cross-matching result ###
+
+The `QueryAllFun` and `QueryAllFunPar` keywords allow you to define a function to be ran on the outputs of the cross-matching algorythm. `QueryAllFun` takes the following input arguments:
+1. `Cat1`: the content of a trixel of catalog 1.
+2. `Cat2`: the content of a trixel of catalog 2 overlapping with `Cat1`.
+3. `Ind`: a list of dictionnaries, with one dictionnary per `Cat1`'s object having one or more counterparts in `Cat2`:
+* `Ind[i]["IndRef"]` is the index of the `Cat1`'s source having one or more counterpart in `Cat2`
+* `Ind[i]["IndCat"]` is the list of indixes of the `Cat2`'s counterparts.
+* `Ind[i]["Dist"]` is a vecor of angular distances (radians) between the `Cat1`'s source and its counterparts in `Cat2`
+4. `IndCatMinDist`: a vector, with as many elements as lines in `Cat1`, with 'nan' at lines where there is no counterpart in `Cat2`, and at line where there is, the index of the closest counterpart in catalog 2.
+
+You can write a `QueryAllFun` function e.g. to save or use one of the above information.
+
+An example of such a function, `Example_QueryAllFun`, is built in the code. Simply structure yours in the same way:
+```python
+def Your_QueryAllFun(Cat1,Ind,Cat2,IndCatMinDist,i,additionnal_args=[1,2,'hi']):
+    return [your output]
+```
+The `QueryAllFunPar` keyword, if not `None`, must be a tuple which will be passed to the `additional_args` keyword of `Your_QueryAllFun`.
+
+For example, runing the code with `QueryAllFun=Example_QueryAllFun` and `QueryAllFunPar=['test']` allows you to save the content of the trixels of Catalog 1 in a directory called `test`:
+
+```python
+>>> import catsHTM
+>>> from catsHTM import Example_QueryAllFun
+>>> catsHTM.xmatch_2cats('FIRST','APASS',catalogs_dir=path,QueryAllFun=Example_QueryAllFun,QueryAllFunPar=['test'])
+```
+
 ### Specification of other default parameters 
 
 Other default parameters, such as the files and datasets naming format, can be edited in the python file `params.py` (type `pip show catsHTM` in the comand line to see where `params.py` is stored).

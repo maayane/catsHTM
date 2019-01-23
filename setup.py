@@ -10,7 +10,7 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='catsHTM',
-    version='0.1.26',
+    version='0.1.27',
     description='fast access and cross-matching of large astronomical catalogs',
     #long_description=long_description,
     #long_description_content_type='text/markdown',

@@ -145,7 +145,7 @@ The `QueryAllFun` and `QueryAllFunPar` keywords allow you to define a function t
 2. `Cat2`: the content of a trixel of catalog 2 overlapping with `Cat1`.
 3. `Ind`: a list of dictionnaries, with one dictionnary per `Cat1`'s object having one or more counterparts in `Cat2`:
 * `Ind[i]["IndRef"]`: the index of the i-th `Cat1`'s source having one or more counterpart in `Cat2`
-* `Ind[i]["IndCat"]`: the list of indexes of the `Cat2`'s counterparts of the i-th `Cat1`'s source.
+* `Ind[i]["IndCat"]`: after sorting Cat2 by declination (``` cat2=Cat2[Cat2[:, 1].argsort(),] ``` if DEC is the second column of the catalog), `Ind[i]["IndCat"]` is the list of indices of the counterparts of the matched `Cat1`'s source. 
 * `Ind[i]["Dist"]`: a vector of angular distances (radians) between the i-th `Cat1`'s source and its counterparts in `Cat2`.
 4. `IndCatMinDist`: a vector, with as many elements as lines in `Cat1`, with 'nan' at lines where there is no counterpart in `Cat2`, and at line where there is, the index - in `Cat2` - of the closest counterpart.
 

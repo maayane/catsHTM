@@ -691,7 +691,9 @@ def Example_QueryAllFun(Cat1,Ind,Cat2,IndCatMinDist,i,additionnal_args=None):
     pdb.set_trace()
     return Cat1
 
-def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunPar=None,catalogs_dir='./data',Verbose=False,save_results=False,save_in_one_file=True,save_in_separate_files=True,output='./cross-matching_results',time_it=True,Debug=False):
+def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunPar=None,
+                 catalogs_dir='./data',Verbose=False,save_results=False,save_in_one_file=True,
+                 save_in_separate_files=True,output='./cross-matching_results',time_it=True,Debug=False):
         """Description: cross match two HDF5/HTM catalogs: for each source in the first catalog, the index of the nearest source in the second catalog
         (nearest within some specified distance) is saved.
                 Input  :- Catalog 1 basename

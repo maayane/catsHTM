@@ -114,6 +114,8 @@ I am looking for Catalog_2 (NVSS) trixels overlapping with the non-empty trixel 
 ...
 ```
 
+**To save the results, you need to specify `save_results==True`!**
+
 By default, this will create a directory `./cross-matching_results`, where it will save three files:
 1. `cross-matching_result_[name of catalog 1].txt`: the catalog entries of catalog 1 (e.g. FIRST) for which one or mors counterparts were found in catalog 2 (e.g. NVSS), within the search radius.
 2. `cross-matching_result_[name of catalog 2].txt`: the catalog entries corresponding to the closest counterpart found in catalog 2 (e.g. NVSS)
@@ -125,7 +127,8 @@ You can modify the location of the output files with the `output` keyword:
 ```python
 >>> catsHTM.xmatch_2cats('FIRST','NVSS',catalogs_dir=path)
 ```
-You can speed-up the run by setting `save_results` to `False`, e.g., if you do not need to save the results and would rather [use the output of the cross-matching algorythm in your own function](https://github.com/maayane/catsHTM/blob/master/README.md#getting-information-on-the-cross-matched-sources-and-counterparts-and-running-your-own-function-on-the-outputs-of-the-cross-matcher).
+
+You can speed-up the run by leaving `save_results` to its default value (`False`), e.g., if you do not need to save the results and would rather [use the output of the cross-matching algorythm in your own function](https://github.com/maayane/catsHTM/blob/master/README.md#getting-information-on-the-cross-matched-sources-and-counterparts-and-running-your-own-function-on-the-outputs-of-the-cross-matcher).
 
 You can also choose to only save the two separate files (1. and 2. in the list above), by setting the `save_in_one_file` keyword to `False`, or save only the large file (3. in the list above) by setting the `save_in_separate_files` keyword to `False`. E.g.:
 

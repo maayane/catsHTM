@@ -213,8 +213,10 @@ Currently, the following catalogs are available in this format (alphabetical ord
 
 ## How to access the catalog of ZTF variable sources from Ofek et al. 2020 with ``catsHTM``?
 
-The routine `read_ztf_HDF_matched` allows to access the catalogs presented in Ofek et al 2020.
-You need to specify the path to the directory where the HDF5 formatted light curves where downloaded (default is `.`). This will only work if you have previously downloaded the catalogs in HDF5 format:
+The routine `read_ztf_HDF_matched` allows access the catalogs presented in Ofek et al 2020.
+
+The path to the directory where the HDF5 formatted light curves where downloaded needs to be specified first (default is `.`).
+
 The other arguments of the routine are (1) the ZTF field number, (2) an array with the [start end] lines to read. The lines for a given source are available in I1 and I2 in the `ztfSrcLCDR1` catsHTM catalog.
 
 ```python

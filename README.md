@@ -211,12 +211,49 @@ Currently, the following catalogs are available in this format (alphabetical ord
 * XMM (input name: `XMM`)- 7.3x10^5 sources 3XMM-DR7 (Rosen et al. 2016; A&A 26, 590)
 
 
-## How to access the catalog of ZTF variable sources candidates from Ofek et al. 2020 with ``catsHTM``?
+## How to access the catalog of ZTF variable sources from Ofek et al. 2020 with ``catsHTM``?
 
-First, you need to specify the path to the directory where the HDF5 formatted light curves where downloaded (default is `.`). This will only work if you have previously downloaded the catalogs in HDF5 format:
+The routine `read_ztf_HDF_matched` allows to access the catalogs presented in Ofek et al 2020.
+You need to specify the path to the directory where the HDF5 formatted light curves where downloaded (default is `.`). This will only work if you have previously downloaded the catalogs in HDF5 format:
+The other arguments of the routine are (1) the ZTF field number, (2) an array with the [start end] lines to read. The lines for a given source are available in I1 and I2 in the `ztfSrcLCDR1` catsHTM catalog.
 
 ```python
 >>> import catsHTM
 >>> path='path/to/directory'
->>> Cat,ColCel=catsHTM.read_ztf_HDF_matched(815,[10,25],ColCell=None,path=path)
+>>> Cat,ColCel=catsHTM.read_ztf_HDF_matched(815,[10,25],path=path)
+>>> print(Cat)
+[[  5.84743309e+04   1.84250000e+01   4.90000000e-02   9.80000000e-02
+    0.00000000e+00]
+ [  5.84405160e+04   1.83110000e+01   4.50000000e-02   8.90000000e-02
+    0.00000000e+00]
+ [  5.83755087e+04   1.83670000e+01   4.70000000e-02   9.40000000e-02
+    0.00000000e+00]
+ [  5.84643027e+04   1.83350000e+01   4.60000000e-02   1.09000000e-01
+    0.00000000e+00]
+ [  5.84254711e+04   1.83920000e+01   4.80000000e-02   1.02000000e-01
+    0.00000000e+00]
+ [  5.84434111e+04   1.83710000e+01   4.70000000e-02   8.90000000e-02
+    0.00000000e+00]
+ [  5.84615229e+04   1.83350000e+01   4.60000000e-02   9.30000000e-02
+    0.00000000e+00]
+ [  5.83695057e+04   1.84010000e+01   4.80000000e-02   1.01000000e-01
+    0.00000000e+00]
+ [  5.84562872e+04   1.83250000e+01   4.50000000e-02   8.90000000e-02
+    0.00000000e+00]
+ [  5.84503844e+04   1.83100000e+01   4.50000000e-02   1.00000000e-01
+    0.00000000e+00]
+ [  5.82311746e+04   1.83100000e+01   4.50000000e-02   8.10000000e-02
+    0.00000000e+00]
+ [  5.82211967e+04   1.83870000e+01   4.80000000e-02   1.07000000e-01
+    3.27680000e+04]
+ [  5.82431606e+04   1.83440000e+01   4.60000000e-02   7.70000000e-02
+    0.00000000e+00]
+ [  5.84373895e+04   1.83480000e+01   4.60000000e-02   9.70000000e-02
+    0.00000000e+00]
+ [  5.82241671e+04   1.83120000e+01   4.50000000e-02   7.80000000e-02
+    3.27680000e+04]
+ [  5.84344523e+04   1.84180000e+01   4.90000000e-02   9.80000000e-02
+    0.00000000e+00]]
+>>> print(ColCel)
+['HMJD' 'Mag' 'MagErr' 'ColorCoef' 'Flags']
 ```

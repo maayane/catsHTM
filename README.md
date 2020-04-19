@@ -22,6 +22,9 @@ If you are using one of the large catalogs, or this tool, please give the specif
 
 ## How to obtain the formatted catalogs?
 
+The catalog format is based on the HDF5 file format and HDF5 file access utilities, which are available on many platforms. The catalog format is designed to allow fast access for cone searches in the range of 1 arcsec to about 1 deg. For fast access, the sources are sorted into hierarchical triangular mesh (HTM).
+The HDF5/HTM catalogs requires about 1.6TB of disk space.
+
 The catalogs are available from:
 * Web download is now available. See instructions [here](http://euler1.weizmann.ac.il/catsHTM/)
 * If you have any question or encounter any prblem while trying to download, email **eran dot ofek at weizmann dot ac dot il** or **maayane dot soumagnac at weizmann dot ac dot il** .
@@ -207,16 +210,13 @@ Currently, the following catalogs are available in this format (alphabetical ord
 * WISE (input name: `WISE`) - ~5.6x10^8 sources
 * XMM (input name: `XMM`)- 7.3x10^5 sources 3XMM-DR7 (Rosen et al. 2016; A&A 26, 590)
 
-## How to download the `catsHTM` catalogs?
 
-The catsHTM directory is very large and therefore available on request. The HDF5/HTM catalogs requires about 1.6TB of disk space.
+## How to access the catalog of ZTF variable sources candidates from Ofek et al. 2020 with ``catsHTM``?
 
-Data is available from:
+First, you need to specify the path to the directory where the HDF5 formatted light curves where downloaded (default is `.`). This will only work if you have previously downloaded the catalogs in HDF5 format:
 
-* Web download (link will be provided soon)
-* Shared (and updated automatically) via Dropbox on request from eran dot ofek at weizmann dot ac dot il.
-
-
-The catalog format is based on the HDF5 file format and HDF5 file access utilities, which are available on many platforms. The catalog format is designed to allow fast access for cone searches in the range of 1 arcsec to about 1 deg. For fast access, the sources are sorted into hierarchical triangular mesh (HTM). 
-
-
+```python
+>>> import catsHTM
+>>> path='path/to/directory'
+>>> Cat,ColCel=catsHTM.read_ztf_HDF_matched(815,[10,25],ColCell=None,path=path)
+```

@@ -24,7 +24,7 @@ try:
 except NameError:
     FileNotFoundError = IOError
 
-__all__=['cone_search','search_htm_ind','htm_search_cone','xmatch_2cats','load_trix_by_ind','simplify_list','load_colcell','mfind_bin','match_cats','simplify2','simplify3','Example_QueryAllFun'] #redefinition of '*' for import *
+__all__=['cone_search','search_htm_ind','htm_search_cone','xmatch_2cats','load_trix_by_ind','simplify_list','load_colcell','mfind_bin','match_cats','simplify2','simplify3','Example_QueryAllFun','read_ztf_HDF_matched'] #redefinition of '*' for import *
 
 def get_CatDir(CatName):
     if CatName == 'TMASS':
@@ -106,6 +106,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
 
     ColCelFile=ColCelFile % CatName
     IndexFilename=IndexFileTemplate % CatName
+    print(root_to_data+CatDir+'/'+ColCelFile)
     if os.path.isfile(root_to_data+CatDir+'/'+ColCelFile)==True:
         test = sio.loadmat(root_to_data+CatDir+'/'+ColCelFile)
         #print(test)
@@ -1213,6 +1214,36 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunP
         if time_it==True:
             ongoing7 = time.time()
             print('it took {0} seconds for the process to run'.format(ongoing7 - start))
+
+
+def read_ztf_HDF_matched(FieldID,Lines,ColCell=None,path=None):
+    """
+    Description: Read ZTF matched light curves from local HDF5 light curve files. The HDF5 files are distributed as part of the catsHTM catalogs.
+     Input  : - ZTF field number.
+              - [start end] lines to read. The lines for a given source are
+                available in I1 and I2 in the 'ztfSrcLCDR1' catsHTM catalog.
+              - ColCell'  - Column names for catalog.
+                           Default is {'HMJD','Mag','MagErr','ColorCoef','Flags'}.
+              - path to the data directory. Default is "."
+     Output : - Catalog
+              - ColCell
+     By : Maayane Soumagnac. Trnslated from Eran O. Ofek's matlab routine with the same name
+     URL : https://github.com/maayane/catsHTM; http://weizmann.ac.il/home/eofek/matlab/
+     Example: Cat,ColCel=catsHTM.read_ztf_HDF_matched(815,[10,25],ColCell=None,path=path)
+    """
+    if ColCell is None:
+        ColCell = np.array(['HMJD','Mag','MagErr','ColorCoef','Flags'])
+    if path is None:
+        path='.'
+
+    FieldIDstring="{number:06}".format(number=FieldID)#'ztfLCDR1_%06d.hdf5'
+    FileName = 'ztfLCDR1_'+FieldIDstring+'.hdf5'
+
+    Cati = class_HDF5.HDF5(path+'/'+FileName).load(dataset_name='/AllLC',numpy_array=True)#,Offset=[Lines[0],Lines[1]-Lines[0]+1])#,Block=[Lines[1]-Lines[0], Ncol-1])
+    Cat=Cati.T
+    Cat_cut=Cat[Lines[0]-1:Lines[1],:]
+
+    return Cat_cut,ColCell
 
 
 

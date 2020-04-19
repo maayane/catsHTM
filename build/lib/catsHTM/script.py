@@ -24,7 +24,7 @@ try:
 except NameError:
     FileNotFoundError = IOError
 
-__all__=['cone_search','search_htm_ind','htm_search_cone','xmatch_2cats','load_trix_by_ind','simplify_list','load_colcell','mfind_bin','match_cats','simplify2','simplify3','Example_QueryAllFun'] #redefinition of '*' for import *
+__all__=['cone_search','search_htm_ind','htm_search_cone','xmatch_2cats','load_trix_by_ind','simplify_list','load_colcell','mfind_bin','match_cats','simplify2','simplify3','Example_QueryAllFun','read_ztf_HDF_matched'] #redefinition of '*' for import *
 
 def get_CatDir(CatName):
     if CatName == 'TMASS':
@@ -106,6 +106,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
 
     ColCelFile=ColCelFile % CatName
     IndexFilename=IndexFileTemplate % CatName
+    print(root_to_data+CatDir+'/'+ColCelFile)
     if os.path.isfile(root_to_data+CatDir+'/'+ColCelFile)==True:
         test = sio.loadmat(root_to_data+CatDir+'/'+ColCelFile)
         #print(test)
@@ -691,7 +692,9 @@ def Example_QueryAllFun(Cat1,Ind,Cat2,IndCatMinDist,i,additionnal_args=None):
     pdb.set_trace()
     return Cat1
 
-def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunPar=None,catalogs_dir='./data',Verbose=False,save_results=True,save_in_one_file=True,save_in_separate_files=True,output='./cross-matching_results',time_it=True,Debug=False):
+def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunPar=None,
+                 catalogs_dir='./data',Verbose=False,save_results=False,save_in_one_file=True,
+                 save_in_separate_files=True,output='./cross-matching_results',time_it=True,Debug=False):
         """Description: cross match two HDF5/HTM catalogs: for each source in the first catalog, the index of the nearest source in the second catalog
         (nearest within some specified distance) is saved.
                 Input  :- Catalog 1 basename
@@ -1211,6 +1214,55 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunP
         if time_it==True:
             ongoing7 = time.time()
             print('it took {0} seconds for the process to run'.format(ongoing7 - start))
+
+
+def read_ztf_HDF_matched(FieldID,Lines,ColCell=None,path=None):
+    """
+    Description: Read ZTF matched light curves from local HDF5 light curve files. The HDF5 files are distributed as part of the catsHTM catalogs.
+     Input  : - ZTF field number.
+              - [start end] lines to read. The lines for a given source are
+                available in I1 and I2 in the 'ztfSrcLCDR1' catsHTM catalog.
+              * Arbitrary number of pairs of arguments: ...,keyword,value,...
+                where keyword are one of the followings:
+                'FileTemp' - File template name. Default is
+                           'ztfLCDR1_%06d.hdf5'.
+                'ColCell'  - Column names for catalog.
+                           Default is
+                           {'HMJD','Mag','MagErr','ColorCoef','Flags'}.
+     Output : - Catalog
+              - ColCell
+     By : Maayane Soumagnac. Trnslated from Eran O. Ofek's matlab routine with the same name
+    URL : http://weizmann.ac.il/home/eofek/matlab/
+      Example: Cat=VO.ZTF.read_ztf_HDF_matched(686,[1 100])
+          Cat=VO.ZTF.read_ztf_HDF_matched(703,[38104798    38104901])
+    """
+    #FileTemp           = 'ztfLCDR1_%06d.hdf5';
+    if ColCell is None:
+        ColCell = np.array(['HMJD','Mag','MagErr','ColorCoef','Flags'])
+    #InPar = InArg.populate_keyval(DefV,varargin,mfilename);
+    if path is None:
+        path='./'
+
+    FieldIDstring="{number:06}".format(number=FieldID)#'ztfLCDR1_%06d.hdf5'
+    FileName = 'ztfLCDR1_'+FieldIDstring+'.hdf5'
+    #dataset='ztfLCDR1_'+FieldIDstring
+    #print(FileName)
+    #print(path+'/'+FileName)
+
+    Ncol = len(ColCell)
+
+    #print(class_HDF5.HDF5(path+'/'+FileName).info())
+    #print([Lines[0],0])
+    #print([Lines[1],1])
+    Cati = class_HDF5.HDF5(path+'/'+FileName).load(dataset_name='/AllLC',numpy_array=True)#,Offset=[Lines[0],Lines[1]-Lines[0]+1])#,Block=[Lines[1]-Lines[0], Ncol-1])
+    Cat=Cati.T
+    #print(np.shape(Cat))
+    Cat_cut=Cat[Lines[0]-1:Lines[1],:]
+    #print(Cat_cut)
+    return Cat_cut,ColCell
+    #if (nargout>2):
+    #    CatProp = HDF5.load(FileName,'/IndAllLC');
+    #end
 
 
 

@@ -24,7 +24,7 @@ try:
 except NameError:
     FileNotFoundError = IOError
 
-__all__=['cone_search','search_htm_ind','htm_search_cone','xmatch_2cats','load_trix_by_ind','simplify_list','load_colcell','mfind_bin','match_cats','simplify2','simplify3','Example_QueryAllFun','read_ztf_HDF_matched'] #redefinition of '*' for import *
+__all__=['cone_search','search_htm_ind','search_sortedlat','sources_match','htm_search_cone','xmatch_2cats','load_trix_by_ind','simplify_list','load_colcell','mfind_bin','match_cats','simplify2','simplify3','Example_QueryAllFun','read_ztf_HDF_matched'] #redefinition of '*' for import *
 
 def get_CatDir(CatName):
     if CatName == 'TMASS':
@@ -175,6 +175,96 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
                 ColUnits[i]=' '
 
     return cat_onlycone,ColCell, ColUnits
+
+def search_sortedlat(Cat,Long,Lat,Radius):
+    """Description: .
+        Input  : - Catalog name (e.g., 'GAIADR1').
+                -
+                -
+                -
+                - Optionnal:-Radius [arcsec]: default is 2 arcsec
+        By : Maayane Soumagnac (original Matlab function by Eran Ofek)            Oct 2020
+        Output  : """
+    Ncat=np.shape(Cat)[0]
+    Inear=mfind_bin(Cat[:,1],[Lat-Radius,Lat+Radius])
+    Ilow=float(Inear[0])
+    Ihigh=min(Ncat,float(Inear[1]+1))#add 1 because of the way mfind_bin works
+    #print('Ihigh',Ihigh)#ok
+    #print('Ilow',Ilow)#ok
+    Dist=celestial.sphere_dist_fast(Long,Lat,Cat[int(Ilow-1):int(Ihigh),0],Cat[int(Ilow-1):int(Ihigh),1])[0]
+    #print('Dist is',Dist)
+    Ind=Ilow-1+np.argwhere(Dist<=Radius)
+    return Ind
+
+def sources_match(CatName,Cat,SearchRadius_arcs=2,catalog_dir='./data'):
+    """Description: .
+        Input  : - Catalog name (e.g., 'GAIADR1').
+                -
+                -
+                -
+                - Optionnal:-Radius [arcsec]: default is 2 arcsec
+        By : Maayane Soumagnac (original Matlab function by Eran Ofek)            Oct 2020
+        Output  : """
+
+    Rad = 180. / math.pi
+    SearchRadius_rad=SearchRadius_arcs/(Rad*3600) #converts arcsec radius into radians radius
+
+    Ra=Cat[:,0] # in rad!
+    Dec=Cat[:,1] # in rad!
+    MedRa=np.nanmedian(Ra)
+    MedDec=np.nanmedian(Dec)
+    D=celestial.sphere_dist_fast(MedRa,MedDec,Ra,Dec)[0]
+    #print('D is',D)
+    Radiusi=np.max(D)*(1+10*np.spacing(1))
+    Radius=Radiusi*Rad*3600 #converts to arcsec
+    #print('Radius',Radius)
+    #print('MedRa',MedRa)
+    #print('MedDec',MedDec)
+    CatHunsorted,ColCelH,ColUnitsH=cone_search(CatName,MedRa,MedDec,Radius,catalogs_dir=catalog_dir)
+    #print('CatHunsorted:',CatHunsorted)
+    CatH=CatHunsorted[np.argsort(CatHunsorted[:, 1])]#sort by declination
+    #print('ColCelH',ColCelH)
+    #pdb.set_trace()
+    Nsrc = np.shape(Cat)[0]
+    CatM={}
+    CatM['Match'] = np.empty((Nsrc,len(ColCelH)))
+    Cat=np.empty((Nsrc,len(ColCelH)+2))
+    Cat[:,:]=np.nan
+    CatM['Match'][:,:]=np.nan
+    CatM['Dist'] = np.empty((Nsrc),dtype=object)
+    CatM['Dist'][:]=np.nan
+    CatM['Nmatch'] = np.zeros((Nsrc, 1))
+    if (len(CatH)!=0):
+        for Isrc in range(Nsrc):
+            Ind = search_sortedlat(CatH, Ra[Isrc], Dec[Isrc], SearchRadius_rad).astype(int)
+            if (len(Ind)!=0):
+                #print('Isrc',Isrc)
+                #print('Ind',Ind)
+                Dist = celestial.sphere_dist_fast(Ra[Isrc], Dec[Isrc], CatH[Ind, 0],CatH[Ind, 1])[0]
+                Distmin=Dist
+                Nmatch = len(Ind)
+                if (Nmatch > 1):
+                #    print('there is more than one match')
+                #    print('Dist',Dist)
+                #    print('np.min(Dist)',np.min(Dist))
+                    Distmin = np.min(Dist)
+                #    print('type(Dist)',type(Dist))
+                #    print('np.shape(Dist)',np.shape(Dist))
+                #    print('np.argmin(Dist)',np.argmin(Dist))
+                    MinInd=np.argmin(Dist)
+                    Ind = Ind[MinInd]
+
+                CatM['Match'][Isrc,:] = CatH[Ind,:]
+                CatM['Dist'][Isrc] = Distmin
+                CatM['Nmatch'][Isrc] = Nmatch
+                Cat[Isrc,:-2]=CatH[Ind,:]
+                Cat[Isrc,-1]=Distmin
+                Cat[Isrc,-2]=Nmatch
+
+    CatM['ColCell'] = ColCelH
+
+    return CatM, Cat
+
 
 def search_htm_ind(Filename,Long,Lat,Radius,path,VarName=None,CatDir=None,verbose=False):
     """Description: wrapper of htm_search_cone, which select from the vector outputed by htm_search_cone only the

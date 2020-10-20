@@ -64,8 +64,8 @@ def get_CatDir(CatName):
     elif CatName == 'VSTkids':
         CatDir = 'VST/KiDS/DR3'
     elif CatName not in ['AKARI', 'APASS', 'Cosmos', 'FIRST', 'NVSS', 'PS1', 'PTFpc', 'ROSATfsc', 'SkyMapper', 'UCAC4',
-                         'WISE', 'XMM']:
-        raise ValueError('you need to specify a valid name for the catalog (see README file for list of names)')
+                         'WISE', 'XMM','NOAO']:
+        raise ValueError('you need to specify a valid name for the catalog (see README file for list of available catalogs and names)')
     else:
         CatDir = CatName
     return CatDir
@@ -222,7 +222,10 @@ def sources_match(CatName,Cat,SearchRadius_arcs=2,catalog_dir='./data'):
     #print('MedDec',MedDec)
     CatHunsorted,ColCelH,ColUnitsH=cone_search(CatName,MedRa,MedDec,Radius,catalogs_dir=catalog_dir)
     #print('CatHunsorted:',CatHunsorted)
-    CatH=CatHunsorted[np.argsort(CatHunsorted[:, 1])]#sort by declination
+    if CatHunsorted.ndim<2:
+        CatH = CatHunsorted
+    else:
+        CatH=CatHunsorted[np.argsort(CatHunsorted[:, 1])]#sort by declination
     #print('ColCelH',ColCelH)
     #pdb.set_trace()
     Nsrc = np.shape(Cat)[0]
@@ -236,7 +239,9 @@ def sources_match(CatName,Cat,SearchRadius_arcs=2,catalog_dir='./data'):
     CatM['Nmatch'] = np.zeros((Nsrc, 1))
     if (len(CatH)!=0):
         for Isrc in range(Nsrc):
+            print('I am running sortedlat')
             Ind = search_sortedlat(CatH, Ra[Isrc], Dec[Isrc], SearchRadius_rad).astype(int)
+            print('I am done running sortedlat')
             if (len(Ind)!=0):
                 #print('Isrc',Isrc)
                 #print('Ind',Ind)

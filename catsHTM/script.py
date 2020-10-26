@@ -106,7 +106,7 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
 
     ColCelFile=ColCelFile % CatName
     IndexFilename=IndexFileTemplate % CatName
-    print(root_to_data+CatDir+'/'+ColCelFile)
+    #print(root_to_data+CatDir+'/'+ColCelFile)
     if os.path.isfile(root_to_data+CatDir+'/'+ColCelFile)==True:
         test = sio.loadmat(root_to_data+CatDir+'/'+ColCelFile)
         #print(test)
@@ -239,9 +239,9 @@ def sources_match(CatName,Cat,SearchRadius_arcs=2,catalog_dir='./data'):
     CatM['Nmatch'] = np.zeros((Nsrc, 1))
     if (len(CatH)!=0):
         for Isrc in range(Nsrc):
-            print('I am running sortedlat')
+            #print('I am running sortedlat')
             Ind = search_sortedlat(CatH, Ra[Isrc], Dec[Isrc], SearchRadius_rad).astype(int)
-            print('I am done running sortedlat')
+            #print('I am done running sortedlat')
             if (len(Ind)!=0):
                 #print('Isrc',Isrc)
                 #print('Ind',Ind)

@@ -5,6 +5,7 @@ A python implementation of catsHTM.m
 #print __doc__
 
 import math
+import tqdm
 import numpy as np
 from . import celestial
 import scipy.io as sio
@@ -655,7 +656,7 @@ def match_cats(Cat,Refcat,Radius=2,RadiusUnits='arcsec'):
                             - IndCatMinDist: vector, the size of Refcat, with the indice of the cat2 nearest sources to the cat1 source of indice Res[Indref]. NaN if no source was found
                    example:
                    By : Maayane Soumagnac (original Matlab function by Eran Ofek)            August 2018"""
-
+        #print('I am running matchcats')
         if RadiusUnits=='rad':
             Radius=Radius
         if RadiusUnits=='arcsec':
@@ -706,7 +707,14 @@ def match_cats(Cat,Refcat,Radius=2,RadiusUnits='arcsec'):
             Iref=Ic[Icr]
             #print('Iref is',Iref)#ok
             #pdb.set_trace()
-            Icat=np.linspace(Ilow[Iref],Iupp[Iref],Iupp[Iref]-Ilow[Iref]+1).astype(int)
+            #print('Iref, type:{0},{1}'.format(Iref,type(Iref)))
+            #print('Ilow[Iref], type:{0},{1}'.format(Ilow[Iref], type(Ilow[Iref])))
+            #print('Iup[Iref], type:{0},{1}'.format(Iupp[Iref], type(Iupp[Iref])))
+            #print('Iupp[Iref]-Ilow[Iref]+1, type:{0},{1}'.format(Iupp[Iref]-Ilow[Iref]+1, type(Iupp[Iref]-Ilow[Iref]+1)))
+            #print(Ilow[Iref].is_integer())
+            if (Ilow[Iref].is_integer()==False) | (Iupp[Iref].is_integer()==False) :
+                raise Exception('Ilow[Iref] and Iupp[Iref] should be integers')
+            Icat=np.linspace(int(Ilow[Iref]),int(Iupp[Iref]),int(Iupp[Iref]-Ilow[Iref]+1)).astype(int)
             #print('Icat is',Icat)#ok
             #print('Cat[Icat-1,0] is',Cat[Icat-1,0])#ok
             #print('Cat[Icat-1,1] is',Cat[Icat-1,1])#ok
@@ -932,7 +940,7 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunP
             print('I will stop at the following indexes, if the trixels exists, to debug, ok? press c to continue',
                   [Nh1//1000,Nh1//200,Nh1 // 100, Nh1 //10, Nh1 //4, Nh1 //3, Nh1 // 2, Nh1 // 1.5])
             pdb.set_trace()
-        for i in range(Nh1): #for each trixels in the highest level of Cat1
+        for i in tqdm.tqdm(range(Nh1)): #for each trixels in the highest level of Cat1
             #print("Level1['ptr'][Nh1-1] is",Level1['ptr'][Nh1-1])
             #print("Level1['ptr'][i] is",Level1['ptr'][i])
 
@@ -940,10 +948,8 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunP
             #print('I am looking for Catalog_2 ({0}) trixels overlapping with the trixel #{2} of Catalog_1 ({1})'.format(Catname2,Catname1,index_cat1))
             if HTM1[index_cat1-1]['Nsrc']>0:#if the trixel contains sources:
                 #if index_cat1==27305:
-
-                print('I am looking for Catalog_2 ({0}) trixels overlapping with the non-empty trixel #{2} ({3}/{4}) of Catalog_1 ({1})'.format(
-                    Catname2, Catname1, index_cat1,i,Nh1))
                 if Verbose==True:
+                    print('I am looking for Catalog_2 ({0}) trixels overlapping with the non-empty trixel #{2} ({3}/{4}) of Catalog_1 ({1})'.format(Catname2, Catname1, index_cat1,i,Nh1))
                     print('there are {0} sources in this trixel'.format(HTM1[index_cat1-1]['Nsrc']))
                 #print('not empty')
                 #print('I am looking for Catalog_2 ({0}) trixels overlapping with the trixel #{2} of Catalog_1 ({1})'.format(Catname2,Catname1,index_cat1))
@@ -1305,7 +1311,8 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunP
                     print('None of the trixels of catalog_2 ({0}) overlapping with trixel #{1} of catalog_1 ({2}) has sources in it'.format(Catname2,index_cat1,Catname1))
                     #pdb.set_trace()
             else:
-                print('trixel #{0} of Catalog_1 ({1}) is empty'.format(index_cat1,Catname1))
+                if Verbose == True:
+                    print('trixel #{0} of Catalog_1 ({1}) is empty'.format(index_cat1,Catname1))
         if time_it==True:
             ongoing7 = time.time()
             print('it took {0} seconds for the process to run'.format(ongoing7 - start))

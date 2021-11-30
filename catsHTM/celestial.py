@@ -49,7 +49,7 @@ def cone_in_polysphere(PolesLong,PolesLat,Long,Lat,Radius):
         Flag[i]=all(Dist[:,i]<=0.5*math.pi+Radius) #1 if all distances are smaller than..
     return Flag
 
-def sphere_distance_fast(RA_1,Dec_1,RA_2,Dec_2):#used by cone_search only. I have not changed it to sphere_dist_fast, for backwards compatibility
+def sphere_distance_fast(RA_1,Dec_1,RA_2,Dec_2):#RADIANS!
 
     Dist = np.arccos(np.sin(Dec_1)*np.sin(Dec_2) + np.cos(Dec_1)* np.cos(Dec_2)* np.cos(RA_1 - RA_2))
 

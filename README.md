@@ -189,7 +189,7 @@ Currently, the following catalogs are available in this format (alphabetical ord
 * FIRST (input name: `FIRST`) - (~9.5x10^5 sources)
 * GAIA/DR1 (input name: `GAIADR1`) -  (~1.1x10^9 sources).
 * GAIA/DR2 (input name: `GAIADR2`) - NEW! (~1.6x10^9 sources)
-* GAIA/EDR2 (input name: `GAIAEDR3`) - NEW! (~1.8x10^9 sources)
+* GAIA/EDR3 (input name: `GAIAEDR3`) - NEW! (~1.8x10^9 sources)
 * GALEX (input name: `GALEX`) -  GALAEX/GR6Plus7 (~1.7x10^8 sources).
 * HSC/v2 (input name: `HSCv2`)- Hubble source catalog
 * IPHAS/DR2 (input name: `IPHAS`)

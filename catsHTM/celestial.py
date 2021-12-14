@@ -77,6 +77,10 @@ def sphere_dist_fast(RA_1,Dec_1,RA_2,Dec_2):#used by xmatch_2cats and match_cats
         if PA<0:
             PA=2*math.pi+PA
     #print('Dist before nan_to_num',Dist)
+    #print('RA1:',RA_1)
+    #print('DEC1:',Dec_1)
+    #print('RA2',RA_2)
+    #print('DEC2',Dec_2)
     Distx=np.nan_to_num(Dist)
     #print('Dist after nan_to_num',Distx)
     return Distx,PA

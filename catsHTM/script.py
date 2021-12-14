@@ -38,6 +38,8 @@ def get_CatDir(CatName):
         CatDir = 'GAIA/DR1'
     elif CatName == 'GAIADR2':
         CatDir = 'GAIA/DR2'
+    elif CatName == 'GAIAEDR3':
+        CatDir = 'GAIA/DRE3'
     elif CatName == 'GALEX':
         CatDir = 'GALEX/DR6Plus7'
     elif CatName == 'HSCv2':
@@ -64,7 +66,11 @@ def get_CatDir(CatName):
         CatDir = 'VST/ATLAS/DR3'
     elif CatName == 'VSTkids':
         CatDir = 'VST/KiDS/DR3'
-    elif CatName not in ['AKARI', 'APASS', 'Cosmos', 'FIRST', 'NVSS', 'PS1', 'PTFpc', 'ROSATfsc', 'SkyMapper', 'UCAC4',
+    elif CatName =='ztfSrcLCDR1':
+        CatDir='./ZTF/SrcLCDR1'
+    elif CatName=='ztfDR1var':
+        CatDir = './ZTF/ztfDR1var'
+    elif CatName not in ['AKARI', 'APASS', 'Cosmos', 'FIRST', 'NVSS', 'PS1', 'PTFpc', 'PGC', 'ROSATfsc', 'SkyMapper', 'UCAC4',
                          'WISE', 'XMM','NOAO']:
         raise ValueError('you need to specify a valid name for the catalog (see README file for list of available catalogs and names)')
     else:
@@ -721,7 +727,7 @@ def match_cats(Cat,Refcat,Radius=2,RadiusUnits='arcsec'):
             #print('Refcat[Iref,0]',Refcat[Iref,0])#ok
             #print( 'Refcat[Iref,1]) is',Refcat[Iref,1])#ok
             Dist=celestial.sphere_dist_fast(Cat[Icat-1,0],Cat[Icat-1,1],Refcat[Iref,0],Refcat[Iref,1])[0]
-            #print('Dist is',Dist)
+            #print('In matchcats, Dist is',Dist)
             #print('Radius[Iref] is',Radius[Iref])
             IndRelative=np.where(Dist<=Radius[Iref])[0]
             IndCat=Ilow[Icr]-1+IndRelative
@@ -739,6 +745,7 @@ def match_cats(Cat,Refcat,Radius=2,RadiusUnits='arcsec'):
                 Resi['IndRef']=Iref
                 Resi['Num']=np.shape(IndCat)[0]
                 Resi['Dist']=Dist[IndRelative]
+                #print("Resi['Dist']",Resi['Dist'])
                 Res.append(Resi)
                 #print("Vec['MinDist'] 1.5 is", Vec['MinDist'])
                 IndCatMinDist[Iref]=IndCat[MinInd]
@@ -749,6 +756,7 @@ def match_cats(Cat,Refcat,Radius=2,RadiusUnits='arcsec'):
             #pdb.set_trace()
         #print("Vec['MinDist'] 4 is", Vec['MinDist'])
         #pdb.set_trace()
+        #print('In matchcat, Ind is',Res)
         return Vec,Res,IndCatMinDist #Match,Ind,IndCatMinDist
 
 def Save_cross_matched_catalogs(Cat1,Cat2Matched,output_dir=None):
@@ -1046,12 +1054,20 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunP
                     #probleme: cat 2 c est toutes les sources des overlapping trixels. Nous on veut que les sources reelelemt overlapping. donc on run match_cat
                     #ongoing5 = time.time()
                     [Match,Ind,IndCatMinDist]=match_cats(cat2,Cat1,Radius=Search_radius,RadiusUnits='rad')
+                    #print('Ind',Ind)
+                    #pdb.set_trace()
 
                     if QueryAllFun is not None:
+                        if Verbose==True:
+                            print('I am applying a function on the cross-match result!')
                         #if i==0:
                         #    Data=np.array([])
                         #else:
-                        Data=QueryAllFun(Cat1,Ind,Cat2,IndCatMinDist,i,additionnal_args=QueryAllFunPar)
+                        Data = QueryAllFun(Cat1, Ind, cat2, IndCatMinDist, i, additionnal_args=QueryAllFunPar)
+                        #CAREFULLLLLLL it s cat2 not Cat2!!!!
+                        #print(Data)
+                        #pdb.set_trace()
+
                     #ongoing6 = time.time()
 
                     #Match:a dictionnary with the following keys
@@ -1142,7 +1158,9 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunP
                     #  -s'il y a un cross-matched dans cat2: la ligne de cat2 correspondant a l objet le plus proche
                     # print("np.shape(Cat2matched)",np.shape(Cat2matched))
 
+                    #print('cat1',cat1)
                     #print('Cat2matched is',Cat2matched)#ok avec matlab
+                    #pdb.set_trace()
                     #print('np.shape(Cat2matched is)',np.shape(Cat2matched)) #ok avec matlab
 
                     #from here it is added by me
@@ -1209,8 +1227,9 @@ def xmatch_2cats(Catname1,Catname2,Search_radius=2,QueryAllFun=None,QueryAllFunP
                         #    print('cross_matching_result_intermediate is',cross_matching_result_intermediate)
                         #    print('np.shape(cross_matching_result_w_nans[i,:]))',np.shape(cross_matching_result_w_nans[i,:]))
                         #    pdb.set_trace()
-                            if Verbose is True:
-                                print('The entries from catalog_1 ({0}) :{1}, cross-matched in catalog_2 ({2}) are {3}'.format(Catname1,cross_matching_result_intermediate_cat1,Catname2,cross_matching_result_intermediate_cat2))
+                            #if Verbose is True:
+                            print('The entries from catalog_1 ({0}) :{1}, cross-matched in catalog_2 ({2}) are {3}'.format(Catname1,cross_matching_result_intermediate_cat1,Catname2,cross_matching_result_intermediate_cat2))
+                            pdb.set_trace()
                             #print('cross_matching_result is',cross_matching_result)
                             #print('Is the cross_matching_result the size of Ind?')#yes
                             #print(np.shape(cross_matching_result))

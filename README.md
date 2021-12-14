@@ -46,6 +46,7 @@ These instruction are for installing the catsHTM **code**, i.e. do not include t
 * `numpy`
 * `scipy`
 * `h5py`
+* `tqdm`
 
 ## How to make a cone search with ``catsHTM``?
 
@@ -177,7 +178,7 @@ For example, runing the code with `QueryAllFun=Example_QueryAllFun` and `QueryAl
 Other default parameters, such as the files and datasets naming format, can be edited in the python file `params.py` (type `pip show catsHTM` in the comand line to see where `params.py` is stored).
 
 ## What are the available catalogs?
-Currently, the following catalogs are available in this format (alphabetical order):
+Currently, the following catalogs are available in this format (alphabetical order; for a list with the number of sources and references see [here](https://euler1.weizmann.ac.il/catsHTM/catsHTM_catalogs.html)):
 
 * 2MASS (input name: `TMASS`)
 * 2MASSxsc  (input name: `TMASSxsc`) - 2MASS extended source catalog
@@ -188,16 +189,18 @@ Currently, the following catalogs are available in this format (alphabetical ord
 * FIRST (input name: `FIRST`) - (~9.5x10^5 sources)
 * GAIA/DR1 (input name: `GAIADR1`) -  (~1.1x10^9 sources).
 * GAIA/DR2 (input name: `GAIADR2`) - NEW! (~1.6x10^9 sources)
+* GAIA/EDR2 (input name: `GAIAEDR3`) - NEW! (~1.8x10^9 sources)
 * GALEX (input name: `GALEX`) -  GALAEX/GR6Plus7 (~1.7x10^8 sources).
 * HSC/v2 (input name: `HSCv2`)- Hubble source catalog
 * IPHAS/DR2 (input name: `IPHAS`)
 * NED redshifts (input name: `NEDz`)
 * NVSS (input name: `NVSS`) - (~1.8x10^6 sources)
+* HYPERLEDA (input name: `PGC`) 
 * PS1 (input name: `PS1`) - Pan-STARRS (~2.6x10^9 sources; A cleaned version of the PS1 stack catalog; some missing tiles below declination of zero [being corrected])
-* PTFpc (input name: `PTFpc`) - PTF photometric catalog 
+* The PTF photometric catalog (input name: `PTFpc`)
 * ROSATfsc (input name: `ROSATfsc`) - ROSAT faint source catalog
 * SDSS/DR10 (input name: `SDSSDR10`)- Primary sources from SDSS/DR10 (last photometric release)
-* Skymapper - will be added soon.
+* Skymapper DR1 (input name: `Skymapper`)
 * SpecSDSS/DR14 (input name: `SpecSDSS`) - SDSS spectroscopic catalog
 * Spitzer/SAGE (input name `SAGE`)
 * Spitzer/IRAC (input name `IRACgc`) - Spitzer IRAC galactic center survey
@@ -209,7 +212,8 @@ Currently, the following catalogs are available in this format (alphabetical ord
 * VST/KiDS/DR3 (input name: `VSTkids`)
 * WISE (input name: `WISE`) - ~5.6x10^8 sources
 * XMM (input name: `XMM`)- 7.3x10^5 sources 3XMM-DR7 (Rosen et al. 2016; A&A 26, 590)
-
+* ZTF-DR1 stellar variability catalog (input name: `ztfSrcLCDR1`)
+* ZTF-DR1 variable star candidates (input name: `ztfSrcLCDR1`)
 
 ## How to access the catalog of ZTF variable sources from Ofek et al. 2020 with ``catsHTM``?
 

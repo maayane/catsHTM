@@ -10,7 +10,7 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='catsHTM',
-    version='0.2.1',
+    version='0.2.4',
     description='fast access and cross-matching of large astronomical catalogs',
     #long_description=long_description,
     #long_description_content_type='text/markdown',
@@ -30,7 +30,7 @@ setup(
     keywords='astronomy catalogs cone-search cross-matching',  # Optional
 
     packages=["catsHTM"],
-    install_requires=['h5py','scipy'],  # Optional
+    install_requires=['h5py','scipy','tqdm','hdf5storage'],  # Optional
     python_requires='>=2.7.10',
 
     project_urls={ 

@@ -15,6 +15,8 @@ import h5py
 from . import class_HDF5
 import time
 import pdb
+#import mat73
+import hdf5storage
 #import time
 
 d=dict() #this dictionnary containes the names of the index files loaded in search_htm_ind, and allowes us to avoid loading twice the same index file, which can be time consuming e.g. in a loop
@@ -115,8 +117,17 @@ def cone_search(CatName,RA,Dec,Radius,catalogs_dir='./data',RadiusUnits='arcsec'
     IndexFilename=IndexFileTemplate % CatName
     #print(root_to_data+CatDir+'/'+ColCelFile)
     if os.path.isfile(root_to_data+CatDir+'/'+ColCelFile)==True:
-        test = sio.loadmat(root_to_data+CatDir+'/'+ColCelFile)
-        #print(test)
+        try:
+            test = sio.loadmat(root_to_data+CatDir+'/'+ColCelFile)
+            #test = mat73.loadmat(root_to_data + CatDir + '/' + ColCelFile)
+        except:
+            if verbose==True:
+                print('sio.loadmat did not work for opening {0}, I am trying hdf5storage.loadmat'.format(root_to_data+CatDir+'/'+ColCelFile))
+            #test = sio.loadmat(root_to_data + CatDir + '/' + ColCelFile)
+            test= hdf5storage.loadmat(root_to_data+CatDir+'/'+ColCelFile)
+        #print(test1)
+        #print(test2)
+        #pdb.set_trace()
         if np.shape(test['ColCell'])[1]<np.shape(test['ColCell'])[0]:
             #test=test.transpose()
             Ncol=np.shape(test['ColCell'])[0]

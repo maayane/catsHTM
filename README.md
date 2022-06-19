@@ -240,8 +240,10 @@ def query_function_example(Cat1,Ind,Cat2,IndCatMinDist,i,additionnal_args):
             # Else if the output file does exist, then do not print the header line; only print the data.
             data.to_csv('data_xmatch.csv'.format(i),index=False, mode='a', header=False)
     return data
+```
+Then we run the xmatch_2cats function with this:
 
-if __name__ == "__main__":
+```
 
     cat_path = "the/directory/where/you/have/your/HDF5/GAIA/and/PS1/catalogs"
     verbose=False

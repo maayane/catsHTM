@@ -173,6 +173,97 @@ For example, runing the code with `QueryAllFun=Example_QueryAllFun` and `QueryAl
 >>> catsHTM.xmatch_2cats('FIRST','APASS',catalogs_dir=path,QueryAllFun=Example_QueryAllFun,QueryAllFunPar=['test'])
 ```
 
+### Example: cross-matching two catalogs and selecting objects based on a criterion on both catalogs
+
+In the following example, we cross-match the GAIA and PS1 catalog, and select only objects based on a criterion on the GAIA parallax and the PS1 g-r color.
+
+```python
+import catsHTM
+import math
+import numpy as np
+import pandas as pd
+import os
+
+def query_function_example(Cat1,Ind,Cat2,IndCatMinDist,i,additionnal_args):
+
+    columns_in_crossmatchfile=additionnal_args[0]+additionnal_args[1]
+    Verbose=additionnal_args[2]
+
+    Nind=len(Ind)
+    if Verbose==True:
+        print('Nind',Nind)
+
+    data_list=[]
+    for si in range(Nind):
+        if Verbose==True:
+            print('Ind',Ind)
+        I1=Ind[si]['IndRef'] # (Index of a Cat1's source having one or more counterpart in Cat2)
+        I2 = int(Ind[si]['IndCat'][np.argmin(Ind[si]['Dist'])])
+        if Verbose==True:
+            print('IndCatMinDist',IndCatMinDist)
+            print("Ind[si]['IndRef']",Ind[si]['IndRef'])
+            print("Ind[si]['IndCat']",Ind[si]['IndCat'])
+            print('I2, the index of the closest is',I2) # List of indexes of the Cat2's counterparts.
+
+        gaia3_parallax     = cat1_cols.index('Plx')
+        gaia3_parallax_err = cat1_cols.index('ErrPlx')
+        ps1_g              = cat2_cols.index('gPSFMag')
+        ps1_r              = cat2_cols.index('rPSFMag')
+
+        parallax_constraint = 15   # constraint on the parallax: Parallax/Err > 15
+        g_r_constraint      = -0.5 # constraint on the g-r color: (g-r) < -0.5
+        
+        
+        # the criterion based on which we want to select the matches:
+        cond=(Cat1[I1,gaia3_parallax]/Cat1[I1,gaia3_parallax_err] > parallax_constraint) & \
+             (Cat2[I2,ps1_g]-Cat2[I2,ps1_r] < g_r_constraint) & \
+             (Cat2[I2,ps1_g]-Cat2[I2,ps1_r] > -5.0 )
+
+        if cond:
+            if Verbose==True:
+                print('Success.')
+            data_line = {}
+            for bli,blu in enumerate(np.hstack((Cat1[I1,:],Cat2[I2,:]))):
+                data_line[columns_in_crossmatchfile[bli]]=blu
+            data_list.append(data_line)
+    data = pd.DataFrame(data_list)
+
+    if len(data)>0:
+        data['RA_gaia3'] *= 180./np.pi # Convert RA,Dec back to decimal degrees before saving.
+        data['Dec_gaia3'] *= 180./np.pi
+        data['RA_ps1'] *= 180./np.pi
+        data['Dec_ps1'] *= 180./np.pi
+        if not os.path.isfile("data_xmatch.csv"):
+            # If the output file does not exist, then create it and save the header and data.
+            data.to_csv('data_xmatch.csv'.format(i),index=False, mode='a', header=True)
+        else:
+            # Else if the output file does exist, then do not print the header line; only print the data.
+            data.to_csv('data_xmatch.csv'.format(i),index=False, mode='a', header=False)
+    return data
+
+if __name__ == "__main__":
+
+    cat_path = "the/directory/where/you/have/your/HDF5/GAIA/and/PS1/catalogs"
+    verbose=False
+
+    galex_columns = ['RA_galex', 'Dec_galex', 'nuv_mag', 'nuv_magerr', 'fuv_mag', 'fuv_magerr', 'NUV_FWHM_WORLD', 'nuv_weight', 'fuv_weight']
+    gaia_columns = ['RA_gaia3', 'Dec_gaia3', 'Epoch', 'ErrRA_gaia3', 'ErrDec_gaia3', 'Plx', 'ErrPlx', 'PMRA', 'ErrPMRA', 'PMDec', 'ErrPMDec', 'RA_Dec_Corr',
+                    'NobsAst', 'ExcessNoise', 'ExcessNoiseSig', 'Chi2Ast', 'DofAst', 'NGphot', 'Mag_G', 'ErrMag_G', 'Mag_BP', 'ErrMag_BP',
+                    'Mag_RP', 'ErrMag_RP', 'BPRP_Excess', 'RV', 'ErrRV', 'Teff', 'LogG', 'FeH']
+    ps1_columns = ['RA_ps1', 'Dec_ps1', 'ErrRA_ps1', 'ErrDec_ps1', 'MeanEpoch', 'posMeanChi2', 'gPSFMag', 'gPSFMagErr', 'gpsfLikelihood', 'gMeanPSFMagStd',
+                   'gMeanPSFMagNpt', 'gMeanPSFMagMin', 'gMeanPSFMagMax', 'rPSFMag', 'rPSFMagErr', 'rpsfLikelihood', 'rMeanPSFMagStd', 'rMeanPSFMagNpt',
+                   'rMeanPSFMagMin', 'rMeanPSFMagMax', 'iPSFMag', 'iPSFMagErr', 'ipsfLikelihood', 'iMeanPSFMagStd', 'iMeanPSFMagNpt', 'iMeanPSFMagMin',
+                   'iMeanPSFMagMax', 'zPSFMag', 'zPSFMagErr', 'zpsfLikelihood', 'zMeanPSFMagStd', 'zMeanPSFMagNpt', 'zMeanPSFMagMin', 'zMeanPSFMagMax',
+                   'yPSFMag', 'yPSFMagErr', 'ypsfLikelihood', 'yMeanPSFMagStd', 'yMeanPSFMagNpt', 'yMeanPSFMagMin', 'yMeanPSFMagMax']
+
+    cat1_cols = gaia_columns
+    cat2_cols = ps1_columns
+
+    catsHTM.xmatch_2cats('GAIAEDR3','PS1',Search_radius=4,QueryAllFun=query_function_example,QueryAllFunPar=[cat1_cols, cat2_cols, verbose],
+                     catalogs_dir=cat_path,Verbose=verbose,save_results=False,save_in_one_file=False,
+                     save_in_separate_files=False,output='./cross-matching_results',time_it=False,Debug=False)
+```
+
 ### Specification of other default parameters 
 
 Other default parameters, such as the files and datasets naming format, can be edited in the python file `params.py` (type `pip show catsHTM` in the comand line to see where `params.py` is stored).

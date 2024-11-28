@@ -1,4 +1,0 @@
-h5py
-scipy
-tqdm
-hdf5storage

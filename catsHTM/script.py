@@ -19,7 +19,10 @@ import pdb
 import hdf5storage
 #import time
 
-d=dict() #this dictionnary containes the names of the index files loaded in search_htm_ind, and allowes us to avoid loading twice the same index file, which can be time consuming e.g. in a loop
+try:
+    from functools import lru_cache
+except ImportError:
+    from backports.functools_lru_cache import lru_cache
 
 # define FileNotFoundError for Python 2.7
 try:
@@ -288,6 +291,9 @@ def sources_match(CatName,Cat,SearchRadius_arcs=2,catalog_dir='./data'):
 
     return CatM, Cat
 
+@lru_cache(16)
+def get_index_data(path, CatDir, Filename, VarName):
+    return class_HDF5.HDF5(path + '/' + CatDir + '/' + Filename).load(VarName, numpy_array=True)  # load the indexfile content
 
 def search_htm_ind(Filename,Long,Lat,Radius,path,VarName=None,CatDir=None,verbose=False):
     """Description: wrapper of htm_search_cone, which select from the vector outputed by htm_search_cone only the
@@ -301,36 +307,8 @@ def search_htm_ind(Filename,Long,Lat,Radius,path,VarName=None,CatDir=None,verbos
         cat_name=Filename.split('_')[0]
         VarName=cat_name+'_HTM'
 
-    if VarName not in list(d.values()):
-        if verbose==True:
-            print('I have not seen the index file corresponding to {0} yet'.format(VarName))
-        DataHTM_indexfile = class_HDF5.HDF5(path + '/' + CatDir + '/' + Filename).load(VarName,
-                                                                                       numpy_array=True)  # load the indexfile content
-        d[str(VarName)+'_name']=VarName
-        d[str(VarName)+'_array']= DataHTM_indexfile
-    else:
-        if verbose==True:
-            print('I have already loaded the index file corresponding to {0}'.format(VarName))
-        DataHTM_indexfile = d[str(VarName) + '_array']
+    DataHTM_indexfile = get_index_data(path, CatDir, Filename, VarName)
 
-    '''
-    #A working alternative to the dictionnay d, with globals()
-    if VarName not in list(globals().values()):
-        if verbose==True:
-            print('I have not see the index file corresponding to {0} yet'.format(VarName))
-        print(path + '/' + CatDir + '/' + Filename)
-        print(VarName)
-        DataHTM_indexfile = class_HDF5.HDF5(path + '/' + CatDir + '/' + Filename).load(VarName,
-                                                                                   numpy_array=True)  # load the indexfile content
-
-        globals()[str(VarName)+'_name'] = VarName
-        globals()[str(VarName)+'_array']= DataHTM_indexfile
-
-    else:
-        if verbose==True:
-            print('I have already loaded the index file corresponding to {0}'.format(VarName))
-        DataHTM_indexfile = globals()[str(VarName)+'_array']
-    '''
     ID=htm_search_cone(DataHTM_indexfile,Long,Lat,Radius)#,Son_index=Son_index,PolesLong_index=PolesLong_index,PolesLat_index=PolesLat_index) # returns a list of the ID of the winners mesh, i.e. the meshes that intercept the circle
 
     ID_array=np.array(ID)
